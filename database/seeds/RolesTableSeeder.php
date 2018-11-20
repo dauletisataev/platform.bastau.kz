@@ -11,7 +11,7 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->insert([
+        \App\Role::create([
             'name' => "administrator",
             'description' => 'Администратор',
             'instrumental'=>"для администраторов",

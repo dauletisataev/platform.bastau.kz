@@ -11,7 +11,7 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        \App\User::create([
             'name' => "Developer",
             'email' => 'developer@gmail.com',
             'password' => bcrypt('123456'),
