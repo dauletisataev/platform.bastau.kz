@@ -18,8 +18,10 @@ use App\StudentRate;
 use App\Teacher;
 use App\Transaction;
 use App\User;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use \Validator;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
         User::observe(UserObserver::class);
 
         Validator::extend('base64image', function ($attribute, $value, $parameters, $validator) {
