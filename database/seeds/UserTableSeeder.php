@@ -21,7 +21,6 @@ class UserTableSeeder extends Seeder
             'role_id' => 1,
             'gender'=>'M',
             'iin'=>'901030500500'
-
         ]);
     }
 }
