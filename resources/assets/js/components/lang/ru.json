@@ -1,0 +1,16 @@
+{	
+	"profile": {
+		"photo": "Фото",
+		"fullName": "ФИО",
+		"phone": "Телефон",
+		"password": "Пароль",
+		"confirm": "Пароль еще раз",
+		"save": "Сохранить"
+	},
+	"sidebar": {
+		"indicator": "Показатели",
+		"control": "Управление",
+		"preferences": "Мои настройки",
+		"exit": "Выход"
+	}
+}

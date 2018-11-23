@@ -2,7 +2,7 @@
     <b-modal v-if="form" ref="modal" size="lg" title="Профиль">
 
         <div v-bind:class="{ 'has-error': errors && errors.photo }" class="form-group row">
-            <label class="col-3 col-form-label">Фото</label>
+            <label class="col-3 col-form-label">{{ $t("profile.photo") }}</label>
             <div class="col-9">
                 <user-photo id="profile-user-photo" :user="form" :accept="'image/jpeg,image/png,image/gif'"></user-photo>
                 <form-error v-if="errors && errors.photo" :errors="errors">
@@ -12,7 +12,7 @@
         </div>
 
         <div v-bind:class="{ 'has-error': errors && errors.name }" class="form-group row">
-            <label class="col-3 col-form-label">ФИО</label>
+            <label class="col-3 col-form-label">{{ $t("profile.fullName") }}</label>
             <div class="col-9">
                 <input v-model="form.name" class="form-control" type="text" placeholder="ФИО">
                 <form-error v-if="errors && errors.name" :errors="errors">
@@ -22,7 +22,7 @@
         </div>
 
         <div v-bind:class="{ 'has-error': errors && errors.phone }" class="form-group row">
-            <label class="col-3 col-form-label">Телефон</label>
+            <label class="col-3 col-form-label">{{ $t("profile.phone") }}</label>
             <div class="col-9">
                 <masked-input v-model="form.phone" class="form-control" mask="1 (111) 111 11 11" placeholder="8 (707) 465 48 12"/>
                 <form-error v-if="errors && errors.phone" :errors="errors">
@@ -42,7 +42,7 @@
         </div>
 
         <div v-bind:class="{ 'has-error': errors && errors.password }" class="form-group row">
-            <label class="col-3 col-form-label">Пароль</label>
+            <label class="col-3 col-form-label">{{ $t("profile.password") }}</label>
             <div class="col-9">
                 <input v-model="form.password" class="form-control" type="text" placeholder="Пароль">
                 <form-error v-if="errors && errors.password" :errors="errors">
@@ -52,7 +52,7 @@
         </div>
 
         <div v-bind:class="{ 'has-error': errors && errors.password_confirmation }" class="form-group row">
-            <label class="col-3 col-form-label">Пароль еще раз</label>
+            <label class="col-3 col-form-label">{{ $t("profile.confirm") }}</label>
             <div class="col-9">
                 <input v-model="form.password_confirmation" class="form-control" type="text" placeholder="Пароль">
                 <form-error v-if="errors && errors.password_confirmation" :errors="errors">
@@ -68,7 +68,7 @@
                     @click="sendForm"
                     :disabled="formSending? true : false"
             >
-                <i v-show="formSending" class="fa fa-spinner fa-spin"></i> Сохранить
+                <i v-show="formSending" class="fa fa-spinner fa-spin"></i> {{ $t("profile.save") }}
             </button>
         </div>
 

@@ -15,6 +15,11 @@ export default {
     return {};
   },
   methods: {},
-  created() {}
+  created() {},
+  mounted : {
+    // on mount change i18n 
+    // this.$i18n.
+  }
+
 };
 </script>

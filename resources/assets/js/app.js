@@ -105,17 +105,29 @@ router.beforeEach((to, from, next) => {
 });
 
 import { get } from './helpers/api'
-
-import { dashboardKz } from './locale.js';
-import { dashboardRu } from './locale.js';
-
+// import translated and parsed from json objects from locale.js
+import { dashboardKz, dashboardRu, sidebarKz, profileKz, sidebarRu, profileRu } from './locale.js';
+/*
+*
+* assign imported object to a key that matched to platform module, e.g.
+* kz: {
+*   group: groupKz   
+* },
+* ru: {
+*   group: groupRu  
+* }
+* 
+*/
 const messages = {
     kz: {
-        common: 
         dashboard: dashboardKz,
+        sidebar: sidebarKz,
+        profile: profileKz
     },
     ru: {
-        dashboard: dashboardRu
+        dashboard: dashboardRu,
+        sidebar: sidebarRu,
+        profile: profileRu
     }
 };
 
@@ -137,7 +149,6 @@ const app = new Vue({
             accounts: '',
             user: '',
             userReady: false,
-            langs: ['ru', 'kz']
         };
 
     },
