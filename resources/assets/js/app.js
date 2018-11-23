@@ -1,10 +1,10 @@
-
 require('./bootstrap');
 
 
 import VueRouter from 'vue-router';
 import router from './router';
 import Vue from 'vue';
+import VueI18n from 'vue-i18n';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -19,6 +19,7 @@ import VueChartkick from 'vue-chartkick';
 import Auth from './packages/auth/auth';
 import User from './packages/user';
 import { VueMaskDirective } from 'v-mask';
+
 
 const dateLocales = Vue.prototype.$dateLocales = {
     "format": "DD.MM.YY",
@@ -56,9 +57,6 @@ const dateLocales = Vue.prototype.$dateLocales = {
     "firstDay": 1
 };
 
-
-
-
 window.Vue = require('vue');
 
 Vue.component('v-select', vSelect);
@@ -70,13 +68,12 @@ Vue.use(Auth);
 Vue.use(User);
 Vue.use(VTooltip);
 Vue.directive('mask', VueMaskDirective);
-
-
-
+Vue.use(VueI18n);
 // global progress bar
 const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount();
 // global data
 const common = Vue.prototype.$common = new Vue(Common).$mount();
+
 document.body.appendChild(bar.$el);
 document.body.appendChild(common.$el);
 
@@ -84,20 +81,20 @@ router.beforeEach((to, from, next) => {
 
     document.title = to.meta.title + ' - Rocket platform';
 
-    if (to.meta.forAuth){
-        if(Vue.auth.isAuthenticated()) {
+    if (to.meta.forAuth) {
+        if (Vue.auth.isAuthenticated()) {
             next();
-        }else{
+        } else {
             next({
                 path: '/login'
             });
         }
-    }else if (to.meta.forVisitors) {
-        if(Vue.auth.isAuthenticated()) {
+    } else if (to.meta.forVisitors) {
+        if (Vue.auth.isAuthenticated()) {
             next({
                 path: '/'
             })
-        }else{
+        } else {
             next();
         }
 
@@ -107,10 +104,29 @@ router.beforeEach((to, from, next) => {
 
 });
 
-
 import { get } from './helpers/api'
 
+import { dashboardKz } from './locale.js';
+import { dashboardRu } from './locale.js';
+
+const messages = {
+    kz: {
+        common: 
+        dashboard: dashboardKz,
+    },
+    ru: {
+        dashboard: dashboardRu
+    }
+};
+
+const i18n = new VueI18n({
+  locale: 'kz', // set locale
+  messages, // set locale messages
+});
+
+
 const app = new Vue({
+    i18n,
 
     router,
 
@@ -120,29 +136,33 @@ const app = new Vue({
         return {
             accounts: '',
             user: '',
-            userReady: false
+            userReady: false,
+            langs: ['ru', 'kz']
         };
 
     },
 
-    components : {
+    components: {
         'sidebar': require('./components/Sidebar.vue')
     },
+
     methods: {
 
         userInit(afterLogin = false) {
 
             let _this = this;
 
-            if (_this.$auth.isAuthenticated()){
+            if (_this.$auth.isAuthenticated()) {
 
                 get(_this, '/api/user', {}, function (response) {
 
                     _this.accounts = response.data;
 
-                    if(response.data.length > 1 && _this.$auth.getAccountId() == null){
+                    if (response.data.length > 1 && _this.$auth.getAccountId() == null) {
 
-                        _this.$router.push({ name: 'select-account' });
+                        _this.$router.push({
+                            name: 'select-account'
+                        });
 
                         return false;
 
@@ -164,7 +184,7 @@ const app = new Vue({
             this.user = this.$user;
             this.userReady = this.ready = true;
 
-            if(afterLogin){
+            if (afterLogin) {
                 this.afterLogin(this.user);
             }
 
@@ -186,5 +206,3 @@ const app = new Vue({
     }
 
 }).$mount('#app');
-
-

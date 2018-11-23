@@ -15,7 +15,9 @@ class UserTableSeeder extends Seeder
             'name' => "Developer",
             'email' => 'developer@gmail.com',
             'password' => bcrypt('123456'),
+            'phone' => "8 (777) 777 77 77",
             'role_id' => 1,
+            'lang_id' => 1,
         ]);
     }
 }

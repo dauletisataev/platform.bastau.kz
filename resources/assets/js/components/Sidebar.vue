@@ -40,62 +40,48 @@
                     <li class="mb-2"><div class="sidebar-logout"><button class="text-muted pl-0"  @click="logout"><span class="fa fa-fw fa-sign-out  mr-2"></span> Выход</button></div></li>
                 </ul>
 
+                <div class="form-group">
+                  <select class="form-control" id="lang" name="lang" v-model="$i18n.locale">
+                    <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
+                  </select>
+                </div>
             </div>
         </div>
         <profile ref="profile" :_form="$root.user.data"></profile>
+
     </div>
 
 </template>
 
 
 <script>
+export default {
+  data() {
+    return {
+      dashboard: ["dashboard"],
+      control: ["control", "users", "user"],
+      langs: ['ru', 'kz']
+    };
+  },
+  components: {
+    Profile: require("./Profile.vue")
+  },
+  methods: {
+    getCsrf() {
+      return Laravel.csrfToken;
+    },
 
-    export default {
+    logout() {
+      if (this.$root.accounts.length > 1) {
+        this.$router.push({ name: "select-account" });
+      } else {
+        this.$auth.destroyToken();
 
-        data() {
-            return {
-                dashboard: [
-                    'dashboard',
-                ],
-                control: [
-                    'control',
-                    'users',
-                    'user',
-                ]
-            }
-        },
-        components: {
-            Profile : require('./Profile.vue'),
-        },
-        methods: {
+        this.$router.push({ name: "login" });
+      }
 
-            getCsrf() {
-
-                return Laravel.csrfToken;
-            },
-
-            logout() {
-
-
-                if(this.$root.accounts.length > 1){
-
-                    this.$router.push({name: 'select-account'});
-
-                }else{
-                    this.$auth.destroyToken();
-
-                    this.$router.push({name: 'login'});
-
-                }
-
-                this.$root.user = '';
-
-
-
-            }
-        }
-
-
+      this.$root.user = "";
     }
-
+  }
+};
 </script>

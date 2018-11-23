@@ -76,60 +76,54 @@
 </template>
 
 <script>
+import { post } from "../helpers/api";
 
-    import { post } from '../helpers/api'
+export default {
+  props: ["data", "_form"],
 
-    export default {
+  data() {
+    return {
+      errors: [],
+      formSending: false,
+      form: "",
+      title: ""
+    };
+  },
+  created() {
+    this.form = this._form;
+  },
+  components: {
+    FormError: require("./FormError.vue"),
+    UserPhoto: require("./UserPhoto.vue")
+  },
+  methods: {
+    sendForm() {
+      this.formSending = true;
 
-        props: ['data', '_form'],
+      let _this = this;
 
-        data() {
-            return {
-                errors: [],
-                formSending: false,
-                form: '',
-                title: ''
-            }
+      post(
+        _this,
+        "/api/user-save",
+        this.form,
+        function() {
+          _this.formSending = false;
+          _this.errors = "";
+          _this.hideModal();
+          _this.$emit("formSending");
         },
-        created() {
-            this.form = this._form;
-        },
-        components: {
-            FormError : require('./FormError.vue'),
-            UserPhoto : require('./UserPhoto.vue'),
-        },
-        methods: {
-            sendForm() {
-                this.formSending = true;
-
-                let _this = this;
-
-                post(_this, '/api/user-save', this.form, function () {
-
-                    _this.formSending = false;
-                    _this.errors = '';
-                    _this.hideModal();
-                    _this.$emit('formSending');
-
-                }, function (error) {
-
-                    _this.formSending = false;
-                    _this.errors = error.response.data;
-
-                });
-
-            },
-            showModal() {
-                this.$refs.modal.show();
-            },
-            hideModal() {
-                this.$refs.modal.hide();
-            }
-
+        function(error) {
+          _this.formSending = false;
+          _this.errors = error.response.data;
         }
-
-
-
+      );
+    },
+    showModal() {
+      this.$refs.modal.show();
+    },
+    hideModal() {
+      this.$refs.modal.hide();
     }
-
+  }
+};
 </script>

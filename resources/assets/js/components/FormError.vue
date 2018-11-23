@@ -5,14 +5,14 @@
 </template>
 
 <script>
-    export default {
-        props: ['errors'],
-    }
+export default {
+  props: ["errors"]
+};
 </script>
 
 
 <style>
-    .help-block{
-        color: #c12e2a;
-    }
+.help-block {
+  color: #c12e2a;
+}
 </style>

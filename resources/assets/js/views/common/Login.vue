@@ -44,112 +44,108 @@
 
 
 <script>
+import { post, get } from "../../helpers/api";
 
-    import { post, get } from '../../helpers/api'
+export default {
+  data() {
+    return {
+      loading: false,
+      phone: "",
+      password: "",
+      error: "",
+      id: "",
+      select: false,
+      accounts: []
+    };
+  },
 
+  methods: {
+    setAccount(object) {
+      this.id = object.id;
+      this.$nextTick(function() {
+        this.login();
+      });
+    },
 
-    export default {
+    checkCredentials() {
+      let component = this;
+      this.loading = true;
+      get(
+        component,
+        "/api/public/users",
+        { params: { phone: this.phone } },
+        function(response) {
+          component.loading = false;
+          if (response.data.data.length === 1) {
+            component.error = "";
+            component.id = response.data.data[0].id;
+            component.login();
+          } else if (response.data.data.length === 0) {
+            component.loading = false;
+            component.error = {
+              message: "Имя пользователя и пароль не совпадают."
+            };
+          } else if (response.data.data.length > 1) {
+            component.error = "";
+            component.select = true;
+            component.accounts = response.data.data;
+          }
+        },
+        function(error) {
+          component.loading = false;
+          component.error = {
+            message: "Имя пользователя и пароль не совпадают."
+          };
+        }
+      );
+    },
 
-            data() {
+    login() {
+      let component = this;
 
-                return {
-                    loading: false,
-                    phone: '',
-                    password: '',
-                    error : '',
-                    id: '',
-                    select: false,
-                    accounts: [],
-                }
+      let secret = document.head.querySelector('meta[name="client-secret"]');
 
-            },
+      let data = {
+        client_id: 2,
+        client_secret: secret.content,
+        grant_type: "password",
+        username: {
+          id: this.id,
+          name: this.phone
+        },
+        password: this.password
+      };
 
-            methods: {
+      this.loading = true;
 
-                setAccount(object) {
-                    this.id = object.id;
-                    this.$nextTick(function() {
-                        this.login();
-                    });
-                },
+      post(
+        this,
+        "/oauth/token",
+        data,
+        function(response) {
+          component.$auth.setToken(
+            response.data.access_token,
+            response.data.expires_in + Date.now()
+          );
 
-                checkCredentials() {
-                    let component = this;
-                    this.loading = true;
-                    get(component,'/api/public/users',{params: { phone: this.phone }}, function(response) {
-                        component.loading = false;
-                        if(response.data.data.length === 1) {
-                            component.error = '';
-                            component.id = response.data.data[0].id;
-                            component.login();
-                        } else if(response.data.data.length === 0) {
-                            component.loading = false;
-                            component.error = {
-                                message: 'Имя пользователя и пароль не совпадают.'
-                            };
-                        } else if(response.data.data.length > 1) {
-                            component.error = '';
-                            component.select = true;
-                            component.accounts = response.data.data;
-                        }
-                    }, function(error) {
-                        component.loading = false;
-                        component.error = {
-                            message: 'Имя пользователя и пароль не совпадают.'
-                        };
-                    });
-                },
+          component.loading = false;
+          component.error = "";
 
-                login() {
+          component.$common.getData();
 
-                    let component = this;
+          component.$root.userInit(true);
+        },
+        function() {
+          component.select = false;
+          component.loading = false;
+          component.error = {
+            message: "Имя пользователя и пароль не совпадают."
+          };
+        }
+      );
+    },
 
-
-
-                    let secret = document.head.querySelector('meta[name="client-secret"]');
-
-                    let data = {
-                        client_id: 2,
-                        client_secret: secret.content,
-                        grant_type: 'password',
-                        username: {
-                            id: this.id,
-                            name: this.phone
-                        },
-                        password: this.password
-                    };
-
-                    this.loading = true;
-
-                    post(this, '/oauth/token', data, function (response) {
-
-                        component.$auth.setToken(response.data.access_token, response.data.expires_in + Date.now());
-
-                        component.loading = false;
-                        component.error = '';
-
-                        component.$common.getData();
-
-                        component.$root.userInit(true);
-
-
-                    }, function () {
-                        component.select = false;
-                        component.loading = false;
-                        component.error = {
-                            message: 'Имя пользователя и пароль не совпадают.'
-                        };
-
-                    });
-
-                },
-
-                resetpass() {
-
-                }
-
-            }
-
-    }
-
+    resetpass() {}
+  }
+};
 </script>

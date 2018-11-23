@@ -4,31 +4,26 @@
 
 
 <script>
+export default {
+  props: ["value", "active", "onChange", "small", "empty"],
 
-    export default {
+  mounted() {
+    let component = this;
 
-        props: ['value', 'active', 'onChange','small','empty'],
+    $(this.$el)
+      .daterangepicker({
+        autoUpdateInput: !component.empty,
+        singleDatePicker: true,
+        locale: component.$dateLocales
+      })
+      .change(function($event) {
+        component.$emit("input", $($event.target).val());
+        if (component.onChange) component.onChange($($event.target).val());
+      });
 
-
-        mounted() {
-
-            let component = this;
-
-
-            $(this.$el).daterangepicker({
-                autoUpdateInput: !component.empty,
-                "singleDatePicker": true,
-                "locale": component.$dateLocales,
-            }).change(function ($event) {
-                component.$emit('input', $($event.target).val());
-                if(component.onChange)
-                    component.onChange($($event.target).val());
-            });
-
-            setTimeout(function () {
-                component.$emit('input', $(component.$el).val());
-            }, 500);
-        }
-    }
-
+    setTimeout(function() {
+      component.$emit("input", $(component.$el).val());
+    }, 500);
+  }
+};
 </script>
