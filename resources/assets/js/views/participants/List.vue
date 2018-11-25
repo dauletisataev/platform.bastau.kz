@@ -3,20 +3,20 @@
         <participant-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered"></participant-filter>
         <!-- Результаты -->
         <div class="col-10 offset-2  mt-5 pt-5">
-            Найдено <b>{{ total }}</b> заявок
-                <button type="button" class="btn btn-primary btn-sm ml-2" @click="$refs.newParticipant.showModal()">добавить</button>
+            {{ $tc('participants.list.found_number') }} {{ total }}
+                <button type="button" class="btn btn-primary btn-sm ml-2" @click="$refs.newParticipant.showModal()">{{ $tc('participants.list.add') }}</button>
             <table class="table">
                 <thead class="thead-default">
                 <tr>
-                    <th>Имя</th>
-                    <th>Фамилия</th>
-                    <th>Отчество</th>
-                    <th>Пол</th>
-                    <th>ИИН</th>
-                    <th>Телефон</th>
-                    <th>Удостоверение личности</th>
-                    <th>Адресная справка</th>
-                    <th>Время подачи</th>
+                    <th>{{ $tc('participants.list.first_name') }}</th>
+                    <th>{{ $tc('participants.list.last_name') }}</th>
+                    <th>{{ $tc('participants.list.patronymic') }}</th>
+                    <th>{{ $tc('participants.list.gender') }}</th>
+                    <th>{{ $tc('participants.list.iin') }}</th>
+                    <th>{{ $tc('participants.list.phone') }}</th>
+                    <th>{{ $tc('participants.list.identity_card') }}</th>
+                    <th>{{ $tc('participants.list.address_sertificate') }}</th>
+                    <th>{{ $tc('participants.list.registration_date') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,15 +24,15 @@
                     <td>{{ participant.user.first_name }}</td>
                     <td>{{ participant.user.last_name}}</td>
                     <td>{{participant.user.patronymic}}</td>
-                    <td>{{participant.user.gender === "M" ? "М":"Ж"}}</td>
+                    <td>{{participant.user.gender === "M" ? $tc('participants.list.custom_data.gender.male'):$tc('participants.list.custom_data.gender.female')}}</td>
                     <td>{{participant.user.iin}}</td>
                     <td>{{participant.user.phone}}</td>
-                    <td>{{participant.identity_card ? "загружен":"не загружен"}}</td>
-                    <td>{{participant.address_certificate ?"загружен":"не загружен"}}</td>
+                    <td>{{participant.identity_card ? $tc('participants.list.custom_data.document.loaded'):$tc('participants.list.custom_data.document.not_loaded')}}</td>
+                    <td>{{participant.address_certificate ?$tc('participants.list.custom_data.document.loaded'):$tc('participants.list.custom_data.document.not_loaded')}}</td>
                     <td>{{participant.user.created_at}}</td>
                     <td>
                         <div class="pull-right">
-                            <b-tooltip title="Редактирование участника">
+                            <b-tooltip  :title="$tc('participants.list.edit_participant')" placement="left">
                                 <router-link :to="{name:'participant', params:{id: participant.id}}"
                                              class="btn btn-outline-primary btn-sm">
                                             <span class="fa fa-user"></span></router-link>

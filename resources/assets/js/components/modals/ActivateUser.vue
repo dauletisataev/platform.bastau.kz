@@ -1,7 +1,7 @@
 <template>
     <b-modal ref="modal" :title="header">
-        Вы действительно хотите восстановить пользователя?
-        <button slot="modal-footer" @click="activateUser">OK</button>
+        {{$tc('participants.modals.activate_user_warning')}}
+        <button  class="btn btn-primary" slot="modal-footer" @click="activateUser">OK</button>
     </b-modal>
 </template>
 <script>

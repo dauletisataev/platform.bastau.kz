@@ -1,0 +1,68 @@
+{
+	"modals":{
+		"activate_user_warning":"Вы действительно хотите восстановить пользователя?"
+	},
+	"filter":{
+		"Name_or_ID":"ФИО или ИИН",
+		"apply":"Применить",
+		"reset":"Сбросить фильтр",
+		"active":"Текущие",
+		"archived":"Архивированные"
+	},
+	"list":{
+		"found_number":"Найдено участников:",
+		"add":"Добавить нового участника",
+		"first_name":"Имя",
+		"last_name":"Фамилия",
+		"patronymic":"Отчество",
+		"gender":"Пол",
+		"phone":"Телефон",
+		"iin":"ИИН",
+		"identity_card":"Удостоверение личности",
+		"address_sertificate":"Адресная справка",
+		"registration_date":"Дата регистрации",
+		"edit_participant":"Редактирование участника",
+		"custom_data":{
+			"gender":{
+				"male":"Мужской",
+				"female":"Женский"
+			},
+			"document":{
+				"loaded":"Загружен",
+				"not_loaded":"Не загружен"
+			}
+		}
+	},
+	"item":{
+		"archive":"Архивировать",
+		"restore":"Восстановить",
+		"delete":"Удалить",
+		"general_info":"Основная информация",
+		"history":"История",
+		"delete_warning":"Удаление участника",
+		"restore_warning":"Восстановление участника",
+		"general_info_tab":{
+			"personal_data":"Персональная информация",
+			"role":"Рөлі",
+			"disability":"Инвалидность",
+			"information_for_administrator":"Информация для администратора",
+			"email":"Электронная почта",
+			"contact_information":"Контактная информация",
+			"archived":"архивирован",
+			"active":"активен",
+			"archived_time":"Время архивации",
+			"archived_reason":"Причина архивации",
+			"select_identity_card":"Выберите файл удостоверения личности",
+			"select_address_sertificate":"Выберите файл адресной справки",
+			"upload_identity_card":"Загрузка удостоверения личности",
+			"upload_address_sertificate":"Загрузка адресной справки",
+			"select":"Выбрать",
+			"upload":"Загрузить",
+			"participant":"Участник"
+		},
+		"history_tab":{
+			"participant_history":"История участника"
+		}
+	}
+
+}

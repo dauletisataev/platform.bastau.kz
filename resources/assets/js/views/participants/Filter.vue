@@ -3,19 +3,19 @@
     <div class="col-10 offset-2 fixed-top pt-4">
     <div class="row">
             <div class='input-group col-10'>
-                <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" placeholder="ФИО или ИИН">
+                <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" :placeholder='$tc("participants.filter.Name_or_ID")'>
                 <div class="input-group-append">
-                    <button @click="clearListLoad()" :disabled="load" class="btn btn-primary " >Применить</button>
+                    <button @click="clearListLoad()" :disabled="load" class="btn btn-primary " >{{$tc("participants.filter.apply")}}</button>
                 </div>
             </div>
             <div class="col-2">
-                <button @click="resetFilter()" :disabled="load" class="btn btn-secondary  btn-block">Сбросить фильтр</button>
+                <button @click="resetFilter()" :disabled="load" class="btn btn-secondary  btn-block">{{$tc("participants.filter.reset")}}</button>
             </div>
         <div class="col-8 ">
             <b-tabs>
-                <b-tab title="Текущие" active @click="changeArchiveType(false)" >
+                <b-tab :title='$tc("participants.filter.active")' active @click="changeArchiveType(false)" >
                 </b-tab>
-                <b-tab title="Архивированные" @click="changeArchiveType(true)" >
+                <b-tab :title='$tc("participants.filter.archived")' @click="changeArchiveType(true)" >
                 </b-tab>
             </b-tabs>
         </div>

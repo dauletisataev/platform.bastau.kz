@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="h4">Истрия участника</div>
+        <div class="h4">{{$tc('participants.item.history_tab.participant_history')}}</div>
         <div v-for="action in histories">
             <div>
                 {{action.created_at}}:{{action.action}}

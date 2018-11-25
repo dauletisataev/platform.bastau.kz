@@ -36,7 +36,7 @@
                 </ul>
                 <hr>
                 <ul>
-                    <li class="mb-2"><router-link to="/participants" :class="{'text-muted': participants.indexOf($route.name) < 0,'text-white': participants.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-users mr-2"></span> Участники</router-link></li>
+                    <li class="mb-2"><router-link to="/participants" :class="{'text-muted': participants.indexOf($route.name) < 0,'text-white': participants.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-users mr-2"></span> {{ $t("sidebar.participants") }}</router-link></li>
 
                 </ul>
                 <hr>

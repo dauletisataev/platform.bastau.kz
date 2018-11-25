@@ -106,7 +106,16 @@ router.beforeEach((to, from, next) => {
 
 import { get } from './helpers/api'
 // import translated and parsed from json objects from locale.js
-import { dashboardKz, dashboardRu, sidebarKz, profileKz, sidebarRu, profileRu } from './locale.js';
+import {
+    dashboardKz,
+    dashboardRu,
+    sidebarKz,
+    profileKz,
+    sidebarRu,
+    profileRu,
+    ParticipantsKz,
+    ParticipantsRu
+} from './locale.js';
 /*
 *
 * assign imported object to a key that matched to platform module, e.g.
@@ -122,12 +131,14 @@ const messages = {
     kz: {
         dashboard: dashboardKz,
         sidebar: sidebarKz,
-        profile: profileKz
+        profile: profileKz,
+        participants: ParticipantsKz
     },
     ru: {
         dashboard: dashboardRu,
         sidebar: sidebarRu,
-        profile: profileRu
+        profile: profileRu,
+        participants:ParticipantsRu
     }
 };
 

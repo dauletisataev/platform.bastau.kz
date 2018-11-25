@@ -9,15 +9,15 @@
         <div class="col-2 offset-2  h-100 pt-4">
             <button v-if="!participant.in_archive" type="button" class="btn btn-secondary btn-block text-left btn-sm"
                     @click="$refs.modalDelete.showModal()"><span class="fa fa-fw fa-trash"></span>
-                Архивировать
+                {{$tc('participants.item.archive')}}
             </button>
             <button v-else type="button" class="btn btn-secondary btn-block text-left btn-sm"
                     @click="$refs.modalRestore.showModal()">
-                Восстановить
+                {{$tc('participants.item.restore')}}
             </button>
             <button  type="button" class="btn btn-danger btn-block text-left btn-sm"
                     @click="remove">
-                Удалить
+                {{$tc('participants.item.delete')}}
             </button>
         </div>
         <!--КОНЕЦ-->
@@ -25,18 +25,18 @@
                 НАЧАЛО-->
         <div class="col-8 offset-4 fixed-top h-100 pt-4">
             <b-tabs>
-                <b-tab title="Основная информация" active>
+                <b-tab :title="$tc('participants.item.general_info')" active>
                     <info :participant="participant"/>
                 </b-tab>
-                <b-tab title="История" >
+                <b-tab :title="$tc('participants.item.history')" >
                     <history :histories="histories"/>
                 </b-tab>
             </b-tabs>
         </div>
         <!--КОНЕЦ -->
         <!--Модали для добавления документов-->
-        <archive-modal ref="modalDelete" header="Выберите причину архивации" user_type="participant" :user_id="this.participant.user.id"></archive-modal>
-        <activate-modal ref="modalRestore" header="Предупреждение" user_type="participant" :user_id="this.participant.user.id"></activate-modal>
+        <archive-modal ref="modalDelete" :header="$tc('participants.item.delete_warning')" user_type="participant" :user_id="this.participant.user.id"></archive-modal>
+        <activate-modal ref="modalRestore" :header="$tc('participants.item.restore_warning')" user_type="participant" :user_id="this.participant.user.id"></activate-modal>
         <!--КОНЕЦ-->
     </div>
 

@@ -16,6 +16,8 @@ import dRu from './views/dashboard/lang/ru.json';
 import componentsKz from './components/lang/kz.json';
 import componentsRu from './components/lang/ru.json';
 
+
+
 // BEGIN views/Dashboard
 export const dashboardKz = JSON.parse(JSON.stringify(dKz));
 export const dashboardRu = JSON.parse(JSON.stringify(dRu));
@@ -31,3 +33,8 @@ let cmpntRu = JSON.parse(JSON.stringify(componentsRu));
 export const sidebarRu = cmpntRu.sidebar;
 export const profileRu = cmpntRu.profile;
 // END Components
+//Participants
+import participantsJSONKz from './views/participants/lang/kz.json';
+import participantsJSONRu from './views/participants/lang/ru.json';
+export const ParticipantsKz = JSON.parse(JSON.stringify(participantsJSONKz));
+export const ParticipantsRu = JSON.parse(JSON.stringify(participantsJSONRu));

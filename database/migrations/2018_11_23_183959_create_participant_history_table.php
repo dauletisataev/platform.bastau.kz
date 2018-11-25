@@ -17,7 +17,7 @@ class CreateParticipantHistoryTable extends Migration
             $table->increments('id');                        //айди
             $table->string('action');                        //название изменения
             $table->string("old_value")->nullable();                     //старое значение
-            $table->string("new_value");
+            $table->string("new_value")->nullable();
             $table->string("field_name")->nullable();//новое значение
             $table->integer('actor_user')->unsigned();       //кем изменено
             $table->timestamp('created_at');                 //время созданного изменения
