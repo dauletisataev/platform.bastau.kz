@@ -49,16 +49,6 @@ export default new VueRouter({
                 title: 'Восстановление пароля'
             }
         },
-
-<<<<<<< HEAD
-        { path: '/', component: Dashboard, meta: {title: 'Показатели', forAuth: true} },
-        { name: 'dashboard', path: '/dashboard', component: Dashboard, meta: {title: 'Показатели', forAuth: true} },
-        { name: 'participants', path: '/participants', props: true, component:Participants,meta:{title:"Участники",forAuth:true}},
-        { name: 'participant', path: '/participant/:id', props: true, component:Participant,meta:{title:"Участник",forAuth:true}},
-        { name: 'control', path: '/control', component: Control, meta: {title: 'Управление', forAuth: true} },
-        { name: 'users', path: '/control/users', component: Users, meta: {title: 'Пользователи', forAuth: true} },
-        { path: '/control/user/:id', name: 'user', component: User, props:true, meta: {title: 'Пользователь', forAuth: true} },
-=======
         {
             path: '/',
             component: Dashboard,
@@ -76,7 +66,26 @@ export default new VueRouter({
                 forAuth: true
             },
         },
-
+        {
+            name: 'participants',
+            path: '/participants',
+            props: true,
+            component:Participants,
+            meta:{
+                title:"Участники",
+                forAuth:true
+            }
+            },
+        {
+            name: 'participant',
+            path: '/participant/:id',
+            props: true,
+            component:Participant,
+            meta:{
+                title:"Участник",
+                forAuth:true
+            }
+        },
         {
             name: 'control',
             path: '/control',
@@ -105,7 +114,6 @@ export default new VueRouter({
                 forAuth: true
             }
         },
->>>>>>> remotes/origin/master
 
         {
             path: '/401',

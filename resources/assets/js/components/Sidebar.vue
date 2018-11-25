@@ -33,14 +33,11 @@
                 <ul>
                     <li class="mb-2"><router-link to="/dashboard" :class="{'text-muted': dashboard.indexOf($route.name) < 0,'text-white': dashboard.indexOf($route.name) > -1 }"><span class="fa fa-fw fa-signal mr-2"></span> {{ $t("sidebar.indicator") }} </router-link></li>
                     <li class="mb-2"><router-link to="/control" :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-wrench mr-2"></span> {{ $t("sidebar.control") }}</router-link></li>
-<<<<<<< HEAD
                 </ul>
                 <hr>
                 <ul>
                     <li class="mb-2"><router-link to="/participants" :class="{'text-muted': participants.indexOf($route.name) < 0,'text-white': participants.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-users mr-2"></span> Участники</router-link></li>
 
-=======
->>>>>>> remotes/origin/master
                 </ul>
                 <hr>
                 <ul>
@@ -63,7 +60,6 @@
 
 
 <script>
-<<<<<<< HEAD
 
     export default {
 
@@ -113,38 +109,6 @@
 
             }
         }
-
-
-=======
-export default {
-  
-  data() {
-    return {
-      dashboard: ["dashboard"],
-      control: ["control", "users", "user"],
-      langs: ['ru', 'kz']
-    };
-  },
-  components: {
-    Profile: require("./Profile.vue")
-  },
-  methods: {
-    getCsrf() {
-      return Laravel.csrfToken;
-    },
-
-    logout() {
-      if (this.$root.accounts.length > 1) {
-        this.$router.push({ name: "select-account" });
-      } else {
-        this.$auth.destroyToken();
-
-        this.$router.push({ name: "login" });
-      }
-
-      this.$root.user = "";
->>>>>>> remotes/origin/master
     }
-  }
-};
+
 </script>

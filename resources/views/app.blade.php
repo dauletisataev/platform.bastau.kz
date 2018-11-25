@@ -7,11 +7,7 @@
     <link rel="stylesheet" href="{{ asset("/css/app.css") }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-<<<<<<< HEAD
     <meta name="client-secret" content="k8oWZceXbub1Fg8ymQBQBBh53sXXwjNXyuXQnLqk">
-=======
-    <meta name="client-secret" content="JveOxSb9hlu4TK70Ijc1i7sjrHfVOL0Tu3RPsPG7">
->>>>>>> remotes/origin/master
 
 </head>
 <body>
