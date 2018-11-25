@@ -1,0 +1,105 @@
+<template>
+    <!-- Поиск -->
+    <div class="col-10 offset-2 fixed-top pt-4">
+    <div class="row">
+            <div class='input-group col-10'>
+                <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" placeholder="ФИО или ИИН">
+                <div class="input-group-append">
+                    <button @click="clearListLoad()" :disabled="load" class="btn btn-primary " >Применить</button>
+                </div>
+            </div>
+            <div class="col-2">
+                <button @click="resetFilter()" :disabled="load" class="btn btn-secondary  btn-block">Сбросить фильтр</button>
+            </div>
+        <div class="col-8 ">
+            <b-tabs>
+                <b-tab title="Текущие" active @click="changeArchiveType(false)" >
+                </b-tab>
+                <b-tab title="Архивированные" @click="changeArchiveType(true)" >
+                </b-tab>
+            </b-tabs>
+        </div>
+    </div>
+    </div>
+</template>
+
+<script>
+    export default {
+
+        props: ['load'],
+
+        data() {
+
+            return {
+
+                filterData: {
+                    search_text: '',
+                    is_archived:false
+                },
+                temp: {
+                },
+            }
+
+        },
+
+        mounted(){
+            this.$nextTick(function () {
+                this.setFiltered(this.$route.query);
+            });
+        },
+
+        methods: {
+            changeArchiveType(val){
+                this.filterData.is_archived=val;
+                this.clearListLoad();
+            },
+            resetFilter(){
+                this.filterData.search_text = '';
+                this.clearListLoad();
+            },
+            clearListLoad(){
+                this.$nextTick(function () {
+                    this.$emit('filtered');
+                });
+
+            },
+            setFiltered(query){
+                for (let filterKey in this.filterData) {
+                    for(let queryKey in query){
+                        if(filterKey == queryKey) {
+                            if(this.filterData[filterKey].constructor === Array) {
+                                this.filterData[filterKey].push(query[queryKey]);
+                            } else {
+                                this.filterData[filterKey] = query[queryKey];
+                            }
+
+                        }
+                    }
+                }
+
+                this.$nextTick(function () {
+                    this.setSelect();
+                });
+
+
+            },
+            setSelect()
+            {
+                this.$nextTick(function(){
+                    this.clearListLoad();
+                })
+
+            },
+            selected(key, options, ids)
+            {
+                let comp = this;
+                ids.forEach(function (id) {
+                    options.forEach(function(value) {
+                        if(value.id == id) comp.temp[key].push(value);
+                    });
+                });
+            },
+        }
+
+    }
+</script>

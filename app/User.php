@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Intervention\Image\Facades\Image;
 
@@ -18,12 +19,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'patronymic',
         'email',
+        'gender',
+        'iin',
         'role_id',
         'password',
-        'photo',
         'phone',
+        'archived',
     ];
 
     /**
@@ -38,10 +43,13 @@ class User extends Authenticatable
     public static function rules($id = 0)
     {
         return [
-            'name' => 'required',
             'phone' => 'required',
             'email' => 'nullable|email',
             'photo' => 'image64:jpeg,jpg,png',
+            'first_name' => 'required',
+            'last_name' =>'required',
+            'patronymic'=>'required',
+            'gender' =>'required', // M/F
         ];
     }
 

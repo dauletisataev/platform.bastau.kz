@@ -1,29 +1,41 @@
 <template>
-    <div>
-        <user-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered"></user-filter>
+    <div class="container-fluid">
+        <participant-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered"></participant-filter>
         <!-- Результаты -->
-        <div class="col-8 offset-4">
-            Найдено <b>{{ total }}</b> пользователя
-            <button type="button" class="btn btn-primary btn-sm ml-2" @click="$refs.newUser.showModal()">добавить</button>
-
-            <table class="table mt-4">
+        <div class="col-10 offset-2  mt-5 pt-5">
+            Найдено <b>{{ total }}</b> заявок
+                <button type="button" class="btn btn-primary btn-sm ml-2" @click="$refs.newParticipant.showModal()">добавить</button>
+            <table class="table">
                 <thead class="thead-default">
                 <tr>
                     <th>Имя</th>
-                    <th>Роль</th>
-                    <th></th>
+                    <th>Фамилия</th>
+                    <th>Отчество</th>
+                    <th>Пол</th>
+                    <th>ИИН</th>
+                    <th>Телефон</th>
+                    <th>Удостоверение личности</th>
+                    <th>Адресная справка</th>
+                    <th>Время подачи</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="user in users">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.role.description }}</td>
+                <tr v-for="participant in participants">
+                    <td>{{ participant.user.first_name }}</td>
+                    <td>{{ participant.user.last_name}}</td>
+                    <td>{{participant.user.patronymic}}</td>
+                    <td>{{participant.user.gender === "M" ? "М":"Ж"}}</td>
+                    <td>{{participant.user.iin}}</td>
+                    <td>{{participant.user.phone}}</td>
+                    <td>{{participant.identity_card ? "загружен":"не загружен"}}</td>
+                    <td>{{participant.address_certificate ?"загружен":"не загружен"}}</td>
+                    <td>{{participant.user.created_at}}</td>
                     <td>
                         <div class="pull-right">
-                            <b-tooltip title="Открыть профиль">
-                                <router-link :to="{name:'user', params:{id: user.id}}"
+                            <b-tooltip title="Редактирование участника">
+                                <router-link :to="{name:'participant', params:{id: participant.id}}"
                                              class="btn btn-outline-primary btn-sm">
-                                    <span class="fa fa-user"></span></router-link>
+                                            <span class="fa fa-user"></span></router-link>
                             </b-tooltip>
                         </div>
                     </td>
@@ -32,11 +44,10 @@
             </table>
         </div>
 
-        <user-form ref="newUser" :data="$common.data" :_form="newUser" v-on:formSending="filtered"></user-form>
+        <participant-form ref="newParticipant" :data="$common.data" :_form="newParticipant" v-on:formSending="filtered"></participant-form>
 
     </div>
 </template>
-
 
 <script>
 
@@ -48,41 +59,34 @@
             return {
                 load: false,
                 scrollLoad: false,
-                newUser: '',
-                users: [],
+                newParticipant: '',
+                participants: [],
                 total: 0,
-                resource_url: '/api/users',
+                resource_url: '/api/participants',
                 next_url: '',
-                default_url: '/api/users'
+                default_url: '/api/participants'
             }
         },
         components: {
-            'user-form': require('./Form.vue'),
-            'user-filter': require('./Filter.vue')
+            'participant-form': require('./Form.vue'),
+            'participant-filter': require('./Filter.vue')
         },
         methods: {
             getList() {
-
-
                 this.resource_url = this.scrollLoad ? this.next_url : this.resource_url;
-
                 if (!this.resource_url){
                     this.scrollLoad = false;
                     return false;
                 }
-
                 this.load = true;
-
                 let _this = this;
-
-
                 get(_this, this.resource_url, {params: this.filterData}, function (response) {
 
                     let json = response.data;
 
                     _this.next_url = json.next_page_url;
 
-                    _this.users = _this.users.concat(json.data);
+                    _this.participants = _this.participants.concat(json.data);
 
                     _this.total = json.total;
 
@@ -99,12 +103,12 @@
             },
             filtered() {
                 this.resource_url = this.default_url;
-                this.users = [];
+                this.participants = [];
                 this.total = 0;
                 this.filterData = this.$refs.filter.filterData;
 
                 this.$nextTick(function () {
-                    this.$router.push({ path: '/control/users', query: this.filterData });
+                    this.$router.push({ path: '/participants', query: this.filterData });
                     this.getList();
                 });
 
@@ -127,7 +131,6 @@
         },
 
         created() {
-
             window.document.body.onscroll = this.handleScroll;
         }
 

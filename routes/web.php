@@ -28,7 +28,12 @@ Route::get('/reset-pass',function() {
 Route::get('/test', function () {
     return view('app');
 });
-
+Route::get('/participants', function () {
+    return view('app');
+});
+Route::get('/participant/{path}', function () {
+    return view('app');
+});
 Route::get('/', function () {
     return view('app');
 });
@@ -51,7 +56,6 @@ Route::get('/control', function () {
 Route::get('/control/{path}', function () {
     return view('app');
 });
-
 Route::get('/control/{path}/{path2}', function () {
     return view('app');
 });

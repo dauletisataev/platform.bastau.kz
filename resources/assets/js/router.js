@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 const Dashboard = require('./views/dashboard/Index.vue');
 const Control = require('./views/common/Control.vue');
 const Users = require('./views/users/List.vue');
+const Participants = require('./views/participants/List.vue');
+const Participant = require('./views/participants/Item.vue');
 const User = require('./views/users/Item.vue');
 const PermissionDenied = require('./views/system/PermissionDenied.vue');
 const NotFound = require('./views/system/NotFound.vue');
@@ -27,9 +29,10 @@ export default new VueRouter({
 
         { path: '/', component: Dashboard, meta: {title: 'Показатели', forAuth: true} },
         { name: 'dashboard', path: '/dashboard', component: Dashboard, meta: {title: 'Показатели', forAuth: true} },
-
+        { name: 'participants', path: '/participants', props: true, component:Participants,meta:{title:"Участники",forAuth:true}},
+        { name: 'participant', path: '/participant/:id', props: true, component:Participant,meta:{title:"Участник",forAuth:true}},
         { name: 'control', path: '/control', component: Control, meta: {title: 'Управление', forAuth: true} },
-         { name: 'users', path: '/control/users', component: Users, meta: {title: 'Пользователи', forAuth: true} },
+        { name: 'users', path: '/control/users', component: Users, meta: {title: 'Пользователи', forAuth: true} },
         { path: '/control/user/:id', name: 'user', component: User, props:true, meta: {title: 'Пользователь', forAuth: true} },
 
         { path: '/401', component: PermissionDenied},

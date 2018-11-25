@@ -16,5 +16,10 @@ class RolesTableSeeder extends Seeder
             'description' => 'Администратор',
             'instrumental'=>"для администраторов",
         ]);
+        \App\Role::create([
+            'name' => "Participant",
+            'description' => 'участник',
+            'instrumental'=>"для участника",
+        ]);
     }
 }
