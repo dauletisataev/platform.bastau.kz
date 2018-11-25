@@ -5,7 +5,7 @@
 </template>
 
 <script>
-    export default {
-        props: ['errors'],
-    }
+export default {
+  props: ["errors"]
+};
 </script>

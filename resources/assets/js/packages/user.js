@@ -1,4 +1,6 @@
-import { get } from '../helpers/api'
+import {
+    get
+} from '../helpers/api'
 
 export default function (Vue) {
 
@@ -52,8 +54,12 @@ export default function (Vue) {
 
         getPhotoThumb() {
             return this.data.photo ? this.data.photo : 'http://placehold.it/36x36';
-        }
+        },
 
+        getLocale() {
+            // this.$root.user.getLocale();
+            return this.data.locale_id;
+        }
 
     };
 

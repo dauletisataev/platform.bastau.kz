@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->date('deleted_at')->nullable();
             $table->rememberToken();
+            $table->integer('lang_id');
             $table->timestamps();
         });
     }

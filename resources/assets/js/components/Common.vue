@@ -3,84 +3,65 @@
 </template>
 
 <script>
+import moment from "moment";
+import { get } from "../helpers/api";
 
-    import moment from 'moment';
-    import { get } from '../helpers/api';
+export default {
+  data() {
+    return {
+      data: []
+    };
+  },
 
-    export default  {
+  methods: {
+    getData() {
+      let component = this;
 
-        data() {
+      get(component, "/api/main/data", {}, function(response) {
+        component.data = response.data;
+      });
+    },
 
-            return {
-                data: []
-            }
+    loadPlugins() {},
 
-        },
+    existIdInArray(id, array) {
+      let exist = false;
 
-        methods: {
-            getData() {
+      array.forEach(function(value) {
+        if (value.id === id) exist = true;
+      });
 
-                let component = this;
+      return exist;
+    },
 
-                get(component, '/api/main/data', {}, function (response) {
-                    component.data = response.data;
-                });
-            },
-            loadPlugins() {
+    getProgressClass(value) {
+      return {
+        "bg-danger": value < 20,
+        "bg-warning": value > 20 && value < 40,
+        "bg-info": value > 40 && value < 70,
+        "bg-success": value > 70
+      };
+    },
 
+    getTextClass(value) {
+      return {
+        "text-danger": value < 20,
+        "text-warning": value > 20 && value < 40,
+        "text-info": value > 40 && value < 70,
+        "text-success": value > 70
+      };
+    }
+  },
 
-            },
-
-            existIdInArray(id, array) {
-
-                let exist = false;
-
-                array.forEach(function (value) {
-                    if (value.id === id) exist = true;
-                });
-
-                return exist;
-
-            },
-            getProgressClass(value) {
-
-                return {
-                    'bg-danger': value<20,
-                    'bg-warning': value>20 && value<40,
-                    'bg-info': value>40 && value<70,
-                    'bg-success': value>70
-                };
-            },
-            getTextClass(value) {
-
-                return {
-                    'text-danger': value<20,
-                    'text-warning': value>20 && value<40,
-                    'text-info': value>40 && value<70,
-                    'text-success': value>70
-                };
-            },
-
-        },
-
-        created() {
-
-            if (this.$auth.isAuthenticated()){
-                this.getData();
-            }
-
-            this.loadPlugins();
-
-        }
-
-
-
-
-
+  created() {
+    if (this.$auth.isAuthenticated()) {
+      this.getData();
     }
 
+    this.loadPlugins();
+  }
+};
 </script>
 
 <style>
-
 </style>

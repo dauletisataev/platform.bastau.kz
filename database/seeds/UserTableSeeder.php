@@ -18,9 +18,13 @@ class UserTableSeeder extends Seeder
             'email' => 'developer@gmail.com',
             'phone'=>"8 (777) 777 77 77",
             'password' => bcrypt('123456'),
+            'phone' => "8 (777) 777 77 77",
             'role_id' => 1,
+<<<<<<< HEAD
             'gender'=>'M',
             'iin'=>'901030500500',
+=======
+>>>>>>> remotes/origin/master
             'lang_id' => 1,
         ]);
     }
