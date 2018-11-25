@@ -31,8 +31,8 @@
                 <hr>
 
                 <ul>
-                    <li class="mb-2"><router-link to="/dashboard" :class="{'text-muted': dashboard.indexOf($route.name) < 0,'text-white': dashboard.indexOf($route.name) > -1 }"><span class="fa fa-fw fa-signal mr-2"></span> Показатели</router-link></li>
-                    <li class="mb-2"><router-link to="/control"   :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-wrench mr-2"></span> Управление</router-link></li>
+                    <li class="mb-2"><router-link to="/dashboard" :class="{'text-muted': dashboard.indexOf($route.name) < 0,'text-white': dashboard.indexOf($route.name) > -1 }"><span class="fa fa-fw fa-signal mr-2"></span> {{ $t("sidebar.indicator") }} </router-link></li>
+                    <li class="mb-2"><router-link to="/control" :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-wrench mr-2"></span> {{ $t("sidebar.control") }}</router-link></li>
                 </ul>
                 <hr>
                 <ul>
@@ -67,6 +67,7 @@
                     'users',
                     'user',
                 ],
+                langs: ['ru', 'kz'],
                 participants:[
                     'participants'
                 ],

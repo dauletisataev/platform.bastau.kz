@@ -20,7 +20,8 @@ class UserTableSeeder extends Seeder
             'password' => bcrypt('123456'),
             'role_id' => 1,
             'gender'=>'M',
-            'iin'=>'901030500500'
+            'iin'=>'901030500500',
+            'lang_id' => 1,
         ]);
     }
 }
