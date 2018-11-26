@@ -3,7 +3,9 @@ import VueRouter from 'vue-router'
 const Dashboard = require('./views/dashboard/Index.vue');
 const Control = require('./views/common/Control.vue');
 const Users = require('./views/users/List.vue');
+const Trainers = require('./views/trainers/List.vue');
 const User = require('./views/users/Item.vue');
+const Trainer = require('./views/trainers/Item.vue');
 const PermissionDenied = require('./views/system/PermissionDenied.vue');
 const NotFound = require('./views/system/NotFound.vue');
 
@@ -96,6 +98,27 @@ export default new VueRouter({
         },
 
         {
+            path: '/control/trainers',
+            name: 'trainers',
+            component: Trainers,
+            meta: {
+                title: 'Бизнес-тренеры',
+                forAuth: true
+            }
+        },
+        {
+            path: '/control/trainer/:id',
+            name: 'trainer',
+            component: Trainer,
+            props: true,
+            meta: {
+                title: 'Бизнес-тренер',
+                forAuth: true
+            }
+        },
+
+
+        {
             path: '/401',
             component: PermissionDenied
         },
@@ -103,8 +126,6 @@ export default new VueRouter({
             path: '*',
             component: NotFound
         },
-
-
     ]
 
 });

@@ -43,6 +43,11 @@ Route::get('/dashboard', function () {
 Route::get('/users', function () {
     return view('app');
 });
+
+Route::get('/api/users', function() {
+    return App\User::all();
+});
+
 Route::get('/user/{id}', function () {
     return view('app');
 });
@@ -57,4 +62,24 @@ Route::get('/control/{path}', function () {
 
 Route::get('/control/{path}/{path2}', function () {
     return view('app');
+});
+
+Route::get('/trainers', function() {
+    return view('app');
+});
+
+Route::prefix('api/trainers')->group(function () {
+    // Get all trainers
+    Route::get('/', 'BusinessTrainerController@items');
+    // Crate or update trainer
+    Route::post('/', 'BusinessTrainerController@save');
+    Route::put('/{trainer}','BusinessTrainerController@save');
+    // Get one trainer
+    Route::get('/{trainer}', 'BusinessTrainerController@item');
+    Route::post('/{trainer}', 'BusinessTrainerController@softDelete');
+    Route::delete('/{trainer}', 'BusinessTrainerController@hardDelete');
+});
+
+Route::get('/api/users', function() {
+    return App\User::all();
 });

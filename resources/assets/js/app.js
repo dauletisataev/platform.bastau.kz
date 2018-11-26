@@ -132,7 +132,7 @@ const messages = {
 };
 
 const i18n = new VueI18n({
-  locale: 'kz', // set locale
+  locale: 'ru', // set locale
   messages, // set locale messages
 });
 

@@ -60,8 +60,6 @@
         },
         methods: {
             getList() {
-
-
                 this.resource_url = this.scrollLoad ? this.next_url : this.resource_url;
 
                 if (!this.resource_url){
@@ -73,16 +71,15 @@
 
                 let _this = this;
 
-
                 get(_this, this.resource_url, {params: this.filterData}, function (response) {
 
                     let json = response.data;
 
                     _this.next_url = json.next_page_url;
 
-                    _this.users = _this.users.concat(json.data);
-
-                    _this.total = json.total;
+                    _this.users = _this.users.concat(json);
+                    
+                    _this.total = _this.users.length;
 
                     _this.scrollLoad = false;
                     _this.load = false;
@@ -127,7 +124,6 @@
         created() {
 
             window.document.body.onscroll = this.handleScroll;
-        }
-
+        },
     }
 </script>
