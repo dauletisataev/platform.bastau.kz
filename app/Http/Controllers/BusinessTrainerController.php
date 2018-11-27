@@ -23,12 +23,42 @@ class BusinessTrainerController extends Controller
     * @param Request $request, $id
     * @return \Illuminate\Http\Response
     */
-    public function save(Request $request, $id)
+    public function save(Request $request)
     {
-        $validData = $request->validate([
-            'name' => 'required|string'
-        ]);
-        // $trainer = BusinessTrainer::updateOr
+        // $result = $request->session()->all(); //получаем данные из сессии
+        // $result = $request->all();
+        // set X-CSRF-TOKEN Cookie in Header
+        // $token = $result['_token'];
+        // return $token;
+
+        $id = $request->get('id') ? $request->get('id') : 0;
+
+        // $this->validate($request, [
+        //     'name' => 'required|string|max:255',
+        //     'password' => 'nullable|string|min:6|confirmed',
+        //     'email' => 'nullable|email',
+        //     'phone' => 'required',
+        //     'photo' => 'image64:jpeg,jpg,png',
+        //     'role_id' => 'required',
+        // ]);
+
+        $trainer = $id ? BusinessTrainer::find($id) : new BusinessTrainer();
+        $user = $id ? $trainer->user()->first() : new \App\User();
+
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->phone = $request->get('phone');
+        $user->role_id = $request->get('role_id');
+        if ($request->get('photo')) {
+            $user->photo = $request->get('photo');
+        }
+        if ($request->get('password')) {
+            $user->password = bcrypt($request->get('password'));
+        }
+        $nocrypt = $request->get('password');
+        $user->save();
+        $user->trainer()->save($trainer);
+        return $user;
     }
 
     /**

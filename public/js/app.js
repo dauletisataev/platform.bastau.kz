@@ -43760,8 +43760,75 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['load'],
+    data: function data() {
+        return {
+            filterData: {
+                search_text: ''
+            },
+            temp: {}
+        };
+    },
+
+    methods: {
+        setFiltered: function setFiltered(query) {
+            for (var filterKey in this.filterData) {
+                for (var queryKey in query) {
+                    if (filterKey === queryKey) {
+                        if (this.filterData[filterKey].constructor === Array) {
+                            this.filterData[filterKey].push(query[queryKey]);
+                        } else {
+                            this.filterData[filterKey] = query[queryKey];
+                        }
+                    }
+                }
+            }
+            this.$nextTick(function () {
+                this.setSelect();
+            });
+        },
+        resetFilter: function resetFilter() {
+            this.filterData.search_text = '';
+            this.clearListLoad();
+        },
+        clearListLoad: function clearListLoad() {
+            this.$nextTick(function () {
+                this.$emit('filtered');
+            });
+        },
+        setSelect: function setSelect() {
+            this.$nextTick(function () {
+                this.clearListLoad();
+            });
+        },
+        selected: function selected(key, options, ids) {
+            var comp = this;
+            ids.forEach(function (id) {
+                options.forEach(function (value) {
+                    if (value.id === id) {
+                        comp.temp[key].push(value);
+                    }
+                });
+            });
+        }
+    },
+    mounted: function mounted() {
+        this.$nextTick(function () {
+            this.setFiltered(this.$route.query);
+        });
+    }
+});
 
 /***/ }),
 /* 176 */
@@ -43769,12 +43836,195 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_api_js__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_FormError_vue__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_FormError_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_FormError_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_UserPhoto_vue__ = __webpack_require__(141);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_UserPhoto_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_UserPhoto_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
 //
 
-/* harmony default export */ __webpack_exports__["default"] = ({});
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	props: ['data', '_form'],
+	components: {
+		UserPhoto: __WEBPACK_IMPORTED_MODULE_2__components_UserPhoto_vue___default.a, FormError: __WEBPACK_IMPORTED_MODULE_1__components_FormError_vue___default.a
+	},
+	data: function data() {
+		return {
+			errors: [],
+			formSending: false,
+			form: '',
+			title: ''
+		};
+	},
+
+	methods: {
+		sendForm: function sendForm() {
+			this.formSending = true;
+			var _this = this;
+			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_api_js__["b" /* post */])(_this, '/api/trainers/', JSON.stringify(this.form), function () {
+				_this.formSending = false;
+				_this.errors = [];
+				_this.hideModal();
+				_this.form = _this.form.id ? _this.form : _this.newTrainer();
+				_this.$emit('formSending');
+			}, function (err) {
+				_this.formSending = false;
+				_this.errors.push(err.response.data);
+			});
+		},
+		showModal: function showModal() {
+			this.$refs.modal.show();
+		},
+		hideModal: function hideModal() {
+			this.$refs.modal.hide();
+		},
+		selectRole: function selectRole(value) {
+			if (value) this.form.role_id = value.id;
+			this.form.role = value;
+		},
+		newTrainer: function newTrainer() {
+			return {
+				id: '',
+				photo: '',
+				name: '',
+				phone: '',
+				email: '',
+				password: '',
+				password_confirmation: '',
+				role_id: '',
+				role: ''
+			};
+		},
+		randpass: function randpass() {
+			var chars = "abcdefghijklmnopqrstuvwxyz1234567890";
+			var pass = "";
+			for (var x = 0; x < 8; x++) {
+				var i = Math.floor(Math.random() * chars.length);
+				pass += chars.charAt(i);
+			}
+			this.form.password = pass;
+			this.form.password_confirmation = pass;
+		}
+	},
+	computed: {
+		roles: function roles() {
+			var arr = [];
+			if (this.$common.data) this.$common.data.roles.forEach(function (role) {
+				return arr.push(role);
+			});
+			return arr;
+		}
+	},
+	created: function created() {
+		this.form = this._form ? this._form : this.newTrainer();
+	},
+	mounted: function mounted() {
+		this.title = this.form.id ? 'Редактировать бизнес-тренера' : 'Добавить бизнес-тренера';
+	}
+});
 
 /***/ }),
 /* 177 */
@@ -43835,44 +44085,73 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			resourceUrl: '/api/trainers',
-			default_url: '/api/trainers',
-			trainers: [],
-			load: false,
-			scrollLoad: false,
-			newTrainer: '',
-			total: 0,
-			next_url: ''
-		};
-	},
+    data: function data() {
+        return {
+            resourceUrl: '/api/trainers/',
+            defaultUrl: '/api/trainers/',
+            trainers: [],
+            load: false,
+            scrollLoad: false,
+            newTrainer: '',
+            total: 0,
+            next_url: ''
+        };
+    },
 
-	components: {
-		'trainer-filter': __webpack_require__(224),
-		'trainer-form': __webpack_require__(225)
-	},
-	methods: {
-		getTrainers: function getTrainers() {
-			var _this = this;
-			__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_api_js__["a" /* get */])(_this, _this.resourceUrl, {}, function (response) {
-				var data = response.data;
-				console.log(data);
-				for (var trainer in data) {
-					_this.trainers.push(data[trainer]);
-				};
-				_this.total = data.total;
-				_this.scrollLoad = false;
-				_this.load = false;
-				// console.log(_this.trainers);
-			}, function (err) {
-				console.log("Got error", err);
-			});
-		}
-	},
-	mounted: function mounted() {
-		this.getTrainers();
-	}
+    components: {
+        'trainer-filter': __webpack_require__(224),
+        'trainer-form': __webpack_require__(225)
+    },
+    methods: {
+        getTrainers: function getTrainers() {
+            this.resource_url = this.scrollLoad ? this.next_url : this.resource_url;
+
+            if (!this.resource_url) {
+                this.scrollLoad = false;
+                return false;
+            }
+            this.load = true;
+            var _this = this;
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__helpers_api_js__["a" /* get */])(_this, _this.resourceUrl, {}, function (response) {
+                var data = response.data;
+                _this.next_url = data.next_page_url;
+                _this.trainers = _this.trainers.concat(data);
+                _this.total = _this.trainers.length;
+                _this.scrollLoad = false;
+                _this.load = false;
+                console.log(_this.trainers);
+            }, function () {
+                _this.scrollLoad = false;
+                _this.load = false;
+            });
+        },
+        filtered: function filtered() {
+            this.resourceUrl = this.defaultUrl;
+            this.trainers = [];
+            this.total = 0;
+            this.filterData = this.$refs.filter.filterData;
+            this.$nextTick(function () {
+                this.$router.push({ path: '/control/trainers', query: this.filterData });
+                this.getTrainers();
+            });
+        },
+        handleScroll: function handleScroll(e) {
+            var body = document.body,
+                html = document.documentElement;
+
+            var height = Math.max(body.scrollHeight, html.scrollHeight);
+
+            if ($(window).scrollTop() + $(window).height() > $(document).height() - 100 && !this.scrollLoad) {
+                this.scrollLoad = true;
+                this.$nextTick(function () {
+                    this.getTrainers();
+                });
+            }
+        }
+    },
+    created: function created() {
+        window.document.body.onscroll = this.handleScroll;
+    }
 });
 
 /***/ }),
@@ -51317,7 +51596,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)();
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 /***/ }),
 /* 200 */
@@ -80470,7 +80749,54 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c("div")
+  return _c('div', {
+    staticClass: "col-2 offset-2 fixed-top h-100 pt-4"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.filterData.search_text),
+      expression: "filterData.search_text"
+    }],
+    staticClass: "form-control form-control-sm",
+    attrs: {
+      "type": "text",
+      "placeholder": "Имя, телефон или эл.почта"
+    },
+    domProps: {
+      "value": (_vm.filterData.search_text)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.filterData, "search_text", $event.target.value)
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form_group"
+  }, [_c('button', {
+    staticClass: "btn btn-primary btn-block",
+    attrs: {
+      "disabled": _vm.load
+    },
+    on: {
+      "click": function($event) {
+        _vm.clearListLoad()
+      }
+    }
+  }, [_vm._v("Применить")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-secondary btn-block btn-sm",
+    attrs: {
+      "disabled": _vm.load
+    },
+    on: {
+      "click": function($event) {
+        _vm.resetFilter()
+      }
+    }
+  }, [_vm._v("Сбросить фильтр")])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -80704,7 +81030,257 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c("div")
+  return (_vm.form) ? _c('div', [(_vm.data) ? _c('b-modal', {
+    ref: "modal",
+    attrs: {
+      "size": "lg",
+      "title": _vm.title
+    }
+  }, [_c('div', {
+    staticClass: "form-group row",
+    class: {
+      'has-error': _vm.errors && _vm.errors.role_id
+    }
+  }, [_c('label', {
+    staticClass: "col-3 col-form-label"
+  }, [_vm._v("Роль")]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('v-select', {
+    attrs: {
+      "on-change": _vm.selectRole,
+      "label": "description",
+      "value": "id",
+      "value": _vm.form.role,
+      "options": _vm.roles,
+      "placeholder": "Выберите роль"
+    },
+    on: {
+      "update:value": function($event) {
+        _vm.$set(_vm.form, "role", $event)
+      }
+    }
+  }), _vm._v(" "), (_vm.errors && _vm.errors.role_id) ? _c('form-error', {
+    attrs: {
+      "errors": _vm.errors
+    }
+  }, [_vm._v("\n                        " + _vm._s(_vm.errors.role_id[0]) + "\n                    ")]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row",
+    class: {
+      'has-error': _vm.errors && _vm.errors.photo
+    }
+  }, [_c('label', {
+    staticClass: "col-3 col-form-label"
+  }, [_vm._v("Фото")]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('user-photo', {
+    attrs: {
+      "user": _vm.form,
+      "accept": 'image/jpeg,image/png,image/gif'
+    }
+  }), _vm._v(" "), (_vm.errors && _vm.errors.photo) ? _c('form-error', {
+    attrs: {
+      "errors": _vm.errors
+    }
+  }, [_vm._v("\n                        " + _vm._s(_vm.errors.photo[0]) + "\n                    ")]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row",
+    class: {
+      'has-error': _vm.errors && _vm.errors.name
+    }
+  }, [_c('label', {
+    staticClass: "col-3 col-form-label"
+  }, [_vm._v("ФИО")]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.name),
+      expression: "form.name"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "placeholder": "ФИО"
+    },
+    domProps: {
+      "value": (_vm.form.name)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.form, "name", $event.target.value)
+      }
+    }
+  }), _vm._v(" "), (_vm.errors && _vm.errors.name) ? _c('form-error', {
+    attrs: {
+      "errors": _vm.errors
+    }
+  }, [_vm._v("\n                        " + _vm._s(_vm.errors.name[0]) + "\n                    ")]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row",
+    class: {
+      'has-error': _vm.errors && _vm.errors.phone
+    }
+  }, [_c('label', {
+    staticClass: "col-3 col-form-label"
+  }, [_vm._v("Телефон")]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('masked-input', {
+    staticClass: "form-control",
+    attrs: {
+      "mask": "1 (111) 111 11 11",
+      "placeholder": "8 (707) 465 48 12"
+    },
+    model: {
+      value: (_vm.form.phone),
+      callback: function($$v) {
+        _vm.$set(_vm.form, "phone", $$v)
+      },
+      expression: "form.phone"
+    }
+  }), _vm._v(" "), (_vm.errors && _vm.errors.phone) ? _c('form-error', {
+    attrs: {
+      "errors": _vm.errors
+    }
+  }, [_vm._v("\n                        " + _vm._s(_vm.errors.phone[0]) + "\n                    ")]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row",
+    class: {
+      'has-error': _vm.errors && _vm.errors.email
+    }
+  }, [_c('label', {
+    staticClass: "col-3 col-form-label"
+  }, [_vm._v("Email")]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.email),
+      expression: "form.email"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "placeholder": "email"
+    },
+    domProps: {
+      "value": (_vm.form.email)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.form, "email", $event.target.value)
+      }
+    }
+  }), _vm._v(" "), (_vm.errors && _vm.errors.email) ? _c('form-error', {
+    attrs: {
+      "errors": _vm.errors
+    }
+  }, [_vm._v("\n                        " + _vm._s(_vm.errors.email[0]) + "\n                    ")]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row",
+    class: {
+      'has-error': _vm.errors && _vm.errors.password
+    }
+  }, [_c('label', {
+    staticClass: "col-3 col-form-label"
+  }, [_vm._v("Пароль")]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.password),
+      expression: "form.password"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "placeholder": "Пароль"
+    },
+    domProps: {
+      "value": (_vm.form.password)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.form, "password", $event.target.value)
+      }
+    }
+  }), _vm._v(" "), (_vm.errors && _vm.errors.password) ? _c('form-error', {
+    attrs: {
+      "errors": _vm.errors
+    }
+  }, [_vm._v("\n                        " + _vm._s(_vm.errors.password[0]) + "\n                    ")]) : _vm._e()], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group row",
+    class: {
+      'has-error': _vm.errors && _vm.errors.password_confirmation
+    }
+  }, [_c('label', {
+    staticClass: "col-3 col-form-label"
+  }, [_vm._v("Пароль еще раз")]), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.form.password_confirmation),
+      expression: "form.password_confirmation"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "placeholder": "Пароль"
+    },
+    domProps: {
+      "value": (_vm.form.password_confirmation)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.$set(_vm.form, "password_confirmation", $event.target.value)
+      }
+    }
+  }), _vm._v(" "), (_vm.errors && _vm.errors.password_confirmation) ? _c('form-error', {
+    attrs: {
+      "errors": _vm.errors
+    }
+  }, [_vm._v("\n                        " + _vm._s(_vm.errors.password_confirmation[0]) + "\n                    ")]) : _vm._e()], 1)]), _vm._v(" "), (!_vm.form.id) ? _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-3"
+  }), _vm._v(" "), _c('div', {
+    staticClass: "col-9"
+  }, [_c('button', {
+    staticClass: "btn",
+    attrs: {
+      "type": "button",
+      "disabled": _vm.formSending ? true : false
+    },
+    on: {
+      "click": _vm.randpass
+    }
+  }, [_vm._v("Генерировать пароль")])])]) : _vm._e(), _vm._v(" "), _c('div', {
+    attrs: {
+      "slot": "modal-footer"
+    },
+    slot: "modal-footer"
+  }, [_c('button', {
+    staticClass: "btn btn-primary",
+    attrs: {
+      "type": "button",
+      "disabled": (_vm.formSending ? true : false)
+    },
+    on: {
+      "click": _vm.sendForm
+    }
+  }, [_c('i', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.formSending),
+      expression: "formSending"
+    }],
+    staticClass: "fa fa-spinner fa-spin"
+  }), _vm._v(" " + _vm._s(_vm.form.id ? 'Сохранить' : 'Добавить') + "\n                ")])])]) : _vm._e()], 1) : _vm._e()
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -81586,7 +82162,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "filtered": _vm.filtered
     }
   }) : _vm._e(), _vm._v(" "), _c('div', {
-    staticClass: "col-8 offset-4"
+    staticClass: "col-7 offset-4"
   }, [_vm._v("\n        Найдено "), _c('b', [_vm._v(_vm._s(_vm.total))]), _vm._v(" пользователя\n        "), _c('button', {
     staticClass: "btn btn-primary btn-sm ml-2",
     attrs: {
@@ -82062,9 +82638,17 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', [_c('div', {
-    staticClass: "col-8 offset-4"
-  }, [_vm._v("\n            Найдено "), _c('b', [_vm._v(_vm._s(_vm.total))]), _vm._v(" пользователя\n            "), _c('button', {
+  return _c('div', [(_vm.$common.data.roles) ? _c('trainer-filter', {
+    ref: "filter",
+    attrs: {
+      "load": _vm.load
+    },
+    on: {
+      "filtered": _vm.filtered
+    }
+  }) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "col-7 offset-4"
+  }, [_vm._v("\n\n            Найдено "), _c('b', [_vm._v(_vm._s(_vm.total))]), _vm._v(" тренеров\n            "), _c('button', {
     staticClass: "btn btn-primary btn-sm ml-2",
     attrs: {
       "type": "button"
@@ -82094,9 +82678,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_c('span', {
-      staticClass: "fa fa-trainer"
+      staticClass: "fa fa-user"
     })])], 1)], 1)])])
-  }))])])])
+  }))])]), _vm._v(" "), _c('trainer-form', {
+    ref: "newTrainer",
+    attrs: {
+      "data": _vm.$common.data,
+      "_form": _vm.newTrainer
+    },
+    on: {
+      "formSending": _vm.filtered
+    }
+  })], 1)
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('thead', {
     staticClass: "thead-default"

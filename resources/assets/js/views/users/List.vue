@@ -2,7 +2,7 @@
     <div>
         <user-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered"></user-filter>
         <!-- Результаты -->
-        <div class="col-8 offset-4">
+        <div class="col-7 offset-4">
             Найдено <b>{{ total }}</b> пользователя
             <button type="button" class="btn btn-primary btn-sm ml-2" @click="$refs.newUser.showModal()">добавить</button>
 
