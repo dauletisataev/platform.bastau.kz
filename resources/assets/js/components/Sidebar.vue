@@ -31,19 +31,48 @@
                 <hr>
 
                 <ul>
-                    <li class="mb-2"><router-link to="/dashboard" :class="{'text-muted': dashboard.indexOf($route.name) < 0,'text-white': dashboard.indexOf($route.name) > -1 }"><span class="fa fa-fw fa-signal mr-2"></span> {{ $t("sidebar.indicator") }} </router-link></li>
-                    <li class="mb-2"><router-link to="/control" :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-wrench mr-2"></span> {{ $t("sidebar.control") }}</router-link></li>
+                    <li class="mb-2">
+                        <router-link to="/dashboard" exact
+                                     :class="{'text-muted': dashboard.indexOf($route.name) < 0,'text-white': dashboard.indexOf($route.name) > -1 }">
+                            <span class="fa fa-fw fa-signal mr-2"></span>
+                            {{ $t("sidebar.indicator") }}
+                        </router-link>
+                    </li>
+
+                    <li class="mb-2">
+                        <router-link to="/control" exact
+                                     :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }">
+                            <span class="fa fa-fw fa-wrench mr-2"></span>
+                            {{ $t("sidebar.control") }}
+                        </router-link>
+                    </li>
+
+                    <li class="mb-2">
+                        <router-link to="/trainers" exact
+                                     :class="{'text-muted': trainers.indexOf($route.name) < 0, 'text-white': trainers.indexOf($route.name) > -1 }">
+                            <span class="fa fa-fw fa-user mr-2"></span>
+                            {{ $t("sidebar.trainer") }}
+                        </router-link>
+                    </li>
                 </ul>
                 <hr>
                 <ul>
-                    <li class="mb-2"><a @click="$refs.profile.showModal()" style="cursor: pointer;" class="text-muted" ><span class="fa fa-fw fa-cog  mr-2"></span> {{ $t("sidebar.preferences") }}</a></li>
-                    <li class="mb-2"><div class="sidebar-logout"><button class="text-muted pl-0"  @click="logout"><span class="fa fa-fw fa-sign-out  mr-2"></span> {{ $t("sidebar.exit") }}</button></div></li>
+                    <li class="mb-2"><a @click="$refs.profile.showModal()" style="cursor: pointer;"
+                                        class="text-muted"><span class="fa fa-fw fa-cog  mr-2"></span> {{
+                        $t("sidebar.preferences") }}</a></li>
+                    <li class="mb-2">
+                        <div class="sidebar-logout">
+                            <button class="text-muted pl-0" @click="logout"><span
+                                    class="fa fa-fw fa-sign-out  mr-2"></span> {{ $t("sidebar.exit") }}
+                            </button>
+                        </div>
+                    </li>
                 </ul>
 
                 <div class="form-group">
-                  <select class="form-control" id="lang" name="lang" v-model="$i18n.locale">
-                    <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
-                  </select>
+                    <select class="form-control" id="lang" name="lang" v-model="$i18n.locale">
+                        <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -55,34 +84,35 @@
 
 
 <script>
-export default {
-  
-  data() {
-    return {
-      dashboard: ["dashboard"],
-      control: ["control", "users", "user"],
-      langs: ['ru', 'kz']
+    export default {
+
+        data() {
+            return {
+                dashboard: ["dashboard"],
+                control: ["control", "users", "user"],
+                trainers: ["trainers"],
+                langs: ['ru', 'kz'],
+            };
+        },
+        components: {
+            Profile: require("./Profile.vue")
+        },
+        methods: {
+            getCsrf() {
+                return Laravel.csrfToken;
+            },
+
+            logout() {
+                if (this.$root.accounts.length > 1) {
+                    this.$router.push({name: "select-account"});
+                } else {
+                    this.$auth.destroyToken();
+
+                    this.$router.push({name: "login"});
+                }
+
+                this.$root.user = "";
+            }
+        },
     };
-  },
-  components: {
-    Profile: require("./Profile.vue")
-  },
-  methods: {
-    getCsrf() {
-      return Laravel.csrfToken;
-    },
-
-    logout() {
-      if (this.$root.accounts.length > 1) {
-        this.$router.push({ name: "select-account" });
-      } else {
-        this.$auth.destroyToken();
-
-        this.$router.push({ name: "login" });
-      }
-
-      this.$root.user = "";
-    }
-  }
-};
 </script>

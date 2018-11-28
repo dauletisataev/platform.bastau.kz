@@ -12,7 +12,7 @@
                     </form-error>
                 </div>
             </div>
-
+            
             <div v-bind:class="{ 'has-error': errors && errors.photo }" class="form-group row">
                 <label class="col-3 col-form-label">Фото</label>
                 <div class="col-9">

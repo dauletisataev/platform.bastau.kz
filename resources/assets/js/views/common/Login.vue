@@ -106,7 +106,7 @@ export default {
       let secret = document.head.querySelector('meta[name="client-secret"]');
 
       let data = {
-        client_id: 8,
+        client_id: 2,
         client_secret: secret.content,
         grant_type: "password",
         username: {

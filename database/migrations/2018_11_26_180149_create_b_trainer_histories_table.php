@@ -13,7 +13,7 @@ class CreateBTrainerHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('b_trainer_histories', function (Blueprint $table) {
+        Schema::create('bt_histories', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateBTrainerHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('b_trainer_histories');
+        Schema::dropIfExists('bt_histories');
     }
 }

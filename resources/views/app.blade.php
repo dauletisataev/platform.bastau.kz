@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ asset("/css/app.css") }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="client-secret" content="v6kH9Q1Ka3UoSPdMSsfU6Y8eHAOqqexD95lRBsgg">
+    <meta name="client-secret" content="H8SxGMDvOKNHRVfjcIeDzMDYP4YNLY2UBdUFhi6O">
 
 </head>
 <body>

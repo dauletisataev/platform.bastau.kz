@@ -14,7 +14,7 @@ class RolesTableSeeder extends Seeder
         \App\Role::create([
             'name' => "administrator",
             'description' => 'Администратор',
-            'instrumental'=>"для администраторов",
+            'instrumental'=> "для администраторов",
         ]);
     }
 }

@@ -1,6 +1,6 @@
 <template>
 	<div>
-        <trainer-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered"></trainer-filter>
+        <tfilter v-if="trainers" :data='trainers'></tfilter>
         <div class="col-7 offset-4">
 
             Найдено <b>{{ total }}</b> тренеров
@@ -21,7 +21,7 @@
                     <td>
                         <div class="pull-right">
                             <b-tooltip title="Открыть профиль">
-                                <router-link :to="{name:'trainer', params:{id: trainer.id}}" class="btn btn-outline-primary btn-sm"><span class="fa fa-user"></span></router-link>
+                                <router-link :to="{name:'trainer', params:{id: trainer.id}}" :id='trainer.id' class="btn btn-outline-primary btn-sm"><span class="fa fa-user"></span></router-link>
                             </b-tooltip>
                         </div>
                     </td>
@@ -30,83 +30,49 @@
             </table>
         </div>
 
-        <trainer-form ref="newTrainer" :data="$common.data" :_form="newTrainer" v-on:formSending="filtered"></trainer-form>
+        <tform ref="newTrainer" :_form="newTrainer" @formSending="filtered"></tform>
 
     </div>
 </template>
 
 <script>
 	import { get } from './../../helpers/api.js';
+    import Filter from './Filter.vue';
+    import Form from './Form.vue';
 
 	export default {
 		data() {
 			return {
 				resourceUrl: '/api/trainers/',
-                defaultUrl: '/api/trainers/',
 				trainers: [],
-				load: false,
-                scrollLoad: false,
-                newTrainer: '',
-                total: 0,
-                next_url: '',
+                newTrainer: ''
 			}
 		},
         components: {
-            'trainer-filter': require('./Filter.vue'),
-            'trainer-form': require('./Form.vue')
+            'tform': Form, 
+            'tfilter': Filter
         },
 		methods: {
-			getTrainers() {
-                this.resource_url = this.scrollLoad ? this.next_url : this.resource_url;
-
-                if (!this.resource_url){
-                    this.scrollLoad = false;
-                    return false;
-                }
-                this.load = true;
-				let _this = this;
-				get(_this, _this.resourceUrl, {}, function(response) {
-					let data = response.data;
-                    _this.next_url = data.next_page_url;
-                    _this.trainers = _this.trainers.concat(data);
-                    _this.total = _this.trainers.length;
-                    _this.scrollLoad = false;
-                    _this.load = false;
-                    console.log(_this.trainers);
-				}, function() {
-                    _this.scrollLoad = false;
-                    _this.load = false;
-				});
+			getList() {
+                let self = this;
+                get(
+                    self, 
+                    self.resourceUrl, 
+                    {}, 
+                    (response) => _.each(response.data, trainer => self.trainers.push(trainer)), 
+                    (err) => console.log(err));
 			},
 
             filtered() {
-                this.resourceUrl = this.defaultUrl;
-                this.trainers = [];
-                this.total = 0;
-                this.filterData = this.$refs.filter.filterData;
-                this.$nextTick(function() {
-                    this.$router.push({path: '/control/trainers', query: this.filterData});
-                    this.getTrainers();
-                })
             },
-            handleScroll(e){
-                let body = document.body,
-                    html = document.documentElement;
-
-                let height = Math.max(body.scrollHeight, html.scrollHeight);
-
-                if($(window).scrollTop() + $(window).height() > $(document).height() - 100 && !this.scrollLoad) {
-                    this.scrollLoad = true;
-                    this.$nextTick(function () {
-                        this.getTrainers();
-                    })
-                }
-
-            }
-
 		},
-        created() {
-            window.document.body.onscroll = this.handleScroll;
+        computed: {
+            total() {
+                return this.trainers.length;
+            }
+        },
+        mounted() {
+            this.getList();
         }
 	};
 </script>

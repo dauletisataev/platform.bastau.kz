@@ -1,6 +1,4 @@
-import {
-    get
-} from '../helpers/api'
+import { get } from '../helpers/api'
 
 export default function (Vue) {
 

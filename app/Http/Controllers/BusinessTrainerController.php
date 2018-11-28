@@ -25,25 +25,23 @@ class BusinessTrainerController extends Controller
     */
     public function save(Request $request)
     {
-        // $result = $request->session()->all(); //получаем данные из сессии
-        // $result = $request->all();
+        // $result = $request->session()->all(); // Get data from ssesion
         // set X-CSRF-TOKEN Cookie in Header
         // $token = $result['_token'];
         // return $token;
 
         $id = $request->get('id') ? $request->get('id') : 0;
-
-        // $this->validate($request, [
-        //     'name' => 'required|string|max:255',
-        //     'password' => 'nullable|string|min:6|confirmed',
-        //     'email' => 'nullable|email',
-        //     'phone' => 'required',
-        //     'photo' => 'image64:jpeg,jpg,png',
-        //     'role_id' => 'required',
-        // ]);
-
         $trainer = $id ? BusinessTrainer::find($id) : new BusinessTrainer();
         $user = $id ? $trainer->user()->first() : new \App\User();
+
+        // Update doesn't work because of validation
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'password' => 'nullable|string|min:6|confirmed',
+            'email' => 'nullable|email',
+            'phone' => 'required',
+            'photo' => 'image64:jpeg,jpg,png',
+        ]);
 
         $user->name = $request->get('name');
         $user->email = $request->get('email');
@@ -58,7 +56,6 @@ class BusinessTrainerController extends Controller
         $nocrypt = $request->get('password');
         $user->save();
         $user->trainer()->save($trainer);
-        return $user;
     }
 
     /**
@@ -67,9 +64,14 @@ class BusinessTrainerController extends Controller
      * @param  \App\BusinessTrainer  $trainer
      * @return \Illuminate\Http\Response
      */
-    public function item(BusinessTrainer $trainer)
+    public function item($id)
     {
-        return $trainer::with('user')->first();
+        $trainer = BusinessTrainer::find($id);
+        if ($trainer) {
+            return $trainer->user()->get()->first();
+        } else {
+            return response()->json(["status" => "404", "message" => "Not Found"]);
+        }
     }
 
     /**
@@ -78,10 +80,10 @@ class BusinessTrainerController extends Controller
      * @param  \App\BusinessTrainer  $trainer
      * @return \Illuminate\Http\Response
      */
-    public function light_item(BusinessTrainer $trainer)
-    {
-        $trainer->update($request->all());
-    }
+    // public function light_item(BusinessTrainer $trainer)
+    // {
+        
+    // }
 
 
     /**
@@ -90,9 +92,14 @@ class BusinessTrainerController extends Controller
      * @param  \App\BusinessTrainer  $trainer
      * @return \Illuminate\Http\Response
      */
-    public function softDelete(BusinessTrainer $trainer)
-    {
-        $trainer->delete();
+    public function archive(Request $request, BusinessTrainer $trainer)
+    {   
+        // $result = $request->session()->all(); // Get data from ssesion
+        // set X-CSRF-TOKEN Cookie in Header
+        // $token = $result['_token'];
+        // return $token;
+
+        return $trainer->archive();
     }
 
     /**
@@ -103,6 +110,7 @@ class BusinessTrainerController extends Controller
     */
     public function hardDelete(BusinessTrainer $trainer)
     {
-
+        $trainer->full_delete();
     }
+
 }

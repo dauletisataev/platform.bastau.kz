@@ -14,7 +14,6 @@ const SelectAccount = require('./views/common/SelectAccount.vue');
 const ResetPass = require('./views/common/ResetPass.vue');
 
 
-
 export default new VueRouter({
     mode: 'history',
     base: __dirname,
@@ -96,27 +95,26 @@ export default new VueRouter({
                 forAuth: true
             }
         },
-
         {
-            path: '/control/trainers',
-            name: 'trainers',
+            path: "/trainers",
+            name: "trainer-list",
             component: Trainers,
             meta: {
-                title: 'Бизнес-тренеры',
-                forAuth: true
-            }
-        },
-        {
-            path: '/control/trainer/:id',
-            name: 'trainer',
-            component: Trainer,
-            props: true,
-            meta: {
-                title: 'Бизнес-тренер',
+                title: "Бизнес-тренеры",
                 forAuth: true
             }
         },
 
+        {
+            path: "/trainers/trainer/:id",
+            name: 'trainer',
+            props: true,
+            component: Trainer,
+            meta: {
+                title: 'BusinessTrianerItem',
+                forAuth: true
+            }
+        },
 
         {
             path: '/401',

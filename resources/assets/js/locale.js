@@ -15,6 +15,8 @@ import dKz from './views/dashboard/lang/kz.json';
 import dRu from './views/dashboard/lang/ru.json';
 import componentsKz from './components/lang/kz.json';
 import componentsRu from './components/lang/ru.json';
+import btrainerRu from './views/trainers/lang/ru.json';
+import btrainerKz from './views/trainers/lang/kz.json';
 
 // BEGIN views/Dashboard
 export const dashboardKz = JSON.parse(JSON.stringify(dKz));
@@ -31,3 +33,6 @@ let cmpntRu = JSON.parse(JSON.stringify(componentsRu));
 export const sidebarRu = cmpntRu.sidebar;
 export const profileRu = cmpntRu.profile;
 // END Components
+
+export const btKz = JSON.parse(JSON.stringify(btrainerKz));
+export const btRu = JSON.parse(JSON.stringify(btrainerRu));

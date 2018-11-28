@@ -10,6 +10,7 @@
 	"sidebar": {
 		"indicator": "Показатели",
 		"control": "Управление",
+		"trainer": "Бизнес-тренеры",
 		"preferences": "Мои настройки",
 		"exit": "Выход"
 	}

@@ -68,7 +68,11 @@ Route::get('/trainers', function() {
     return view('app');
 });
 
-Route::prefix('api/trainers')->group(function () {
+Route::get('/trainers/trainer/{id}', function() {
+    return view('app');
+});
+
+Route::prefix('/api/trainers')->group(function () {
     // Get all trainers
     Route::get('/', 'BusinessTrainerController@items');
     // Crate or update trainer
@@ -76,7 +80,7 @@ Route::prefix('api/trainers')->group(function () {
     Route::put('/{trainer}','BusinessTrainerController@save');
     // Get one trainer
     Route::get('/{trainer}', 'BusinessTrainerController@item');
-    Route::post('/{trainer}', 'BusinessTrainerController@softDelete');
+    Route::post('/archive/{trainer}', 'BusinessTrainerController@archive');
     Route::delete('/{trainer}', 'BusinessTrainerController@hardDelete');
 });
 

@@ -1,2 +1,0 @@
-clientId: 2
-secret: JveOxSb9hlu4TK70Ijc1i7sjrHfVOL0Tu3RPsPG7

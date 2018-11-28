@@ -13,7 +13,7 @@ class CreateBTrainerLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('b_trainer_logs', function (Blueprint $table) {
+        Schema::create('bt_logs', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateBTrainerLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('b_trainer_logs');
+        Schema::dropIfExists('bt_logs');
     }
 }
