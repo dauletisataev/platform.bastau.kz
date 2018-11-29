@@ -37,6 +37,10 @@ Route::get('/dashboard', function () {
     return view('app');
 });
 
+Route::get('/participants', function () {
+    return view('app');
+});
+
 Route::get('/users', function () {
     return view('app');
 });

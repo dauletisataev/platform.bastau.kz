@@ -14,7 +14,6 @@ export function post(_this, url, payload, successCallback, errorCallback) {
         data: payload,
         headers: headers
     }).then(response => {
-
         _this.$bar.finish();
     successCallback( response );
 
@@ -83,5 +82,37 @@ export function del(_this, url, payload, successCallback, errorCallback) {
 
 });
 
+
+}
+
+// Запрос с выводом прогресса загрузки
+export function postFile(_this, url, payload, progressCallback, successCallback, errorCallback) {
+    _this.$bar.start();
+    let headers = _this.$auth.getToken() ? {'Authorization': `Bearer ${_this.$auth.getToken()}`} : '';
+
+
+    return axios({
+        method: 'POST',
+        url: url,
+        data: payload,
+        headers: headers,
+        onUploadProgress: function (progressEvent) {
+            const progress = parseInt(Math.round((progressEvent.loaded * 100) / progressEvent.total));
+            progressCallback(progress);
+        }
+    }).then(response => {
+        _this.$bar.finish();
+        successCallback( response );
+
+    }).catch(error => {
+        if(!error.status)
+            console.log('network error');
+
+        console.log(error.response);
+        _this.$bar.finish();
+        if(errorCallback)
+            errorCallback( error );
+
+    });
 
 }

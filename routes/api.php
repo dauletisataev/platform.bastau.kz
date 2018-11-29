@@ -42,8 +42,23 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::group(['middleware' => ['isViewer']], function () {
         Route::get('/dashboard', 'MainController@dashboard');
     });
-    
     Route::get('/main/data', 'MainController@data');
-
-
 });
+
+Route::get('/lesson-templates/getConnectedCourses/{id}','LessonTemplateController@getItemConnections');
+Route::get('/lesson-templates', 'LessonTemplateController@items');
+Route::delete('/lesson-template-delete/{id}', 'LessonTemplateController@delete');
+Route::post('/lesson-template-save', 'LessonTemplateController@save');
+Route::get('/lesson-template/select-options', 'LessonTemplateController@getSelectOptions');
+
+Route::get('/lesson-template-item/{id}', 'LessonTemplateController@item');
+Route::post('/lesson-template-item-content-save/{id}', 'LessonTemplateController@saveContent');
+Route::post('lesson-template-item-save/{id}','LessonTemplateController@saveItem');
+Route::delete('lesson-template-item-delete/{id}','LessonTemplateController@deleteItem');
+Route::post('/lesson-template-item-move','LessonTemplateController@move');
+Route::get('/lesson-template-item-content/{id}', 'LessonTemplateController@content');
+
+Route::get('/lesson/{id}','LessonController@item');
+
+Route::post('/upload-file','MaterialController@uploadFile');
+

@@ -64,19 +64,11 @@
         },
 
         created() {
-
             if (this.$auth.isAuthenticated()){
                 this.getData();
             }
-
             this.loadPlugins();
-
         }
-
-
-
-
-
     }
 
 </script>

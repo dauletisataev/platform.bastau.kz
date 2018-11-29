@@ -17,11 +17,8 @@ class MainController extends Controller
 
     public function data(Request $request)
     {
-
         $data = [];
         $data['roles'] = Role::all();
-
         return $data;
-
     }
 }

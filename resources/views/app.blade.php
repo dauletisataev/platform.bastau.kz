@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Загрузка...</title>
     <link rel="stylesheet" href="{{ asset("/css/main.css?".random_int(1000, 9999)) }}">
     <link rel="stylesheet" href="{{ asset("/css/app.css") }}">
+    <link rel="stylesheet" href="{{ asset("/css/quill.core.css") }}">
+    <link rel="stylesheet" href="{{ asset("/css/quill.bubble.css") }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="client-secret" content="AB9e31wWAlcuAs0ILI7c2B0mbgQg4v6kq3CrPPa3">
-
+    <meta name="client-secret" content="jisRZCpfQWTvlbfhmuD4mC51YeqTOoUuMMwoIOSk">
 </head>
+
 <body>
 <div id="app">
     <div v-bind:class="{ 'bg-faded': !user }">
@@ -21,8 +23,6 @@
 
     </div>
 </div>
-
-
 
 <script>
     window.Laravel = <?php echo json_encode([

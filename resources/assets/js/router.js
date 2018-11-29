@@ -11,7 +11,11 @@ const Login = require('./views/common/Login.vue');
 const SelectAccount = require('./views/common/SelectAccount.vue');
 const ResetPass = require('./views/common/ResetPass.vue');
 
-
+const LessonTemplates = require('./views/lesson-templates/Index.vue');
+const LessonTemplate = require('./views/lesson-templates/Item.vue');
+const LessonTemplateContent = require('./views/lesson-templates/Content/Item.vue');
+const LessonTemplateNew = require('./views/lesson-templates/NewForm.vue');
+const LessonContent = require('./views/lessons/Item.vue');
 
 export default new VueRouter({
     mode: 'history',
@@ -35,7 +39,11 @@ export default new VueRouter({
         { path: '/401', component: PermissionDenied},
         { path: '*', component: NotFound},
 
+        { name: 'lesson_template_new', path: '/control/add_lesson_template', component: LessonTemplateNew, meta: {title: 'Программы', forAuth: true, forTeacher: true}},
 
-    ]
+        { name: 'lesson_templates', path: '/control/lesson-templates', component: LessonTemplates, meta: {title: 'Программы', forAuth: true, forTeacher: true} },
+        { name: 'lesson_template', path: '/control/lesson-templates/:id', component: LessonTemplate, props:true, meta: {title: 'Программа', forAuth: true, forTeacher: true} },
+        { name: 'lesson_template_content', path: '/control/lesson-templates/:template_id/lesson/:id', component: LessonTemplateContent, props: true, meta: {title: 'Занятие', forAuth: true, forTeacher: true}},
+        ]
 
 });

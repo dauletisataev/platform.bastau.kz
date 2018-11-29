@@ -17,9 +17,7 @@ export default function (Vue) {
                 this.destroyToken();
                 return null;
             }
-
             return token;
-
         },
 
         destroyToken() {
@@ -45,9 +43,6 @@ export default function (Vue) {
         destroyAccountId(){
             localStorage.removeItem('accountId');
         },
-
-
-
     };
 
     Object.defineProperties(Vue.prototype, {

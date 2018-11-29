@@ -19,6 +19,10 @@ import VueChartkick from 'vue-chartkick';
 import Auth from './packages/auth/auth';
 import User from './packages/user';
 import { VueMaskDirective } from 'v-mask';
+import draggable from 'vuedraggable';
+import wysiwyg from "vue-wysiwyg";
+import LMS from './components/LMS.vue';
+import Quill from 'quill';
 
 const dateLocales = Vue.prototype.$dateLocales = {
     "format": "DD.MM.YY",
@@ -36,8 +40,7 @@ const dateLocales = Vue.prototype.$dateLocales = {
         "Ср",
         "Чт",
         "Пт",
-        "Сб",
-
+        "Сб"
     ],
     "monthNames": [
         "Январь",
@@ -56,13 +59,11 @@ const dateLocales = Vue.prototype.$dateLocales = {
     "firstDay": 1
 };
 
-
-
-
 window.Vue = require('vue');
-
 Vue.component('v-select', vSelect);
 Vue.component('masked-input', MaskedInput);
+Vue.component('clip-loader', require('vue-spinner/src/ClipLoader.vue'));
+Vue.component('draggable', draggable);
 
 Vue.use(BootstrapVue);
 Vue.use(VueRouter);
@@ -70,8 +71,7 @@ Vue.use(Auth);
 Vue.use(User);
 Vue.use(VTooltip);
 Vue.directive('mask', VueMaskDirective);
-
-
+Vue.use(wysiwyg, {});
 
 // global progress bar
 const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount();
@@ -80,49 +80,45 @@ const common = Vue.prototype.$common = new Vue(Common).$mount();
 document.body.appendChild(bar.$el);
 document.body.appendChild(common.$el);
 
+const lms = Vue.prototype.$lms = new Vue(LMS).$mount();
+document.body.appendChild(bar.$el);
+document.body.appendChild(common.$el);
+document.body.appendChild(lms.$el);
+
 router.beforeEach((to, from, next) => {
-
     document.title = to.meta.title + ' - Rocket platform';
-
     if (to.meta.forAuth){
-        if(Vue.auth.isAuthenticated()) {
+        if (Vue.auth.isAuthenticated()) {
             next();
-        }else{
+        } else{
             next({
                 path: '/login'
             });
         }
-    }else if (to.meta.forVisitors) {
-        if(Vue.auth.isAuthenticated()) {
+    } else if (to.meta.forVisitors) {
+        if (Vue.auth.isAuthenticated()) {
             next({
                 path: '/'
             })
-        }else{
+        } else {
             next();
         }
-
     }
-
     next();
-
 });
 
 
 import { get } from './helpers/api'
 
 const app = new Vue({
-
     router,
-
     props: ['clientSecret'],
-
     data() {
         return {
             accounts: '',
             user: '',
             userReady: false
         };
-
     },
 
     components : {
@@ -131,26 +127,17 @@ const app = new Vue({
     methods: {
 
         userInit(afterLogin = false) {
-
             let _this = this;
-
             if (_this.$auth.isAuthenticated()){
-
                 get(_this, '/api/user', {}, function (response) {
-
                     _this.accounts = response.data;
-
                     if(response.data.length > 1 && _this.$auth.getAccountId() == null){
-
                         _this.$router.push({ name: 'select-account' });
-
                         return false;
-
                     } else {
                         let accountId = _this.$auth.getAccountId() ? _this.$auth.getAccountId() : 0;
                         _this.setAccount(response.data[accountId], afterLogin);
                     }
-
                 }, function () {
 
                 });
@@ -159,7 +146,6 @@ const app = new Vue({
         },
 
         setAccount(account, afterLogin) {
-
             this.$user.data = account;
             this.user = this.$user;
             this.userReady = this.ready = true;
@@ -171,18 +157,12 @@ const app = new Vue({
         },
 
         afterLogin(user) {
-
             this.$router.push('/dashboard')
-
         }
-
     },
 
     mounted() {
-
         this.userInit();
-
-
     }
 
 }).$mount('#app');

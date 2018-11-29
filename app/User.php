@@ -18,12 +18,22 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
+        'patronymic',
+        'iin',
+        'gender',
+        'address',
+        'home_phone',
+        'phone',
         'email',
         'role_id',
         'password',
+        'gender',
+        'region_id',
+        'district_id',
+        'locality_id',
         'photo',
-        'phone',
     ];
 
     /**
@@ -38,7 +48,6 @@ class User extends Authenticatable
     public static function rules($id = 0)
     {
         return [
-            'name' => 'required',
             'phone' => 'required',
             'email' => 'nullable|email',
             'photo' => 'image64:jpeg,jpg,png',
@@ -93,7 +102,6 @@ class User extends Authenticatable
         }
         return implode($new_phone);
     }
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
