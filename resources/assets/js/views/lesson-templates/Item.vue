@@ -10,7 +10,6 @@
                 <div class="small text-info">
                     <router-link to="/control/lesson-templates" class="text-info"><span class="fa fa-angle-left mr-2"></span>Все программы</router-link>
                 </div>
-
                 <div class="display-4" style="font-size: 2.5rem;">{{ template.name }}</div>
             </div>
             <div class="clearfix mb-4">
@@ -25,6 +24,9 @@
                         <button type="button" @click="activeTab = 'edit'" class="btn btn-secondary" :class="{'active': activeTab == 'edit'}">
                             Параметры
                         </button>
+                        <button type="button" @click="activeTab = 'tests'" class="btn btn-secondary" :class="{'active': activeTab == 'tests'}">
+                            Тесты
+                        </button>
                     </div>
                 </div>
                 <div class="pull-right">
@@ -32,29 +34,17 @@
                     <button v-if="activeTab == 'edit'" class="btn btn-primary" @click="sendForm()" :disabled="loading">
                         <i v-show="loading" class="fa fa-spinner fa-spin"></i> сохранить
                     </button>
-                    <!--<div class="form-inline d-inline-block">-->
-                        <!--<div class="input-group">-->
-                            <!--<span class="input-group-addon"><span class="fa fa-calendar"></span></span>-->
-                            <!--<date-range-picker v-model="filterData.dateRange"></date-range-picker>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div ref="myDropdown" class="d-inline-block" v-if="$common.data && $common.data.offices && $common.data.offices.length > 1">-->
-                        <!--<div style="color:#BBBBBB;margin-top: -6px;margin-bottom: -1px;font-size:70%">отделения</div>-->
-                        <!--<dropdown :visible="dropdown.offices" animation="ani-none"  @clickout="onClickOutOffices" :position="['left', 'top', 'right', 'top']">-->
-                            <!--<button @click="toggleDropdownOffices()"  class="btn btn-secondary btn-sm" type="button" >-->
-                                <!--{{ dropdownTextOffices(temp.offices) }}-->
-                                <!--<span class="fa fa-angle-down ml-1"></span>-->
-                            <!--</button>-->
-                            <!--<div slot="dropdown" style="z-index: 1000;padding: .5rem 0;font-size: 1rem;color: #292b2c;text-align: left;list-style: none;background-color: #fff;-webkit-background-clip: padding-box;background-clip: padding-box;border: 1px solid rgba(0,0,0,.15);border-bottom-left-radius: .25rem; border-bottom-right-radius: .25rem;">-->
-                                <!--<button class="dropdown-item" @click="toggleOffices(office)" :class="{'bg-selected': filterData.office_ids.includes(office.id) || filterData.office_ids.includes(office.id.toString())}" v-for="office in $common.data.cash_offices" :key="office.id">-->
-                                    <!--<span :class="{'font-weight-bold': filterData.office_ids.includes(office.id) || filterData.office_ids.includes(office.id.toString())}">{{ office.name }}</span>-->
-                                <!--</button>-->
-                            <!--</div>-->
-                        <!--</dropdown>-->
-                    <!--</div>-->
+                    <label v-if="activeTab == 'tests'">
+                        <input type="checkbox" :false-value="0" :true-value="1" v-model="template.has_test">Включить/Отключить тесты
+                    </label>
+                    <button @click="activeTab = 'test-edit'" v-if="activeTab == 'tests'"  type="button" class="btn btn-primary" :class="{'active': activeTab == 'test-edit'}">
+                        Редактировать
+                    </button>
                 </div>
             </div>
             <lessons v-if="activeTab == 'lessons'" :template="template" @formSending="getItem()"></lessons>
+            <tests v-if="activeTab == 'tests'" :template="template" @formSending="getItem()" @save="sendForm()"></tests>
+            <test-edit v-if="activeTab == 'test-edit'" :template="template" @save="saveTest()">Bauyrzhan</test-edit>
             <div v-if="activeTab == 'edit'" class="card w-75 mx-auto mb-5">
                 <div class="card-block">
                     <div class="form-group">
@@ -130,9 +120,7 @@
                     </div>
                 </div>
             </div>
-            <statistics v-if="activeTab == 'statistics'"></statistics>
             <form-item ref="addItem" :template_id="template.id" v-on:formSending="getItem"></form-item>
-            <!--<modal-form ref="modalForm" :form="form" v-on:formSending="getItem()"></modal-form>-->
         </div>
     </div>
 </template>
@@ -174,6 +162,8 @@
             'form-item': require('./FormItem.vue'),
             "modal-form": require('./Form.vue'),
             'lessons': require('./Item/Lessons.vue'),
+            'tests': require('./Item/Tests.vue'),
+            'test-edit': require('./Item/TestsEdit.vue'),
             LessonTemplateImage: require('../../components/LessonTemplateImage.vue'),
             ErrorAlert: require('../../components/ErrorAlert.vue'),
             'statistics': require('./Item/Statistics.vue'),
@@ -236,10 +226,8 @@
                 console.log(this.template);
             },
             sendForm() {
-
                 this.loading = true;
                 let _this = this;
-
                 post(_this, '/api/lesson-template-save', this.template, function (response) {
                     _this.loading = false;
                     _this.errors = '';
@@ -247,6 +235,18 @@
                 }, function (error) {
                     _this.loading = false;
                     _this.errors = error.response.data;
+                });
+            },
+            saveTest() {
+                this.loading = true;
+                let _this = this;
+                post(_this, '/api/lesson-template-save-test', this.template.test_questions, function () {
+                    _this.loading = false;
+                    _this.errors = '';
+                    _this.getItem();
+                }, function(error) {
+                   _this.loading = false;
+                   _this.errors = error.response.data;
                 });
             },
             templateType(val) {

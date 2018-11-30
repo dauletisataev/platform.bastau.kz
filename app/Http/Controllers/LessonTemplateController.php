@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\LessonQuestion;
+use App\LessonQuestionAnswer;
 use App\LessonTemplate;
 use App\LessonTemplateItem;
 use App\Material;
@@ -26,7 +28,7 @@ class LessonTemplateController extends Controller
 
     public function item($id) {
         $item = LessonTemplate::where('id','=',$id)
-            ->with('items','translation')->first();
+            ->with('items','translation','testQuestions.answers')->first();
         return $item;
     }
 
@@ -36,6 +38,7 @@ class LessonTemplateController extends Controller
         } else if ($id == 2) {
             return LessonTemplate::where('language', '1')->first();
         }
+        return null;
     }
 
     public function save(request $request)
@@ -47,27 +50,51 @@ class LessonTemplateController extends Controller
 
         $template = LessonTemplate::findOrNew($request->get('id'));
 
-
         $template->name = $request->get('name');
         $template->role_id = $request->get('role_id');
         $template->image = $request->get('image');
+        $template->has_test = $request->get('has_test');
+        $template->test_duration = $request->get('test_duration');
         if ($request->get('language')==1) {
             $temp = LessonTemplate::find($request->get('connected_template_id'));
             if ( $temp != null) {
-                $template->translation()->attach($temp);
-                $temp->translation()->attach($template);
+                $template->translation()->sync($temp);
+                $temp->translation()->sync($template);
             }
         } else if ($request->get('language')==2) {
             $temp = LessonTemplate::find($request->get('connected_template_id'));
             if ( $temp != null) {
-                $template->translation()->attach($temp);
-                $temp->translation()->attach($template);
+                $template->translation()->sync($temp);
+                $temp->translation()->sync($template);
             }
         }
-        echo $template;
         $template->save();
         if(!$request->get('id')) {
             return $template->id;
+        }
+    }
+
+    public function saveTestQuestion(request $request) {
+        $test_questions = array();
+        $test_questions = $request->all();
+        for ($i=0; $i<sizeof($test_questions); $i++){
+            $test_question = LessonQuestion::findOrNew($test_questions[$i]['id']);
+            $test_question->lesson_template_id = $test_questions[$i]['lesson_template_id'];
+            $test_question->value = $test_questions[$i]['value'];
+            $test_question->save();
+            $test_question_answers = $test_questions[$i]['answers'];
+            for ($j=0; $j<sizeof($test_question_answers); $j++) {
+                //var_dump($test_question_answers[$j]);
+                $test_question_answer = LessonQuestionAnswer::findOrNew($test_question_answers[$j]['id']);
+                //var_dump($test_question_answer);
+                $test_question_answer->lesson_question_id=$test_question_answers[$j]['lesson_question_id'];
+                $test_question_answer->option=$test_question_answers[$j]['option'];
+                $test_question_answer->value=$test_question_answers[$j]['value'];
+                $test_question_answer->is_correct=$test_question_answers[$j]['is_correct'];
+                var_dump($test_question_answer);
+                echo 'end';
+                $test_question_answer->save();
+            }
         }
     }
 
@@ -489,7 +516,6 @@ class LessonTemplateController extends Controller
         $item->save();
         return response()->json(['status' => 'success'],200);
     }
-
 
     public function content($id) {
         $item = LessonTemplateItem::where('id','=',$id)->with([

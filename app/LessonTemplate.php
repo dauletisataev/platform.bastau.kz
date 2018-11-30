@@ -17,7 +17,9 @@ class LessonTemplate extends Model
         'image',
         'cost',
         'type',
-        'role_id'
+        'role_id',
+        'has_test',
+        'test_duration'
     ];
 
     /**
@@ -54,6 +56,10 @@ class LessonTemplate extends Model
     public function scopeFilter($query, $filters)
     {
 
+    }
+
+    public function testQuestions() {
+        return $this->hasMany('App\LessonQuestion');
     }
 
     public function translation(){

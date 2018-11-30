@@ -144,13 +144,11 @@
             },
 
             filtered() {
-
                 this.filterData = this.$refs.filter.filterData;
                 this.$nextTick(function () {
                     this.$router.push({ path: this.$route.path, query: this.filterData });
                     this.getList();
                 });
-
             },
             isBought(template) {
                 let result = false;

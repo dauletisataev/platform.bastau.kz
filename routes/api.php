@@ -61,4 +61,4 @@ Route::get('/lesson-template-item-content/{id}', 'LessonTemplateController@conte
 Route::get('/lesson/{id}','LessonController@item');
 
 Route::post('/upload-file','MaterialController@uploadFile');
-
+Route::post('/lesson-template-save-test', 'LessonTemplateController@saveTestQuestion');
