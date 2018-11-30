@@ -1,19 +1,6 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
- */
-
-
-
-/*
  * TODO Add dynamic lang wildcard
  */
 Route::get('/login', function () {
@@ -77,11 +64,11 @@ Route::prefix('/api/trainers')->group(function () {
     Route::get('/', 'BusinessTrainerController@items');
     // Crate or update trainer
     Route::post('/', 'BusinessTrainerController@save');
-    Route::put('/{trainer}','BusinessTrainerController@save');
+    Route::put('/update/{trainer}','BusinessTrainerController@save');
     // Get one trainer
     Route::get('/{trainer}', 'BusinessTrainerController@item');
     Route::post('/archive/{trainer}', 'BusinessTrainerController@archive');
-    Route::delete('/{trainer}', 'BusinessTrainerController@hardDelete');
+    Route::delete('/delete/{trainer}', 'BusinessTrainerController@hardDelete');
 });
 
 Route::get('/api/users', function() {

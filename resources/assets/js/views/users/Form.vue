@@ -7,7 +7,7 @@
                 <label class="col-3 col-form-label">Роль</label>
                 <div class="col-9">
                     <v-select :on-change="selectRole" label="description" value="id" :value.sync="form.role" :options="roles" placeholder="Выберите роль"></v-select>
-                    <form-error v-if="errors && errors.role_id" :errors="errors">
+                    <form-error v-tif="errors && errors.role_id" :errors="errors">
                         {{ errors.role_id[0] }}
                     </form-error>
                 </div>

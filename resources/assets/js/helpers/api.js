@@ -14,22 +14,21 @@ export function post(_this, url, payload, successCallback, errorCallback) {
         data: payload,
         headers: headers
     }).then(response => {
-
         _this.$bar.finish();
-    successCallback( response );
+        successCallback( response );
 
-}).catch(error => {
+    }).catch(error => {
 
         if(!error.status)
-    console.log('network error');
+            console.log('network error');
 
-    console.log(error.response);
+        console.log(error.response);
 
-    _this.$bar.finish();
-    if(errorCallback)
-        errorCallback( error );
+        _this.$bar.finish();
+        if(errorCallback)
+            errorCallback( error );
 
-});
+    });
 }
 
 export function get(_this, url, payload, successCallback, errorCallback) {
@@ -46,15 +45,14 @@ export function get(_this, url, payload, successCallback, errorCallback) {
     }).then(response => {
 
         _this.$bar.finish();
-    successCallback( response );
+        successCallback( response );
 
-}).catch(error => {
-
+    }).catch(error => {
         _this.$bar.finish();
-    if(errorCallback)
-        errorCallback( error );
+        if(errorCallback)
+            errorCallback( error );
 
-});
+    });
 
 
 }
@@ -73,15 +71,15 @@ export function del(_this, url, payload, successCallback, errorCallback) {
     }).then(response => {
 
         _this.$bar.finish();
-    successCallback( response );
+        successCallback( response );
 
-}).catch(error => {
+    }).catch(error => {
 
         _this.$bar.finish();
-    if(errorCallback)
-        errorCallback( error );
+        if(errorCallback)
+            errorCallback( error );
 
-});
+    });
 
 
 }

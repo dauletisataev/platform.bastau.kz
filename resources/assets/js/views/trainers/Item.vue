@@ -58,7 +58,7 @@
 </template>
 
 <script>
-	import { del, get, post } from './../../helpers/api.js';
+	import { del, get, post  } from './../../helpers/api.js';
 	import TrainerForm from './Form.vue';
 	import FormError from './../../components/FormError.vue';
 
@@ -99,7 +99,6 @@
 		},
 		created() {
 			this.getItem();
-			console.log(this.$refs);
 		}
 	};
 </script>

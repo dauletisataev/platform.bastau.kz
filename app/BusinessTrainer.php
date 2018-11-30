@@ -58,13 +58,21 @@ class BusinessTrainer extends Model
     public function full_delete()
     {
         $this->forceDelete();
-        $this->history()->forceDelete();
+        // $this->history()->forceDelete();
     }
 
-    public function restrore_self()
+    public function scopeFilter($query, $filters)
     {
-        $this->restore();
+
+        // raw statement includes only user's records 
+        // select * from users inner join trainers on users.id = trainers.user_id where users.name = $search_text or users.phone = $search_text or users.email = $search_text;
+        if (isset($filters['search_text'])) {
+            $search_text = $filters['search_text'];
+        }
+        
     }
+
+
     /*
 	* public function groups()
     * {

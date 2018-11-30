@@ -1,9 +1,9 @@
 {
-	"edit": "",
-	"delete": "",
-	"contacts": "",
-	"phone": "",
-	"date_created": "",
-	"confirmDelete": "",
-	"cancel": ""
+	"edit": "Өңдеу үшін",
+	"delete": "Жою",
+	"contacts": "Байланыс",
+	"phone": "Телефон",
+	"date_created": "Жасау күні",
+	"confirmDelete": "Сіз жаттықтырушыны жойғыңыз келе ме? Бұл әрекетті болдырмау мүмкін емес.",
+	"cancel": "Болдырмау"
 }

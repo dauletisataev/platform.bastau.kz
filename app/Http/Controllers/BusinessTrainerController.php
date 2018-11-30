@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\BusinessTrainer;
+use App\User;
 use Illuminate\Http\Request;
 
 class BusinessTrainerController extends Controller
@@ -14,7 +15,7 @@ class BusinessTrainerController extends Controller
      */
     public function items()
     {
-        return BusinessTrainer::with('user')->get();
+        return BusinessTrainer::with('user')->paginate(20);
     }
 
     /**
@@ -31,8 +32,8 @@ class BusinessTrainerController extends Controller
         // return $token;
 
         $id = $request->get('id') ? $request->get('id') : 0;
-        $trainer = $id ? BusinessTrainer::find($id) : new BusinessTrainer();
-        $user = $id ? $trainer->user()->first() : new \App\User();
+        $user = $id ? User::find($id) : new User();
+        $trainer = $id ? $user->trainer()->first() : new BusinessTrainer;
 
         // Update doesn't work because of validation
         $this->validate($request, [
