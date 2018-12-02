@@ -3,8 +3,7 @@ import VueRouter from 'vue-router'
 const Dashboard = require('./views/dashboard/Index.vue');
 const Control = require('./views/common/Control.vue');
 const Users = require('./views/users/List.vue');
-const Participants = require('./views/participants/List.vue');
-const Participant = require('./views/participants/Item.vue');
+
 const User = require('./views/users/Item.vue');
 const PermissionDenied = require('./views/system/PermissionDenied.vue');
 const NotFound = require('./views/system/NotFound.vue');
@@ -13,14 +12,16 @@ const Login = require('./views/common/Login.vue');
 const SelectAccount = require('./views/common/SelectAccount.vue');
 const ResetPass = require('./views/common/ResetPass.vue');
 
+const Participants = require('./views/projects/business_advisor/business_school/participants/List.vue');
+const Participant = require('./views/projects/business_advisor/business_school/participants/Item.vue');
 
-
+const Group = require('./views/projects/business_advisor/business_school/groups/Item.vue');
+const Groups = require('./views/projects/business_advisor/business_school/groups/List.vue');
+const AddExistingParticipantToGroup = require("./views/projects/business_advisor/business_school/groups/add_participants/add_existing_participants.vue");
 export default new VueRouter({
     mode: 'history',
     base: __dirname,
-
     routes: [
-
         {
             name: 'login',
             path: '/login',
@@ -75,7 +76,7 @@ export default new VueRouter({
                 title:"Участники",
                 forAuth:true
             }
-            },
+        },
         {
             name: 'participant',
             path: '/participant/:id',
@@ -83,6 +84,36 @@ export default new VueRouter({
             component:Participant,
             meta:{
                 title:"Участник",
+                forAuth:true
+            }
+        },
+        {
+            name: 'groups',
+            path: '/groups',
+            props: true,
+            component:Groups,
+            meta:{
+                title:"Группы",
+                forAuth:true
+            }
+        },
+        {
+            name: 'group',
+            path: '/group/:id',
+            props: true,
+            component:Group,
+            meta:{
+                title:"Группа",
+                forAuth:true
+            }
+        },
+        {
+            name: 'add-existing-participant-to-group',
+            path: '/group/:id/add-existing-participant-to-group',
+            props: true,
+            component:AddExistingParticipantToGroup,
+            meta:{
+                title:"Добавление существующего пользователя в группу",
                 forAuth:true
             }
         },

@@ -8,7 +8,7 @@
     </b-modal>
 </template>
 <script>
-    import {  get,post } from '../../helpers/api';
+    import {  get,post } from '../../../../../../../helpers/api';
     export default {
         props : ['user_id','user_type','header'],
         data(){

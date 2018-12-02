@@ -11,7 +11,7 @@
     </div>
 </template>
 <script>
-    import { post } from '../../../../helpers/api';
+    import { post } from '../../../../../../../helpers/api';
 
     export default {
      props:['src','participant_id'],

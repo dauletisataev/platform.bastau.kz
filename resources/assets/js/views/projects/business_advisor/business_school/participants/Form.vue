@@ -118,7 +118,7 @@
 
 <script>
 
-    import { post } from '../../helpers/api'
+    import { post } from '../../../../../helpers/api'
 
     export default {
 
@@ -152,7 +152,7 @@
             this.step=1;
         },
         components: {
-            FormError : require('./../../components/FormError.vue')
+            FormError : require('../../../../../components/FormError.vue')
         },
         methods: {
             sendForm() {

@@ -5,7 +5,7 @@
     </b-modal>
 </template>
 <script>
-    import {  get } from '../../helpers/api';
+    import {  post } from '../../../../../../../helpers/api';
     export default {
         props : ['user_id','user_type','header'],
         data(){
@@ -23,7 +23,7 @@
             },
             activateUser(){
                 let _this=this;
-                get(_this, '/api/'+this.user_type+'-activate/'+this.user_id,{}, function (response) {
+                post(_this, '/api/'+this.user_type+'-archive/'+this.user_id,{}, function (response) {
                     _this.$parent.getItem();
                     _this.$parent.getHistory();
                     _this.$refs.modal.hide();

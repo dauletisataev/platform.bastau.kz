@@ -44,7 +44,7 @@
 
 <script>
 
-    import { get,post } from '../../helpers/api';
+    import { get,post } from '../../../../../helpers/api';
     export default {
 
         props: ['id','user_id'],
@@ -58,12 +58,12 @@
         },
 
         components: {
-            FormError : require('./../../components/FormError.vue'),
-            "inline-editing":require('../../components/bootstrap-editable/input.vue'),
-            "phone-editing":require('../../components/bootstrap-editable/inputPhone.vue'),
-            "select-editing":require('../../components/bootstrap-editable/Select.vue'),
-            "archive-modal":require('../../components/modals/ArchiveUser.vue'),
-            "activate-modal":require('../../components/modals/ActivateUser.vue'),
+            FormError : require('../../../../../components/FormError.vue'),
+            "inline-editing":require('../../../../../components/bootstrap-editable/Input.vue'),
+            "phone-editing":require('../../../../../components/bootstrap-editable/InputPhone.vue'),
+            "select-editing":require('../../../../../components/bootstrap-editable/Select.vue'),
+            "archive-modal":require('./item/modals/ArchiveUser.vue'),
+            "activate-modal":require('./item/modals/ActivateUser.vue'),
             "history":require('./item/history.vue'),
             "info":require('./item/info.vue')
         },

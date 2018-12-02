@@ -24,19 +24,38 @@ Route::group(['prefix' => 'public'], function() {
 });
 
 Route::group(['middleware' => ['auth:api']], function () {
-        Route::get('/user', 'UserController@authenticated');
-        Route::group(['middleware' => ['isEditor']], function () {
+            Route::get('/user', 'UserController@authenticated');
+            Route::group(['middleware' => ['isEditor']], function () {
             Route::get( '/participants', 'ParticipantController@items');
+
+            /*Yersultan
+                    Routes that used for participants
+              */
             Route::get('/participants/full-delete/{id}',"ParticipantController@fullDelete");
             Route::get( '/participant-archive/reasons','ParticipantController@getArchiveReasonsList');
             Route::post('/participant-save', 'ParticipantController@save');
             Route::post('/participant-field-save/{id}', 'ParticipantController@saveField');
             Route::post('/participant-document-save/{id}','ParticipantController@saveDocument');
-            Route::post('participant-document-remove/{id}','ParticipantController@removeDocument');
+            Route::post('.participant-document-remove/{id}','ParticipantController@removeDocument');
             Route::get( '/participant/{id}','ParticipantController@item');
-            Route::get('//participant/histories/{id}','ParticipantController@getHistories');
-            Route::post('/participant-archive/{id}','ParticipantController@delete');
-            Route::get( '/participant-activate/{id}','ParticipantController@activate');
+            Route::get( '/participant/histories/{id}','ParticipantController@getHistories');
+            Route::post('/participant-archive/{id}','ParticipantController@archive');
+            /* Yersultan
+                Routes that used for groups
+            */
+            Route::get( '/group/{id}','GroupController@item');
+            Route::get('/groups','GroupController@items');
+            Route::get('/groups/{id}/add-participants','GroupController@getNotMyParticipants');
+            Route::post('/group-save','GroupController@saveGroup');
+            Route::post('/group/{id}/add-participants',"GroupController@addParticipants");
+            Route::post('/group/{id}/remove-participant',"GroupController@removeParticipant");
+            Route::post('/group-archive/{id}','GroupController@archive');
+
+                /* Yersultan
+                    Routes that used for projects
+                */
+            Route::get('/projects/get-all','ProjectController@getAll');
+
 
             Route::get( '/users', 'UserController@items');
             Route::get( '/user/{id}', 'UserController@item');

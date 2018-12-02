@@ -12,7 +12,6 @@ class Participant extends Model
 {
     //
     protected $table = 'participants';
-
     public $fillable = [
         'first_name',
         'last_name',
@@ -105,45 +104,24 @@ class Participant extends Model
     {
         if(isset($filters['search_text'])){
             $search_text = $filters['search_text'];
-            if($filters['is_archived']==="false"){
-                $query->where("in_archive",0)->whereHas('user', function($q) use($search_text) {
-                    $q->where(function($query) use($search_text) {
-                        $query->where('first_name', 'like', '%'.$search_text.'%');
-                        $query->orWhere('last_name', 'like', '%'.$search_text.'%');
-                        $query->orWhere('patronymic', 'like', '%'.$search_text.'%');
-                        $query->orWhere('iin', 'like', '%'.$search_text.'%');
-                    });
+            $query->whereHas('user', function($q) use($search_text) {
+                $q->where(function($query) use($search_text) {
+                    $query->where('first_name', 'like', '%'.$search_text.'%');
+                    $query->orWhere('last_name', 'like', '%'.$search_text.'%');
+                    $query->orWhere('patronymic', 'like', '%'.$search_text.'%');
+                    $query->orWhere('iin', 'like', '%'.$search_text.'%');
                 });
-            }else{
-                $query->where("in_archive",1)->whereHas('user', function($q) use($search_text) {
-                    $q->where(function($query) use($search_text) {
-                        $query->where('first_name', 'like', '%'.$search_text.'%');
-                        $query->orWhere('last_name', 'like', '%'.$search_text.'%');
-                        $query->orWhere('patronymic', 'like', '%'.$search_text.'%');
-                        $query->orWhere('iin', 'like', '%'.$search_text.'%');
-                    });
-                });
-            }
+            });
 
         }
-        else{
+        if (isset($filters['is_archived'])){
             if($filters['is_archived']==="false"){
-                $query->where("in_archive",0)->whereHas('user');
+                $query->where("in_archive",0);
             }else{
-                $query->where("in_archive",1)->whereHas('user');
+                $query->where("in_archive",1);
             }
 
         }
         return $query;
-    }
-
-    public function createParticipantHistory($action,$actor,$old,$new){
-       ParticipantHistory::create([
-           "participant_id"=>$this->id,
-           "action"=>$action,
-            "actor_user"=>$actor,
-           "old_value"=>$old,
-           "new_value"=>$new
-       ]);
     }
 }

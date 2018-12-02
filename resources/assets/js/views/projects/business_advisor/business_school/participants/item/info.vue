@@ -29,12 +29,12 @@
                 </td>
             </tr>
             <tr>
-                <td><span class="h6">{{$tc('participants.list.identity_card')}}</span></td>
+                <td><span class="h6">{{$tc('participants.list.identity_card')}}NOT WORKING FOR NOW</span></td>
                 <td v-if="participant.identity_card" @click="$refs.modalIC.openModal('IC')">Загружено</td>
                 <td v-else><label @click='$refs.uploadIdentityCard.show()'>Не загружено</label></td>
             </tr>
             <tr>
-                <td><span class="h6">{{$tc('participants.list.address_sertificate')}}</span></td>
+                <td><span class="h6">{{$tc('participants.list.address_sertificate')}} NOT WORKING FOR NOW</span></td>
                 <td v-if="participant.address_certificate">Загружено</td>
                 <td v-else><label @click='$refs.uploadAddressCertificate.show()'>Не загружено</label></td>
             </tr>
@@ -111,7 +111,7 @@
 </template>
 <script>
 
-    import { del, get,post } from '../../../helpers/api';
+    import { del, get,post } from '../../../../../../helpers/api';
     export default {
 
         props: ['participant'],
@@ -124,9 +124,9 @@
         },
 
         components: {
-            "inline-editing":require('../../../components/bootstrap-editable/input.vue'),
-            "phone-editing":require('../../../components/bootstrap-editable/inputPhone.vue'),
-            "select-editing":require('../../../components/bootstrap-editable/Select.vue'),
+            "inline-editing":require('../../../../../../components/bootstrap-editable/Input.vue'),
+            "phone-editing":require('../../../../../../components/bootstrap-editable/InputPhone.vue'),
+            "select-editing":require('../../../../../../components/bootstrap-editable/Select.vue'),
             'document-modal':require('./modals/documentPreviewModal.vue'),
         },
 

@@ -114,7 +114,9 @@ import {
     sidebarRu,
     profileRu,
     ParticipantsKz,
-    ParticipantsRu
+    ParticipantsRu,
+    GroupsKz,
+    GroupsRu
 } from './locale.js';
 /*
 *
@@ -132,18 +134,20 @@ const messages = {
         dashboard: dashboardKz,
         sidebar: sidebarKz,
         profile: profileKz,
-        participants: ParticipantsKz
+        participants: ParticipantsKz,
+        groups:GroupsKz
     },
     ru: {
         dashboard: dashboardRu,
         sidebar: sidebarRu,
         profile: profileRu,
-        participants:ParticipantsRu
+        participants:ParticipantsRu,
+        groups:GroupsRu
     }
 };
 
 const i18n = new VueI18n({
-  locale: 'kz', // set locale
+  locale: 'ru', // set locale
   messages, // set locale messages
 });
 

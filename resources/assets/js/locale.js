@@ -34,7 +34,14 @@ export const sidebarRu = cmpntRu.sidebar;
 export const profileRu = cmpntRu.profile;
 // END Components
 //Participants
-import participantsJSONKz from './views/participants/lang/kz.json';
-import participantsJSONRu from './views/participants/lang/ru.json';
+import participantsJSONKz from './views/projects/business_advisor/business_school/participants/lang/kz.json';
+import participantsJSONRu from './views/projects/business_advisor/business_school/participants/lang/ru.json';
 export const ParticipantsKz = JSON.parse(JSON.stringify(participantsJSONKz));
 export const ParticipantsRu = JSON.parse(JSON.stringify(participantsJSONRu));
+
+
+//Groups
+import groupsJSONKz from './views/projects/business_advisor/business_school/groups/lang/kz.json';
+import groupsJSONRu from './views/projects/business_advisor/business_school/groups/lang/ru.json';
+export const GroupsKz = JSON.parse(JSON.stringify(groupsJSONKz));
+export const GroupsRu = JSON.parse(JSON.stringify(groupsJSONRu));

@@ -4,7 +4,7 @@
         <!-- Результаты -->
         <div class="col-10 offset-2  mt-5 pt-5">
             {{ $tc('participants.list.found_number') }} {{ total }}
-                <button type="button" class="btn btn-primary btn-sm ml-2" @click="$refs.newParticipant.showModal()">{{ $tc('participants.list.add') }}</button>
+            <button type="button" class="btn btn-primary btn-sm ml-2 float-right" @click="$refs.newParticipant.showModal()">{{ $tc('participants.list.add') }}</button>
             <table class="table">
                 <thead class="thead-default">
                 <tr>
@@ -51,7 +51,7 @@
 
 <script>
 
-    import { get } from '../../helpers/api'
+    import { get } from '../../../../../helpers/api'
 
     export default {
 

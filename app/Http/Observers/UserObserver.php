@@ -5,7 +5,6 @@ namespace App\Observers;
 use App\Statistic;
 use App\User;
 use Carbon\Carbon;
-
 class UserObserver
 {
     /**
@@ -24,6 +23,9 @@ class UserObserver
         }
     }
 
+    public function created(User $user) {
+
+    }
 
 
     public function deleting(User $user)

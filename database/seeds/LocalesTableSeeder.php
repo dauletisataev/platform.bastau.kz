@@ -11,7 +11,6 @@ class LocalesTableSeeder extends Seeder
      */
     public function run()
     {
-
         \App\Locale::create([
             'name' => "ru",
         ]);

@@ -1,0 +1,48 @@
+{
+  "filter":{
+    "name_or_phone":"пока что нифига не фильтруется потому что не знаю по чему фильтровать",
+    "current":"Текущие",
+    "without_participants":"Без участников",
+    "inactive":"Неактивные",
+    "partial":"Неполные",
+    "reset":"Сбросить"
+  },
+  "list":{
+    "found_number":"Количество найденных групп:",
+    "table":{
+      "project":"Проект",
+      "advisor":"Наствник",
+      "participants_number":"количество участников",
+      "next_lesson":"следующий урок"
+    },
+    "create_group":"Создать новую группу",
+    "get_info":"Подробный просмотр информации",
+    "options":{
+      "cancel_lesson":"отменить следующий урок",
+      "add_participant":"добавить нового участника"
+    }
+  },
+  "item":{
+    "group_info":"Данные",
+    "group_statistics":"Статистика",
+    "group_participants":"Участники",
+    "group_lessons":"Занятия",
+    "group_history":"История",
+    "info":{
+      "change_advisor":"Заменить преподавателя",
+      "edit":"Редактировать",
+      "archive":"Архивировать",
+      "delete_group":"Удалить",
+      "id":"Айди группы",
+      "created_date":"Дата создания",
+      "online":"Онлайн",
+      "advisor":"Преподаватель",
+      "project":"Проект"
+    },
+    "participants":{
+      "current":"текущие",
+      "archived":"архивированные",
+      "add_existing_participant":"Добавить участника"
+    }
+  }
+}

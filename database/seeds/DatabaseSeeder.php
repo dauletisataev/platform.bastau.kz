@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LocalesTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(ArchiveReasonsTableSeeder::class);
+        $this->call(CreateProjectsSeeder::class);
     }
 }

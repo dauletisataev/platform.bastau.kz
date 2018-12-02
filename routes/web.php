@@ -37,7 +37,16 @@ Route::get('/participants', function () {
 Route::get('/participant/{path}', function () {
     return view('app');
 });
+Route::get('/groups', function () {
+    return view('app');
+});
+Route::get('/group/{path}', function () {
+    return view('app');
+});
 Route::get('/', function () {
+    return view('app');
+});
+Route::get('/group/{path1}/add-existing-participant-to-group', function () {
     return view('app');
 });
 
