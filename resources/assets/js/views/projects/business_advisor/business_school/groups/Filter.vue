@@ -1,6 +1,6 @@
 <template>
     <!-- Поиск -->
-    <div class="col-10 offset-2 fixed-top pt-4">
+    <div class="col-10 offset-2 pt-4">
         <div class="row">
             <div class='input-group col-10'>
                 <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" :placeholder='$tc("groups.filter.name_or_phone")'>

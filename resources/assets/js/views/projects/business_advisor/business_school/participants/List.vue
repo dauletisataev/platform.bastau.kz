@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <participant-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered"></participant-filter>
         <!-- Результаты -->
-        <div class="col-10 offset-2  mt-5 pt-5">
+        <div class="col-10 offset-2  ">
             {{ $tc('participants.list.found_number') }} {{ total }}
             <button type="button" class="btn btn-primary btn-sm ml-2 float-right" @click="$refs.newParticipant.showModal()">{{ $tc('participants.list.add') }}</button>
             <table class="table">
