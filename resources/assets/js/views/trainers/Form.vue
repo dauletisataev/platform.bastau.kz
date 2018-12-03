@@ -12,12 +12,55 @@
                 </div>
             </div>
 
-            <div v-bind:class="{ 'has-error': errors && errors.name }" class="form-group row">
-                <label class="col-3 col-form-label">ФИО</label>
+            <div v-bind:class="{ 'has-error': errors && errors.last_name }" class="form-group row">
+                <label class="col-3 col-form-label">Фамилия</label>
                 <div class="col-9">
-                    <input v-model="form.name" class="form-control" type="text" placeholder="ФИО">
-                    <form-error v-if="errors && errors.name" :errors="errors">
-                        {{ errors.name[0] }}
+                    <input v-model="form.last_name" class="form-control" type="text" placeholder="Фамилия">
+                    <form-error v-if="errors && errors.last_name" :errors="errors">
+                        {{ errors.last_name[0] }}
+                    </form-error>
+                </div>
+            </div>
+
+            <div v-bind:class="{ 'has-error': errors && errors.first_name }" class="form-group row">
+                <label class="col-3 col-form-label">Имя</label>
+                <div class="col-9">
+                    <input v-model="form.first_name" class="form-control" type="text" placeholder="Имя">
+                    <form-error v-if="errors && errors.first_name" :errors="errors">
+                        {{ errors.first_name[0] }}
+                    </form-error>
+                </div>
+            </div>
+
+            <div v-bind:class="{ 'has-error': errors && errors.patronymic }" class="form-group row">
+                <label class="col-3 col-form-label">Отчество</label>
+                <div class="col-9">
+                    <input v-model="form.patronymic" class="form-control" type="text" placeholder="Отчество">
+                    <form-error v-if="errors && errors.patronymic" :errors="errors">
+                        {{ errors.patronymic[0] }}
+                    </form-error>
+                </div>
+            </div>
+
+            <div v-bind:class="{ 'has-error': errors && errors.gender }" class="form-group row">
+                <label class="col-3 col-form-label">Пол</label>
+                <div class="col-9">
+                    <select v-model="form.gender">
+                        <option class="form-control" value="M">Мужчина</option>
+                        <option class="form-control" value="F">Женщина</option>
+                    </select>
+                    <form-error v-if="errors && errors.gender" :errors="errors">
+                        {{ errors.gender[0] }}
+                    </form-error>
+                </div>
+            </div>
+
+            <div v-bind:class="{ 'has-error': errors && errors.iin }" class="form-group row">
+                <label class="col-3 col-form-label">ИИН</label>
+                <div class="col-9">
+                    <input v-model="form.iin" class="form-control" type="text" placeholder="ИИН">
+                    <form-error v-if="errors && errors.iin" :errors="errors">
+                        {{ errors.iin[0] }}
                     </form-error>
                 </div>
             </div>

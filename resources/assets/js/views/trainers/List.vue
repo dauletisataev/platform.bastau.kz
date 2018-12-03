@@ -15,7 +15,7 @@
                 </thead>
                 <tbody>
                 <tr v-for="trainer in trainers">
-                    <td>{{ trainer.user.name }}</td>
+                    <td>{{ trainer.user.first_name }} {{ trainer.user.last_name }}</td>
                     <td>
                         <div class="pull-right">
                             <b-tooltip title="Открыть профиль">

@@ -38,14 +38,24 @@ class BusinessTrainerController extends Controller
 
         // Update doesn't work because of validation
         $this->validate($request, [
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'patronymic' => 'required|string|max:255',
+            'gender' => 'string',
+            'iin' => 'required|string|max:12',
             'password' => 'nullable|string|min:6|confirmed',
             'email' => 'nullable|email',
             'phone' => 'required',
             'photo' => 'image64:jpeg,jpg,png',
         ]);
 
-        $user->name = $request->get('name');
+        // dd($request);
+        
+        $user->first_name = $request->get('first_name');
+        $user->last_name = $request->get('last_name');
+        $user->patronymic = $request->get('patronymic');
+        $user->gender = $request->get('gender');
+        $user->iin = $request->get('iin');
         $user->email = $request->get('email');
         $user->phone = $request->get('phone');
         $user->role_id = $request->get('role_id');

@@ -49,7 +49,7 @@
 
                     <li class="mb-2">
                         <router-link to="/trainers" exact
-                                     :class="{'text-muted': trainers.indexOf($route.name) < 0, 'text-white': trainers.indexOf($route.name) > -1 }">
+                                     :class="{'text-muted': trainers.indexOf($route.name) < 0,'text-white': trainers.indexOf($route.name) > -1 }">
                             <span class="fa fa-fw fa-user mr-2"></span>
                             {{ $t("sidebar.trainer") }}
                         </router-link>
@@ -108,7 +108,9 @@
                 groups:[
                     'groups'
                 ],
-                trainers: ["trainers"],
+                trainers: [
+                    'trainers'
+                ],
             }
         },
         components: {

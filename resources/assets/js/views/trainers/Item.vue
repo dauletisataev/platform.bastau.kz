@@ -20,7 +20,7 @@
 				:src="trainer.photo" 
 				class="rounded-circle float-left mr-2" 
 				style="margin-top: -5px; width: 40px;" />
-				<span class="h4">{{ trainer.name }}</span>
+				<span class="h4">{{ fullName }}</span>
 			</div> 
 
 			<div class="h5">{{ $t("trainer.contacts") }}</div>
@@ -75,7 +75,13 @@
 		components: {
 			TrainerForm, FormError,
 		},
-
+		computed: {
+			fullName() {
+				if (this.trainer.patronymic) {
+					return `${this.trainer.first_name} ${this.trainer.last_name} ${this.trainer.patronymic}`;
+				}
+			}
+		},
 		methods: {
 			archive() {
 				let self = this;

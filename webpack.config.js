@@ -471,9 +471,9 @@ if (! Mix.entry().hasScripts()) {
 
 plugins.push(
     new webpack.ProvidePlugin({
-        'window.Quill': 'quill/dist/quill.js',
         'Quill': 'quill/dist/quill.js',
-    })
+        'window.Quill': 'quill/dist/quill.js',
+    }),
 );
 
 module.exports.plugins = plugins;
