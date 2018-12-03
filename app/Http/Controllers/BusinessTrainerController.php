@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\BusinessTrainer;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class BusinessTrainerController extends Controller
 {
@@ -15,7 +16,7 @@ class BusinessTrainerController extends Controller
      */
     public function items()
     {
-        return BusinessTrainer::with('user')->paginate(20);
+        return BusinessTrainer::with('user')->filter(Input::all())->paginate(20);
     }
 
     /**

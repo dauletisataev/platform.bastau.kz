@@ -111,7 +111,7 @@ export default new VueRouter({
             props: true,
             component: Trainer,
             meta: {
-                title: 'BusinessTrianerItem',
+                title: 'Бизнес-тренер',
                 forAuth: true
             }
         },

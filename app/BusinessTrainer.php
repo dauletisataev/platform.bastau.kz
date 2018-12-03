@@ -3,73 +3,60 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class BusinessTrainer extends Model
-{	
-    use SoftDeletes;
-
-	protected $table = 'trainers';
+{
+    protected $table = 'trainers';
     protected $dates = ['deleted_at'];
+
     /**
-    * Foreign Key Relationship with User model
-    */
+     * Foreign Key Relationship with User model
+     */
     public function user()
     {
-    	return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     /**
-    * Foreign Key Relationship with History model
-    */
-    public function history()
+     * Foreign Key Relationship with BTrainerHistory model
+     */
+    public function histories()
     {
-        return $this->belongsTo('App\BTrainerHistory');
+        return $this->hasMany(BTrainerHistory::class);
     }
 
     /**
-    * Foreign Key Relationship with Log model
-    */
-    public function log() {
-        return $this->belongsTo('App\BTrainerLog');
-    }
-
-    /**
-    * Move to History
-    */
+     * Move to History
+     */
     public function archive()
     {
-        $this->delete();
-        return response()->json([
-            "status" => "204",
-            "message" => "Deleted successfully"
-        ]);
-    }
 
-    public function get_archive_date()
-    {
-        return $this->deleted_at;
     }
 
     /**
-    * Full delete from BusinessTrainer and History tables.
-    */
-
-    public function full_delete()
+     * Completely delete from trainers and history
+     */
+    public function delete()
     {
-        $this->forceDelete();
-        // $this->history()->forceDelete();
+
     }
 
+    /**
+     * Filter from frontend
+     */
     public function scopeFilter($query, $filters)
     {
 
-        // raw statement includes only user's records 
-        // select * from users inner join trainers on users.id = trainers.user_id where users.name = $search_text or users.phone = $search_text or users.email = $search_text;
         if (isset($filters['search_text'])) {
             $search_text = $filters['search_text'];
+            $query->whereHas('user', function ($q) use ($search_text) {
+                $q->where(function ($query) use ($search_text) {
+                    $query->where('name', 'like', '%' . $search_text . '%');
+                    $query->orWhere('email', 'like', '%' . $search_text . '%');
+                    $query->orWhere('phone', 'like', '%' . $search_text . '%');
+                });
+            });
         }
-        
     }
 
 

@@ -2,12 +2,16 @@
     <!-- Поиск -->
     <div class="col-2 offset-2 fixed-top h-100 pt-4">
         <div class="form-group">
-            <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" placeholder="Имя, телефон или эл.почта">
+            <input 
+            v-model="filterData.search_text" 
+            type="text" 
+            class="form-control form-control-sm" 
+            :placeholder="$t('trainer.filter')">
         </div>
 
         <div class="form_group">
-            <button @click="clearListLoad()" :disabled="load" class="btn btn-primary btn-block" >Применить</button>
-            <button @click="resetFilter()" :disabled="load" class="btn btn-secondary btn-block btn-sm">Сбросить фильтр</button>
+            <button @click="clearListLoad()" :disabled="load" class="btn btn-primary btn-block" >{{ $t("trainer.apply") }}</button>
+            <button @click="resetFilter()" :disabled="load" class="btn btn-secondary btn-block btn-sm">{{ $t("trainer.remove") }}</button>
         </div>
     </div>
 </template>

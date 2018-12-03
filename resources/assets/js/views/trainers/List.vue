@@ -3,21 +3,19 @@
         <trainer-filter ref="filter" v-if="trainers" :data='trainers' @filtered="filtered"></trainer-filter>
         <div class="col-6 offset-4">
 
-            Найдено <b>{{ total }}</b> тренеров
-            <button class="btn btn-primary btn-sm ml-2" @click="$refs.newTrainer.showModal()">добавить</button>
+            {{ $t("trainer.found") }} <b>{{ total }}</b> {{ $t("trainer.trainers") }}
+            <button class="btn btn-primary btn-sm ml-2" @click="$refs.newTrainer.showModal()">{{ $t("trainer.add") }} </button>
 
             <table class="table mt-4">
                 <thead class="thead-default">
                 <tr>
-                    <th>Имя</th>
-                    <th>Роль</th>
+                    <th>{{ $t("trainer.name") }}</th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="trainer in trainers">
                     <td>{{ trainer.user.name }}</td>
-                    <td>{{ trainer.user.role.description }}</td>
                     <td>
                         <div class="pull-right">
                             <b-tooltip title="Открыть профиль">
