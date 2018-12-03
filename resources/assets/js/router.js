@@ -3,8 +3,9 @@ import VueRouter from 'vue-router';
 const Dashboard = require('./views/dashboard/Index.vue');
 const Control = require('./views/common/Control.vue');
 const Users = require('./views/users/List.vue');
-
+const Trainers = require('./views/trainers/List.vue');
 const User = require('./views/users/Item.vue');
+const Trainer = require('./views/trainers/Item.vue');
 const PermissionDenied = require('./views/system/PermissionDenied.vue');
 const NotFound = require('./views/system/NotFound.vue');
 
@@ -24,6 +25,7 @@ const Participant = require('./views/projects/business_advisor/business_school/p
 const Group = require('./views/projects/business_advisor/business_school/groups/Item.vue');
 const Groups = require('./views/projects/business_advisor/business_school/groups/List.vue');
 const AddExistingParticipantToGroup = require("./views/projects/business_advisor/business_school/groups/add_participants/add_existing_participants.vue");
+
 export default new VueRouter({
     mode: 'history',
     base: __dirname,
@@ -92,6 +94,27 @@ export default new VueRouter({
                 forAuth:true
             }
         },
+        {
+            path: "/trainers",
+            name: "trainer-list",
+            component: Trainers,
+            meta: {
+                title: "Бизнес-тренеры",
+                forAuth: true
+            }
+        },
+
+        {
+            path: "/trainers/trainer/:id",
+            name: 'trainer',
+            props: true,
+            component: Trainer,
+            meta: {
+                title: 'Бизнес-тренер',
+                forAuth: true
+            }
+        },
+
     ]
 
 });

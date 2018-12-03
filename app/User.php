@@ -192,4 +192,9 @@ class User extends Authenticatable
 
     }
 
+    public function trainer()
+    {
+        return $this->hasOne('App\BusinessTrainer');
+    }
+
 }

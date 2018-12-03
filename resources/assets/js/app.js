@@ -118,6 +118,8 @@ import {
     profileKz,
     sidebarRu,
     profileRu,
+    btKz,
+    btRu,
     ParticipantsKz,
     ParticipantsRu,
     GroupsKz,
@@ -140,14 +142,16 @@ const messages = {
         sidebar: sidebarKz,
         profile: profileKz,
         participants: ParticipantsKz,
-        groups:GroupsKz
+        groups:GroupsKz,
+        trainer: btKz,
     },
     ru: {
         dashboard: dashboardRu,
         sidebar: sidebarRu,
         profile: profileRu,
         participants:ParticipantsRu,
-        groups:GroupsRu
+        groups:GroupsRu,
+        trainer: btRu
     }
 };
 

@@ -15,6 +15,8 @@ import dKz from './views/dashboard/lang/kz.json';
 import dRu from './views/dashboard/lang/ru.json';
 import componentsKz from './components/lang/kz.json';
 import componentsRu from './components/lang/ru.json';
+import btrainerRu from './views/trainers/lang/ru.json';
+import btrainerKz from './views/trainers/lang/kz.json';
 
 
 
@@ -45,3 +47,6 @@ import groupsJSONKz from './views/projects/business_advisor/business_school/grou
 import groupsJSONRu from './views/projects/business_advisor/business_school/groups/lang/ru.json';
 export const GroupsKz = JSON.parse(JSON.stringify(groupsJSONKz));
 export const GroupsRu = JSON.parse(JSON.stringify(groupsJSONRu));
+
+export const btKz = JSON.parse(JSON.stringify(btrainerKz));
+export const btRu = JSON.parse(JSON.stringify(btrainerRu));

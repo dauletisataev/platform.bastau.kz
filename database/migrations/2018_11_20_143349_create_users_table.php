@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->enum('gender',['M','F']);
             $table->string('iin')->trim()->unique();
             $table->string('phone')->unique();
+            $table->string('phone');
             $table->string('email')->nullable();
             $table->integer('role_id')->unsigned();
             $table->string('photo')->nullable();

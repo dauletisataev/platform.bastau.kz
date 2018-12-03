@@ -15,11 +15,6 @@ export default {
     return {};
   },
   methods: {},
-  created() {},
-  mounted : {
-    // on mount change i18n 
-    // this.$i18n.
-  }
 
 };
 </script>
