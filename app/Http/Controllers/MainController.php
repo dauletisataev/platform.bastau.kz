@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Role;
+use App\ArchiveReasons;
 use Illuminate\Support\Facades\Request;
 
 class MainController extends Controller
@@ -19,6 +20,7 @@ class MainController extends Controller
     {
         $data = [];
         $data['roles'] = Role::all();
+        $data['archived_reasons'] = ArchiveReasons::all();
         return $data;
     }
 }

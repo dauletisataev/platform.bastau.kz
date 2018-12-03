@@ -1,10 +1,10 @@
-
 require('./bootstrap');
 
 
 import VueRouter from 'vue-router';
 import router from './router';
 import Vue from 'vue';
+import VueI18n from 'vue-i18n';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -23,6 +23,7 @@ import draggable from 'vuedraggable';
 import wysiwyg from "vue-wysiwyg";
 import LMS from './components/LMS.vue';
 import Quill from 'quill';
+
 
 const dateLocales = Vue.prototype.$dateLocales = {
     "format": "DD.MM.YY",
@@ -72,11 +73,12 @@ Vue.use(User);
 Vue.use(VTooltip);
 Vue.directive('mask', VueMaskDirective);
 Vue.use(wysiwyg, {});
-
+Vue.use(VueI18n);
 // global progress bar
 const bar = Vue.prototype.$bar = new Vue(ProgressBar).$mount();
 // global data
 const common = Vue.prototype.$common = new Vue(Common).$mount();
+
 document.body.appendChild(bar.$el);
 document.body.appendChild(common.$el);
 
@@ -87,10 +89,10 @@ document.body.appendChild(lms.$el);
 
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title + ' - Rocket platform';
-    if (to.meta.forAuth){
+    if (to.meta.forAuth) {
         if (Vue.auth.isAuthenticated()) {
             next();
-        } else{
+        } else {
             next({
                 path: '/login'
             });
@@ -107,23 +109,70 @@ router.beforeEach((to, from, next) => {
     next();
 });
 
+import { get } from './helpers/api';
+// import translated and parsed from json objects from locale.js
+import {
+    dashboardKz,
+    dashboardRu,
+    sidebarKz,
+    profileKz,
+    sidebarRu,
+    profileRu,
+    ParticipantsKz,
+    ParticipantsRu,
+    GroupsKz,
+    GroupsRu
+} from './locale.js';
+/*
+*
+* assign imported object to a key that matched to platform module, e.g.
+* kz: {
+*   group: groupKz   
+* },
+* ru: {
+*   group: groupRu  
+* }
+* 
+*/
+const messages = {
+    kz: {
+        dashboard: dashboardKz,
+        sidebar: sidebarKz,
+        profile: profileKz,
+        participants: ParticipantsKz,
+        groups:GroupsKz
+    },
+    ru: {
+        dashboard: dashboardRu,
+        sidebar: sidebarRu,
+        profile: profileRu,
+        participants:ParticipantsRu,
+        groups:GroupsRu
+    }
+};
 
-import { get } from './helpers/api'
+const i18n = new VueI18n({
+  locale: 'ru', // set locale
+  messages, // set locale messages
+});
+
 
 const app = new Vue({
+    i18n,
     router,
     props: ['clientSecret'],
     data() {
         return {
             accounts: '',
             user: '',
-            userReady: false
+            userReady: false,
         };
     },
 
-    components : {
+    components: {
         'sidebar': require('./components/Sidebar.vue')
     },
+
     methods: {
 
         userInit(afterLogin = false) {
@@ -131,8 +180,11 @@ const app = new Vue({
             if (_this.$auth.isAuthenticated()){
                 get(_this, '/api/user', {}, function (response) {
                     _this.accounts = response.data;
-                    if(response.data.length > 1 && _this.$auth.getAccountId() == null){
-                        _this.$router.push({ name: 'select-account' });
+                    if (response.data.length > 1 && _this.$auth.getAccountId() == null) {
+
+                        _this.$router.push({
+                            name: 'select-account'
+                        });
                         return false;
                     } else {
                         let accountId = _this.$auth.getAccountId() ? _this.$auth.getAccountId() : 0;
@@ -150,7 +202,7 @@ const app = new Vue({
             this.user = this.$user;
             this.userReady = this.ready = true;
 
-            if(afterLogin){
+            if (afterLogin) {
                 this.afterLogin(this.user);
             }
 
@@ -166,5 +218,3 @@ const app = new Vue({
     }
 
 }).$mount('#app');
-
-

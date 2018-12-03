@@ -31,18 +31,29 @@
                 <hr>
 
                 <ul>
-                    <li class="mb-2"><router-link to="/dashboard" :class="{'text-muted': dashboard.indexOf($route.name) < 0,'text-white': dashboard.indexOf($route.name) > -1 }"><span class="fa fa-fw fa-signal mr-2"></span> Показатели</router-link></li>
-                    <li class="mb-2"><router-link to="/control" :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-wrench mr-2"></span> Управление</router-link></li>
+                    <li class="mb-2"><router-link to="/dashboard" :class="{'text-muted': dashboard.indexOf($route.name) < 0,'text-white': dashboard.indexOf($route.name) > -1 }"><span class="fa fa-fw fa-signal mr-2"></span> {{ $t("sidebar.indicator") }} </router-link></li>
+                    <li class="mb-2"><router-link to="/control" :class="{'text-muted': control.indexOf($route.name) < 0,'text-white': control.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-wrench mr-2"></span> {{ $t("sidebar.control") }}</router-link></li>
                 </ul>
                 <hr>
                 <ul>
-                    <li class="mb-2"><a @click="$refs.profile.showModal()" style="cursor: pointer;" class="text-muted" ><span class="fa fa-fw fa-cog  mr-2"></span> Мои настройки</a></li>
-                    <li class="mb-2"><div class="sidebar-logout"><button class="text-muted pl-0"  @click="logout"><span class="fa fa-fw fa-sign-out  mr-2"></span> Выход</button></div></li>
+                    <li class="mb-2"><router-link to="/participants" :class="{'text-muted': participants.indexOf($route.name) < 0,'text-white': participants.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-users mr-2"></span> {{ $t("sidebar.participants") }}</router-link></li>
+                    <li class="mb-2"><router-link to="/groups" :class="{'text-muted': groups.indexOf($route.name) < 0,'text-white': groups.indexOf($route.name) > -1 }" ><span class="fa fa-fw fa-users mr-2"></span> {{ $t("sidebar.groups") }}</router-link></li>
+                </ul>
+                <hr>
+                <ul>
+                    <li class="mb-2"><a @click="$refs.profile.showModal()" style="cursor: pointer;" class="text-muted" ><span class="fa fa-fw fa-cog  mr-2"></span> {{ $t("sidebar.preferences") }}</a></li>
+                    <li class="mb-2"><div class="sidebar-logout"><button class="text-muted pl-0"  @click="logout"><span class="fa fa-fw fa-sign-out  mr-2"></span> {{ $t("sidebar.exit") }}</button></div></li>
                 </ul>
 
+                <div class="form-group">
+                  <select class="form-control" id="lang" name="lang" v-model="$i18n.locale">
+                    <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
+                  </select>
+                </div>
             </div>
         </div>
         <profile ref="profile" :_form="$root.user.data"></profile>
+
     </div>
 
 </template>
@@ -61,6 +72,13 @@
                     'control',
                     'users',
                     'user',
+                ],
+                langs: ['ru', 'kz'],
+                participants:[
+                    'participants'
+                ],
+                groups:[
+                    'groups'
                 ]
             }
         },
@@ -94,8 +112,6 @@
 
             }
         }
-
-
     }
 
 </script>

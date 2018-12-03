@@ -21,7 +21,9 @@
                     <td>
                         <div class="pull-right">
                             <b-tooltip title="Открыть профиль">
-                                <router-link :to="{name:'user', params:{id: user.id}}" class="btn btn-outline-primary btn-sm"><span class="fa fa-user"></span></router-link>
+                                <router-link :to="{name:'user', params:{id: user.id}}"
+                                             class="btn btn-outline-primary btn-sm">
+                                    <span class="fa fa-user"></span></router-link>
                             </b-tooltip>
                         </div>
                     </td>

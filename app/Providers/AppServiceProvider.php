@@ -3,21 +3,11 @@
 namespace App\Providers;
 
 use App\Group;
-use App\Lesson;
 use App\Observers\GroupObserver;
-use App\Observers\LessonObserver;
-use App\Observers\StudentBalanceObserver;
-use App\Observers\StudentObserver;
-use App\Observers\StudentRateObserver;
-use App\Observers\TeacherObserver;
-use App\Observers\TransactionObserver;
+use App\Observers\ParticipantObserver;
 use App\Observers\UserObserver;
-use App\Student;
-use App\StudentBalanceHistory;
-use App\StudentRate;
-use App\Teacher;
-use App\Transaction;
 use App\User;
+use App\Participant;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use \Validator;
@@ -33,7 +23,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        User::observe(UserObserver::class);
+        User::observe(new UserObserver());
+        Group::observe(new GroupObserver());
+        Participant::observe(ParticipantObserver::class);
 
         Validator::extend('base64image', function ($attribute, $value, $parameters, $validator) {
             $explode = explode(',', $value);

@@ -1,0 +1,18 @@
+{
+	"profile": {
+		"photo": "Фото",
+		"fullName": "Атауы",
+		"phone": "Телефон",
+		"password": "Құпия сөз",
+		"confirm": "Құпия сөзді растау",
+		"save": "Сақтау"
+	},
+	"sidebar": {
+		"indicator": "Көрсеткіштер",
+		"control": "Басқару",
+		"preferences": "Менің баптауларым",
+		"groups":"Группалар",
+		"participants":"Қатысушылар",
+		"exit": "Шығу"
+	}
+}

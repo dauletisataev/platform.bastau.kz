@@ -9,10 +9,13 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 
 
+/*
+ * TODO Add dynamic lang wildcard
+ */
 Route::get('/login', function () {
     return view('app');
 });
@@ -21,15 +24,29 @@ Route::get('/select-account', function () {
     return view('app');
 });
 
-Route::get('/reset-pass',function() {
+Route::get('/reset-pass', function () {
     return view('app');
 });
 
 Route::get('/test', function () {
     return view('app');
 });
-
+Route::get('/participants', function () {
+    return view('app');
+});
+Route::get('/participant/{path}', function () {
+    return view('app');
+});
+Route::get('/groups', function () {
+    return view('app');
+});
+Route::get('/group/{path}', function () {
+    return view('app');
+});
 Route::get('/', function () {
+    return view('app');
+});
+Route::get('/group/{path1}/add-existing-participant-to-group', function () {
     return view('app');
 });
 
@@ -55,7 +72,6 @@ Route::get('/control', function () {
 Route::get('/control/{path}', function () {
     return view('app');
 });
-
 Route::get('/control/{path}/{path2}', function () {
     return view('app');
 });

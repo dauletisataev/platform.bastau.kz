@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Role;
 use App\User;
 use App\php;
 use App\UserPasswordReset;
@@ -134,4 +135,6 @@ class UserController extends Controller
         UserPasswordReset::where('expires_at','<',Carbon::now()->toDateTimeString())
             ->delete();
     }
+
+
 }

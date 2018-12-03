@@ -1,0 +1,67 @@
+{
+	"modals":{
+		"activate_user_warning":"Сіздің қатысушыны архивтан щығаруыныз келіп тұр ма?"
+	},
+	"filter":{
+		"Name_or_ID":"ТАӘ немесе ЖСН",
+		"apply":"Қабылдау",
+		"reset":"Сүзгіні қалпына келтіру",
+		"active":"Қазіргі",
+		"archived":"Архивталғандар"
+	},
+	"list":{
+		"found_number":"Табылған қатысушылардың саны:",
+		"add":"Жаңа қатысушыны еңгізу",
+		"first_name":"Аты",
+		"last_name":"Тегі",
+		"patronymic":"Әкесінің аты",
+		"gender":"Жынысы",
+		"phone":"Телефон",
+		"iin":"ЖСН",
+		"identity_card":"Жеке күәлік",
+		"address_sertificate":"Мекен-жайы анықтамасы",
+		"edit_participant":"Қатысушыны түзеу",
+		"registration_date":"Тіркеу күні",
+		"custom_data":{
+			"gender":{
+				"male":"Еркек",
+				"female":"Әйел"
+			},
+			"document":{
+				"loaded":"Жүктелген",
+				"not_loaded":"Жүктелмеген"
+			}
+		}
+	},
+	"item":{
+		"archive":"Архивтау",
+		"restore":"Архивтан щығару",
+		"delete":"Жою",
+		"general_info":"Негізгі ақпарат",
+		"history":"Тарих",
+		"delete_warning":"Қатысушыны жою",
+		"restore_warning":"Архивтан щығару",
+		"general_info_tab":{
+			"personal_data":"Жеке информациясы",
+			"role":"Рөлі",
+			"disability":"Мүгедектік",
+			"information_for_administrator":"Администраторға арналған ақпарат",
+			"email":"Электрондық почта",
+			"contact_information":"Байланыс ақпараты",
+			"archived":"архивталынған",
+			"active":"белсенді",
+			"archived_time":"Архивталған уақыт",
+			"archived_reason":"Архивталғанның негізі",
+			"select_identity_card":"Жеке күәлікті таңданыз",
+			"select_address_sertificate":"Мән-жайы анытқтамасын таңданыз",
+			"upload_identity_card":"Жеке күәлікті жүктеу",
+			"upload_address_sertificate":"Мән-жайы анытқтамасын жүктеу",
+			"select":"Таңдау",
+			"upload":"Жүктеу",
+			"participant":"Қатысушы"
+		},
+		"history_tab":{
+			"participant_history":"Қатысушының тарихы"
+		}
+	}
+}
