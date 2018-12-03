@@ -83,8 +83,8 @@ Route::post('lesson-template-item-save/{id}','LessonTemplateController@saveItem'
 Route::delete('lesson-template-item-delete/{id}','LessonTemplateController@deleteItem');
 Route::post('/lesson-template-item-move','LessonTemplateController@move');
 Route::get('/lesson-template-item-content/{id}', 'LessonTemplateController@content');
-
 Route::get('/lesson/{id}','LessonController@item');
 
 Route::post('/upload-file','MaterialController@uploadFile');
 Route::post('/lesson-template-save-test', 'LessonTemplateController@saveTestQuestion');
+Route::post('lesson-template-add-test/{id}','LessonTemplateController@addTestQuestion');

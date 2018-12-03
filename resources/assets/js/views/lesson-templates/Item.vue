@@ -40,6 +40,7 @@
                     <button @click="activeTab = 'test-edit'" v-if="activeTab == 'tests'"  type="button" class="btn btn-primary" :class="{'active': activeTab == 'test-edit'}">
                         Редактировать
                     </button>
+                    <a v-if="activeTab == 'tests'" href="javascript:void(0)" @click="addTestTitle()" class="btn btn-primary"> Добавить Вопрос </a>
                 </div>
             </div>
             <lessons v-if="activeTab == 'lessons'" :template="template" @formSending="getItem()"></lessons>
@@ -121,6 +122,7 @@
                 </div>
             </div>
             <form-item ref="addItem" :template_id="template.id" v-on:formSending="getItem"></form-item>
+            <form-test ref="addTest" :template_id="template.id" v-on:formSending="getItem"></form-test>
         </div>
     </div>
 </template>
@@ -160,6 +162,7 @@
         },
         components: {
             'form-item': require('./FormItem.vue'),
+            'form-test': require('./FormTest.vue'),
             "modal-form": require('./Form.vue'),
             'lessons': require('./Item/Lessons.vue'),
             'tests': require('./Item/Tests.vue'),
@@ -208,6 +211,9 @@
             },
             addLesson() {
                 this.$refs.addItem.showModal();
+            },
+            addTestTitle() {
+                this.$refs.addTest.showModal();
             },
             editTemplate(template) {
                 this.form = this.template;

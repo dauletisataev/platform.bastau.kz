@@ -74,6 +74,15 @@ class LessonTemplateController extends Controller
         }
     }
 
+    public function addTestQuestion($id, request $request) {
+        $title = $request->getContent();
+        $lesson_question = LessonQuestion::create();
+        $lesson_question->lesson_template_id = $id;
+        $lesson_question->value = $title;
+        $lesson_question->save();
+        return $lesson_question->id;
+    }
+
     public function saveTestQuestion(request $request) {
         $test_questions = array();
         $test_questions = $request->all();
