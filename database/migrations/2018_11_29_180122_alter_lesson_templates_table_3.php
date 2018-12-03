@@ -14,7 +14,7 @@ class AlterLessonTemplatesTable3 extends Migration
     public function up()
     {
         Schema::table('lesson_templates', function (Blueprint $table) {
-            $table->integer('test_duration');
+            $table->integer('test_duration')->nullable();
         });
     }
 

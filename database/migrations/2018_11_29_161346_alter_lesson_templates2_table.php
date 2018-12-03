@@ -14,7 +14,7 @@ class AlterLessonTemplates2Table extends Migration
     public function up()
     {
         Schema::table('lesson_templates', function (Blueprint $table) {
-            $table->boolean('has_test');
+            $table->boolean('has_test')->nullable();
         });
     }
 

@@ -142,7 +142,6 @@
             showTemplate(id) {
                 this.$router.push({ name: 'lesson_template', params:{id: id} });
             },
-
             filtered() {
                 this.filterData = this.$refs.filter.filterData;
                 this.$nextTick(function () {
