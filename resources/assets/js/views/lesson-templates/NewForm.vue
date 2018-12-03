@@ -16,6 +16,13 @@
                         </error-alert>
                     </div>
                     <div class="form-group">
+                        <label style="font-weight:500" class="d-block">Язык</label>
+                        <select class="form-control" v-model="form.language">
+                            <option value="">выберите</option>
+                            <option v-for="language in languages" :value="language.id">{{ language.language }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label style="font-weight:500" class="d-block">Обложка</label>
                         <div class="fullWidthButton">
                             <lesson-template-image @uploaded="form.image = $refs.image.form.image" ref="image" :form="form" :accept="'image/jpeg,image/png,image/gif'"></lesson-template-image>
@@ -101,9 +108,14 @@
                     type: '',
                     cost: '',
                     program_id: '',
+                    language: '',
                     level_id: '',
                     role_id: ''
                 },
+                languages: [
+                    {id:1, language: 'Казахский'},
+                    {id:2, language: 'Русский'}
+                ],
                 errors: '',
                 formSending: false
             }

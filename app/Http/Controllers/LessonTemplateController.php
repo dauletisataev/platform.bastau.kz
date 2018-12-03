@@ -55,6 +55,7 @@ class LessonTemplateController extends Controller
         $template->image = $request->get('image');
         $template->has_test = $request->get('has_test');
         $template->test_duration = $request->get('test_duration');
+        $template->language = $request->get('language');
         if ($request->get('language')==1) {
             $temp = LessonTemplate::find($request->get('connected_template_id'));
             if ( $temp != null) {
@@ -72,6 +73,11 @@ class LessonTemplateController extends Controller
         if(!$request->get('id')) {
             return $template->id;
         }
+    }
+
+    public function  deleteTestQuestion($id) {
+        $lessonquestion = LessonQuestion::find($id);
+        $lessonquestion::destroy($id);
     }
 
     public function addTestQuestion($id, request $request) {
@@ -119,11 +125,13 @@ class LessonTemplateController extends Controller
 
     public function delete($id)
     {
-        LessonTemplate::destroy($id);
+        $lesson_template = LessonTemplate::find($id);
+        $lesson_template::destroy($id);
     }
 
     public function deleteItem($id) {
-        LessonTemplateItem::destroy($id);
+        $lesson_template_item = LessonTemplateItem::find($id);
+        $lesson_template_item::destroy($id);
     }
 
     public function saveContent(request $request)

@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
 Route::get('/lesson-templates/getConnectedCourses/{id}','LessonTemplateController@getItemConnections');
 Route::get('/lesson-templates', 'LessonTemplateController@items');
-Route::delete('/lesson-template-delete/{id}', 'LessonTemplateController@delete');
+Route::get('/lesson-template-delete/{id}', 'LessonTemplateController@delete');
 Route::post('/lesson-template-save', 'LessonTemplateController@save');
 Route::get('/lesson-template/select-options', 'LessonTemplateController@getSelectOptions');
 
@@ -88,3 +88,4 @@ Route::get('/lesson/{id}','LessonController@item');
 Route::post('/upload-file','MaterialController@uploadFile');
 Route::post('/lesson-template-save-test', 'LessonTemplateController@saveTestQuestion');
 Route::post('lesson-template-add-test/{id}','LessonTemplateController@addTestQuestion');
+Route::get('lesson-template-delete-test/{id}','LessonTemplateController@deleteTestQuestion');

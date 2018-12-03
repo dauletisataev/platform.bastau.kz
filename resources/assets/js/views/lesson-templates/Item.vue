@@ -31,6 +31,7 @@
                 </div>
                 <div class="pull-right">
                     <a v-if="activeTab == 'lessons'" href="javascript:void(0)" @click="addLesson()" class="btn btn-primary">добавить занятие</a>
+                    <a v-if="activeTab == 'lessons'" href="javascript:void(0)" @click="deleteLesson()" class="btn btn-primary">удалить курс</a>
                     <button v-if="activeTab == 'edit'" class="btn btn-primary" @click="sendForm()" :disabled="loading">
                         <i v-show="loading" class="fa fa-spinner fa-spin"></i> сохранить
                     </button>
@@ -121,6 +122,13 @@
                     </div>
                 </div>
             </div>
+            <b-modal ref="modalDelete" title="Подтвердите удаление">
+                Вы действительно хотите удалить занятие? Данное действие нельзя отменить.
+                <div slot="modal-footer">
+                    <button type="button" class="btn btn-secondary" @click="$refs.modalDelete.hide()">Отменить</button>
+                    <button type="button" class="btn btn-danger" @click="remove()">Удалить</button>
+                </div>
+            </b-modal>
             <form-item ref="addItem" :template_id="template.id" v-on:formSending="getItem"></form-item>
             <form-test ref="addTest" :template_id="template.id" v-on:formSending="getItem"></form-test>
         </div>
@@ -179,6 +187,16 @@
             },
         },
         methods: {
+            deleteLesson() {
+                this.$refs.modalDelete.show();
+            },
+            remove() {
+                let _this = this;
+                get(_this, '/api/lesson-template-delete/'+this.template.id, {}, function (response) {
+                    _this.$emit('formSending');
+                    _this.$refs.modalDelete.hide();
+                });
+            },
             getItemTranslations(value) {
                 console.log(value);
                 this.value = value;
