@@ -3,7 +3,7 @@
 -->
 <template>
     <div >
-        <div class="col-10 offset-2 fixed-top h-100 pt-4 nav-justified">
+        <div class="col-10 offset-2 h-100 pt-4 nav-justified">
             <b-tabs>
                 <b-tab :title="$tc('groups.item.group_info')" active>
                     <group-info v-on:updated="updateData" :group="group"/>

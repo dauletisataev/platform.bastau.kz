@@ -57,6 +57,20 @@ class GroupController extends Controller
             if($contains===0){
                 $group->participants()->save($oldparticipant);
                 $group->save();
+								ParticipantHistory::create([
+                    'action' => 'added_to_group',
+                    'new_value' => $group->id ,
+                    'filed_name' =>"group_id",
+                    'participant_id' => $oldparticipant->id,
+                    "actor_user" =>request()->user()->id
+                ]);
+                GroupHistory::create([
+                    'action' => 'new_participant',
+                    'new_value' => $oldparticipant->id ,
+                    'filed_name' =>"participant_id",
+                    'group_id' => $group->id,
+                    "actor_user" =>request()->user()->id
+                ]);
             }
         }
     }
@@ -64,6 +78,21 @@ class GroupController extends Controller
         $group = Group::with("participants")->find($id);
         $this->validate($request, [
             'participant_id' => 'required|integer',
+        ]);
+				$oldparticipant = $group->participants()->where("participant_id",$request->get('participant_id'))->first();
+        ParticipantHistory::create([
+            'action' => 'removed_from_group',
+            'new_value' => $group->id ,
+            'filed_name' =>"group_id",
+            'participant_id' => $oldparticipant->id,
+            "actor_user" =>request()->user()->id
+        ]);
+        GroupHistory::create([
+            'action' => 'removed_participant',
+            'new_value' => $oldparticipant->id ,
+            'filed_name' =>"participant_id",
+            'group_id' => $group->id,
+            "actor_user" =>request()->user()->id
         ]);
         $group->participants()->where("participant_id",$request->get('participant_id'))->detach();
     }

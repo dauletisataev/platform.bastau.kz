@@ -1,11 +1,11 @@
 <template>
     <div class="container-fluid pt-2">
         <group-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered"></group-filter>
-        <div class="col-10 offset-2  mt-5 pt-5">
+        <div class="col-10 offset-2 ">
             <hr/>
             {{ $tc('groups.list.found_number') }} {{ total }}
             <button class="btn btn-primary float-right" @click="$refs.createGroupModal.showModal()">{{$tc('groups.list.create_group')}}</button>
-            <group-form ref="createGroupModal"/>
+            <group-form ref="createGroupModal"  v-on:updated="getList"/>
             <div class="col-8">
                 <table class="table mb-0">
                     <tr>
