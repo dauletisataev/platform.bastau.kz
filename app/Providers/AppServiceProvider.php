@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\BusinessTrainer;
+use App\Observers\BTrainerObserver;
 use App\Group;
 use App\Observers\GroupObserver;
 use App\Observers\ParticipantObserver;
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         User::observe(new UserObserver());
         Group::observe(new GroupObserver());
         Participant::observe(ParticipantObserver::class);
+        BusinessTrainer::observe(BTrainerObserver::class);
 
         Validator::extend('base64image', function ($attribute, $value, $parameters, $validator) {
             $explode = explode(',', $value);
