@@ -27,7 +27,8 @@ class GroupController extends Controller
             'start_date' => 'required|date',
             'language' => 'required',
             'capacity' => 'required',
-            'online'=>'required'
+            'online'=>'required',
+            'trainer' => 'required|integer',
         ]);
         $group  = $request->get('id')? Group::find($request->get('id')):new Group;
         $group->project_id = $request->get('project_id') ;
@@ -35,6 +36,7 @@ class GroupController extends Controller
         $group->language = $request->get('language') ;
         $group->capacity = $request->get('capacity') ;
         $group->online = $request->get('online') ;
+        $group->trainer()->associate($request->get('trainer'));
         $group->save();
     }
     public function getNotMyParticipants($id){

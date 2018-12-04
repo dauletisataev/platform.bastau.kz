@@ -16,14 +16,12 @@ class CreateBusinessTrainersTable extends Migration
         Schema::create('trainers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-
             // Region of teaching
             // $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
             $table->timestamps();
         });
 
         Schema::table('trainers', function($table) {
-            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }

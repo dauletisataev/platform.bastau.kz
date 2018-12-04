@@ -16,7 +16,7 @@
                     </tr>
                 <tr v-for="item in groups">
                     <td>{{item.project_id}}</td>
-                    <td>{{item.advisor}}</td>
+                    <td>{{item.trainer_id}}</td>
                     <td>{{item.participants.length}}</td>
                     <td>{{item.next_lesson}}</td>
                     <td>

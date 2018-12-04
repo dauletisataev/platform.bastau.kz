@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset("/css/quill.bubble.css") }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="client-secret" content="s8bN2pqwX16lpdXtErGk2b7TLZo93TNhPzBk1sxO">
+    <meta name="client-secret" content="ft6U0Ah8YSH3IIL9zYUzC9smadMH8zrWGr5vHMNT">
 </head>
 
 <body>

@@ -14,7 +14,15 @@ class BusinessTrainer extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Foreign key to Groups
+     */
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
     }
 
     /**
@@ -58,12 +66,4 @@ class BusinessTrainer extends Model
             });
         }
     }
-
-
-    /*
-	* public function groups()
-    * {
-    *	return $this->hasMany('App\Group');
-    * }	
-    */
 }

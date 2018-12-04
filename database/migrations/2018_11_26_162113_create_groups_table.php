@@ -25,9 +25,13 @@ class CreateGroupsTable extends Migration
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->enum('language',['ru','kz']);
             $table->integer('participants_number')->unsigned();
+            $table->integer('trainer_id')->unsigned();
+        });
+
+        Schema::table('groups', function($table) {
+            $table->foreign('trainer_id')->references('id')->on('trainers');
         });
     }
-
     /**
      * Reverse the migrations.
      *

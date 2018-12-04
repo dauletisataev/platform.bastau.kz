@@ -43,7 +43,7 @@
             <div class="row">
                 <div class="col-6"><span>{{$tc('groups.item.info.advisor')}}</span></div>
                 <div class="col-6">
-                    {{group.advisor}}
+                    {{group.trainer_id}}
                 </div>
             </div>
             <div class="row">
@@ -51,7 +51,7 @@
                 <div class="col-6">
                     {{group.project_id}}
                 </div>
-            </div>
+            </div>            
         </div>
     </div>
 </template>
@@ -99,8 +99,11 @@
                 console.log("going to edit group",this.group.id);
             },
         },
-
-
+        computed: {
+            getGroup() {
+                return this.group;
+            }
+        }
     }
 
 

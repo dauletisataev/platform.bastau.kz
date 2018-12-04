@@ -54,6 +54,22 @@
                 </form-error>
             </div>
         </div>
+
+        <div v-bind:class="{ 'has-error': errors && errors.trainers }" class="form-group row">
+            <label class="col-5 col-form-label">{{$tc('groups.form.trainers')}}</label>
+            <div class="col-7">
+                <!-- <input type="checkbox" v-model="form.online" /> -->
+                <select v-model="form.trainer">
+                    <option :value="trainer.id" v-for="trainer in $common.data.trainers">
+                        {{ trainer.user.first_name }} {{ trainer.user.last_name }}
+                    </option>
+                </select>
+                <form-error v-if="errors && errors.trainers" :errors="errors">
+                    {{ errors.trainer[0] }}
+                </form-error>
+            </div>
+        </div>
+
         <button @click="sendForm" slot="modal-footer"class="btn btn-primary">{{$tc('groups.form.submit_group_form')}}</button>
         <!-- end form-->
 
@@ -119,7 +135,8 @@
                     start_date:"",
                     language:"",
                     capacity:"",
-                    online:""
+                    online:"",
+                    trainer: "",
                 }
             },
         }

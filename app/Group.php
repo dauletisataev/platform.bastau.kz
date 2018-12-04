@@ -32,4 +32,12 @@ class Group extends Model
     public function histories(){
         return $this->hasMany("App\GroupHistory");
     }
+
+    /**
+     * BusinessTrainer relation
+     */
+    public function trainer()
+    {
+        return $this->belongsTo(BusinessTrainer::class);
+    }
 }

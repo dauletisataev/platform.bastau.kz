@@ -21,5 +21,10 @@ class RolesTableSeeder extends Seeder
             'description' => 'участник',
             'instrumental'=>"для участника",
         ]);
+        \App\Role::create([
+            'name' => 'business-trainer',
+            'description' => 'Бизнес-тренер',
+            'instrumental' => 'для бизнес-тренера',
+        ]);
     }
 }
