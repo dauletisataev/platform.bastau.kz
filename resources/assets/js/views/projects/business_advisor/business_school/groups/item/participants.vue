@@ -40,7 +40,7 @@
                 </tr>
             </table>
         </div>
-        <remove-participant-modal ref="removeModal" :id="toremove" :group_id="id"/>
+        <remove-participant-modal v-on:updated="$emit('updated')" ref="removeModal" :id="toremove" :group_id="id"/>
     </div>
 </template>
 <script>
@@ -61,7 +61,6 @@
             removeFromGroup(id){
                 this.toremove=id;
                 this.$refs.removeModal.showModal();
-                _this.$emit('updated');
             }
         }
     }

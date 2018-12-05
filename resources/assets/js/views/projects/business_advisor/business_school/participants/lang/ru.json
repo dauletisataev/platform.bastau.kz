@@ -33,7 +33,24 @@
 			}
 		}
 	},
+	"form":{
+		"locality_select":"Выберите место проживания",
+		"enter_first_name":"Введите имя",
+		"enter_last_name":"Введите фамилие",
+		"enter_patronymic":"Введите отчество",
+		"iin":"Введите иин",
+		"enter_correct_iin":"Введите правильный иин",
+		"enter_email":"Введите электронную почту",
+		"enter_disability":"Введите группу инвалидности",
+		"update":"Обновить информацию",
+		"create":"Создать",
+		"edit_participant":"Редактировать участника",
+		"create_participant":"Добавить участника"
+	},
 	"item":{
+		"status":"Статус",
+		"uploaded":"загружено",
+		"not_uploaded":"не загружено",
 		"archive":"Архивировать",
 		"restore":"Восстановить",
 		"delete":"Удалить",
@@ -58,10 +75,20 @@
 			"upload_address_sertificate":"Загрузка адресной справки",
 			"select":"Выбрать",
 			"upload":"Загрузить",
-			"participant":"Участник"
+			"participant":"Участник",
+			"birth_date":"Дата рождения",
+			"disability_level_0":"нет инвалидности",
+			"disability_level_1":"первая степень инвалидности",
+			"disability_level_2":"вторая степень инвалидности",
+			"disability_level_3":"третья степень инвалидности",
+			"disability_level_4":"четвертая степень инвалидности"
 		},
 		"history_tab":{
-			"participant_history":"История участника"
+			"participant_history":"История участника",
+			"created":"Участник создан",
+			"change_personal_data":"Изменена персональная информация",
+			"archived":"Участник архивирован",
+			"unarchived":"Участник разархивирован"
 		}
 	}
 

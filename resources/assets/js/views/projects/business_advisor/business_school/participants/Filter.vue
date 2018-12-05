@@ -1,8 +1,8 @@
 <template>
     <!-- Поиск -->
-    <div class="col-10 offset-2  pt-4">
+    <div class="col-10 offset-2  pt-4 mb-3">
     <div class="row">
-            <div class='input-group col-10'>
+            <div class='input-group col-10 mb-4'>
                 <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" :placeholder='$tc("participants.filter.Name_or_ID")'>
                 <div class="input-group-append">
                     <button @click="clearListLoad()" :disabled="load" class="btn btn-primary " >{{$tc("participants.filter.apply")}}</button>
@@ -11,7 +11,7 @@
             <div class="col-2">
                 <button @click="resetFilter()" :disabled="load" class="btn btn-secondary  btn-block">{{$tc("participants.filter.reset")}}</button>
             </div>
-        <div class="col-8 ">
+        <div class="col-12 mb-2 ">
             <b-tabs>
                 <b-tab :title='$tc("participants.filter.active")' active @click="changeArchiveType(false)" >
                 </b-tab>

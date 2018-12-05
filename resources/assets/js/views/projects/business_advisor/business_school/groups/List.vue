@@ -66,7 +66,8 @@
             'group-form':require('./Form.vue')
         },
         methods: {
-            getList() {
+            getList(type) {
+                if(type!=="old")this.groups=[];
                 this.resource_url = this.scrollLoad ? this.next_url : this.resource_url;
                 if (!this.resource_url){
                     this.scrollLoad = false;
@@ -115,7 +116,7 @@
                 if($(window).scrollTop() + $(window).height() > $(document).height() - 100 && !this.scrollLoad) {
                     this.scrollLoad = true;
                     this.$nextTick(function () {
-                        this.getList();
+                        this.getList("old");
                     })
                 }
             }

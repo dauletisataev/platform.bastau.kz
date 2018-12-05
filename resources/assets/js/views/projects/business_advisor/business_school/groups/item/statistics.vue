@@ -1,7 +1,7 @@
 <template>
     <!--TODO add statictics hor particular group-->
     <div>
-        <div class="h4">{{$tc('group.item.history_tab.group_statistics')}}</div>
+        <div class="h4">{{$tc('groups.item.statistics_tab.group_statistics')}}</div>
     </div>
 </template>
 <script>

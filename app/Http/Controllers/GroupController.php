@@ -15,7 +15,8 @@ class GroupController extends Controller
         return Group::where('id', $id)
             ->with([
                 'participants.user',
-                'histories'
+                'histories',
+                'locality.district.region'
             ])->first();
     }
     public function items(){
@@ -27,7 +28,8 @@ class GroupController extends Controller
             'start_date' => 'required|date',
             'language' => 'required',
             'capacity' => 'required',
-            'online'=>'required'
+            'online'=>'required',
+            'locality_id'=>"required|integer"
         ]);
         $group  = $request->get('id')? Group::find($request->get('id')):new Group;
         $group->project_id = $request->get('project_id') ;
@@ -35,6 +37,7 @@ class GroupController extends Controller
         $group->language = $request->get('language') ;
         $group->capacity = $request->get('capacity') ;
         $group->online = $request->get('online') ;
+        $group->locality_id = $request->get('locality_id');
         $group->save();
     }
     public function getNotMyParticipants($id){
@@ -57,7 +60,7 @@ class GroupController extends Controller
             if($contains===0){
                 $group->participants()->save($oldparticipant);
                 $group->save();
-								ParticipantHistory::create([
+                ParticipantHistory::create([
                     'action' => 'added_to_group',
                     'new_value' => $group->id ,
                     'filed_name' =>"group_id",

@@ -32,4 +32,7 @@ class Group extends Model
     public function histories(){
         return $this->hasMany("App\GroupHistory");
     }
+    public function locality(){
+        return $this->belongsTo("App\Locality");
+    }
 }

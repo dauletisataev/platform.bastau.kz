@@ -48,5 +48,13 @@ import groupsJSONRu from './views/projects/business_advisor/business_school/grou
 export const GroupsKz = JSON.parse(JSON.stringify(groupsJSONKz));
 export const GroupsRu = JSON.parse(JSON.stringify(groupsJSONRu));
 
+
+//Localities
+import regionsJSONKz from './views/projects/business_advisor/business_school/regions/lang/kz.json';
+import regionsJSONRu from './views/projects/business_advisor/business_school/regions/lang/ru.json';
+export  const regionsKz =JSON.parse(JSON.stringify(regionsJSONKz));
+export  const regionsRu =JSON.parse(JSON.stringify(regionsJSONRu));
+
 export const btKz = JSON.parse(JSON.stringify(btrainerKz));
 export const btRu = JSON.parse(JSON.stringify(btrainerRu));
+

@@ -15,7 +15,7 @@
             </tr>
         </table>
         <div class="p-2 bg-faded" style="position: fixed; right: 20px; bottom: 20px;">
-            <button class="btn btn-lg btn-secondary mr-2">Отменить</button>
+            <button class="btn btn-lg btn-secondary mr-2" >Отменить</button>
             <button class="btn btn-lg btn-primary" @click="addParticipants"><span class="fa fa-check"></span> Готово</button>
         </div>
     </div>

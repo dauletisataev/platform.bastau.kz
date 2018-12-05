@@ -22,6 +22,9 @@ const LessonContent = require('./views/lessons/Item.vue');
 const Participants = require('./views/projects/business_advisor/business_school/participants/List.vue');
 const Participant = require('./views/projects/business_advisor/business_school/participants/Item.vue');
 
+const Region = require('./views/projects/business_advisor/business_school/regions/Item.vue');
+const Regions = require('./views/projects/business_advisor/business_school/regions/List.vue');
+
 const Group = require('./views/projects/business_advisor/business_school/groups/Item.vue');
 const Groups = require('./views/projects/business_advisor/business_school/groups/List.vue');
 const AddExistingParticipantToGroup = require("./views/projects/business_advisor/business_school/groups/add_participants/add_existing_participants.vue");
@@ -115,6 +118,27 @@ export default new VueRouter({
             }
         },
 
+        {
+            name:'region',
+            path:'/control/region',
+            props:true,
+            component:Region,
+            meta:{
+                title:"Регион",
+                forAuth:true
+            }
+        },
+        
+        {
+            name:'regions',
+            path:'/control/regions',
+            props:true,
+            component:Regions,
+            meta:{
+                title:"Регионы",
+                forAuth:true
+            }
+        },
     ]
 
 });

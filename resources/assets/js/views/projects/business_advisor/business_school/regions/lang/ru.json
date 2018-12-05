@@ -1,0 +1,20 @@
+{
+  "region":"Регион",
+  "locality":"Населенный пункт",
+  "district":"Район",
+  "select_locality":"Выберите населенный пункт",
+  "select_district":"Выберите район",
+  "select_region":"Выберите регион",
+  "regions_list":"Список регионов",
+  "add_region":"Добавить регион",
+  "add_locality":"Добавить населенный пункт",
+  "name":" Название",
+  "create":"Создать",
+  "update":"Обновить",
+  "district_editor_header":"Редактирование области",
+  "locality_editor_header":"Редактирование населенного пункта",
+  "region_editor_header":"Редактирование региона",
+  "add_district":"Добавить область",
+  "localities_list_of":"Список населенных пунктов района ",
+  "districts_list_of":"Список районов области "
+}

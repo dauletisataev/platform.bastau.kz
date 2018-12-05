@@ -1,123 +1,131 @@
 <template>
     <div class="container-fluid pt-2">
-        <group-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered"></group-filter>
+        <regions-filter  v-if="$common.data" ref="filter"  v-on:filtered="filtered"></regions-filter>
         <div class="col-10 offset-2 ">
-            <hr/>
-            {{ $tc('groups.list.found_number') }} {{ total }}
-            <button class="btn btn-primary float-right" @click="$refs.createGroupModal.showModal()">{{$tc('groups.list.create_group')}}</button>
-            <group-form ref="createGroupModal"  v-on:updated="getList"/>
-            <div class="col-8">
-                <table class="table mb-0">
-                    <tr>
-                        <td>{{$tc('groups.list.table.project')}}</td>
-                        <td>{{$tc('groups.list.table.advisor')}}</td>
-                        <td>{{$tc('groups.list.table.participants_number')}}</td>
-                        <td>{{$tc('groups.list.table.next_lesson')}}</td>
-                    </tr>
-                <tr v-for="item in groups">
-                    <td>{{item.project_id}}</td>
-                    <td>{{item.advisor}}</td>
-                    <td>{{item.participants.length}}</td>
-                    <td>{{item.next_lesson}}</td>
-                    <td>
-                            <div class="row">
-                                <div class="col-6">
-                                    <b-tooltip  :title="$tc('groups.list.get_info')" placement="left">
-                                        <router-link :to="{name:'group', params:{id: item.id}}"
-                                                     class="btn btn-outline-primary btn-sm">
-                                            <span class="fa fa-eye"></span></router-link>
-                                    </b-tooltip>
-                                </div>
-                                <div class="col-6">
-                                    <b-dropdown right text="Options">
-                                        <b-dropdown-item>{{$tc('groups.list.options.cancel_lesson')}}</b-dropdown-item>
-                                        <b-dropdown-item><router-link :to="{name:'add-existing-participant-to-group', params:{id:item.id}}">{{$tc('groups.list.options.add_participant')}}</router-link></b-dropdown-item>
-                                    </b-dropdown>
-                                </div>
-                            </div>
-                    </td>
-                </tr>
-                </table>
+            <regions-form v-on:updated="UpdateCommonData" ref="regionsFormModal"/>
+        <div class="mb-2">
+            <div v-if="show==='localities'">
+                <div class="h3">{{$tc('regions.localities_list_of')}}{{filterData.district}}
+                    <button class="btn btn-sm btn-primary pull-right" @click="$refs.regionsFormModal.showModal('locality',filterData)">{{$tc('regions.add_locality')}}</button>
+                </div>
+            </div>
+            <div v-else-if="show==='districts' ">
+                <div class="h3">{{$tc('regions.districts_list_of')}}{{filterData.region}}
+                    <button class="btn btn-sm btn-primary pull-right" @click="$refs.regionsFormModal.showModal('district',filterData)">{{$tc('regions.add_district')}}</button>
+                </div>
+            </div>
+            <div v-else>
+                <div class="h3">{{$tc('regions.regions_list')}}
+                 <button class="btn btn-sm btn-primary pull-right" @click="$refs.regionsFormModal.showModal('region')">{{$tc('regions.add_region')}}</button>
+                </div>
             </div>
         </div>
+            <ul v-if="show==='regions'" class="list-group list-group-flush">
+                <li  v-for="region in $common.data.regions" class="list-group-item" style="cursor:default">
+                        <div class="col-10">
+                            <span @click = "$refs.filter.filterData.region=region.name;filtered()">{{region.name}}</span>
+                        </div>
+                        <div class="col-2 text-right">
+                            <button @click="$refs.editmodal.showModal('region',region)" class="btn btn-sm btn-secondary">
+                                <span class="fa fa-pencil"></span>
+                            </button>
+                            <button class="btn btn-sm btn-danger"@click="remove('region',region.id)">
+                                <span class="fa fa-trash"></span>
+                            </button>
 
+                        </div>
+                </li>
+            </ul>
+            <div v-else v-for="region in $common.data.regions">
+                <ul v-if="show==='districts' && region.name===filterData.region " class="list-group list-group-flush">
+                    <li v-for="district in region.districts" class="list-group-item"  style="cursor:default">
+                        <div class="col-10">
+                            <span @click = "$refs.filter.filterData.district=district.name;filtered()">{{district.name}}</span>
+                        </div>
+                        <div class="col-2 text-right">
+                            <button class="btn btn-sm btn-secondary" @click="$refs.editmodal.showModal('district',district)">
+                                <span class="fa fa-pencil" ></span>
+                            </button>
+                            <button @click="remove('district',district.id)" class="btn btn-sm btn-danger">
+                                <span class="fa fa-trash"></span>
+                            </button>
+
+
+                        </div>
+                    </li>
+                </ul>
+                <div v-else-if="show==='localities'">
+                    <div v-for="district in region.districts">
+                        <ul v-if="district.name ===filterData.district"  class="list-group list-group-flush">
+                            <li v-for="locality in district.localities" class="list-group-item" style="cursor:default">
+                                <div class="col-10">
+                                    {{locality.name}}
+                                </div>
+                                <div class="col-2 text-right">
+                                    <button class="btn btn-sm btn-secondary" @click="$refs.editmodal.showModal('locality',locality)" >
+                                        <span class="fa fa-pencil" ></span>
+                                    </button>
+                                    <button @click="remove('locality',locality.id)" class="btn btn-sm btn-danger">
+                                        <span class="fa fa-trash"></span>
+                                    </button>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <regions-editor ref="editmodal"/>
     </div>
 </template>
 
 <script>
-
-    import { get } from '../../../../../helpers/api'
+    import { post } from '../../../../../helpers/api'
 
     export default {
         data() {
             return {
-                load: false,
-                scrollLoad: false,
-                newGroup: '',
-                groups: [],
-                total: 0,
-                resource_url: '/api/groups',
-                next_url: '',
-                default_url: '/api/groups'
+                show:"regions",
+                localities:[],
+                filterData:{}
             }
         },
         components: {
-            'group-filter': require('./Filter.vue'),
-            'group-form':require('./Form.vue')
+            'regions-filter': require('./Filter.vue'),
+            'regions-form':require('./Form.vue'),
+            'regions-editor':require('./modals/Editor.vue')
         },
         methods: {
-            getList() {
-                this.resource_url = this.scrollLoad ? this.next_url : this.resource_url;
-                if (!this.resource_url){
-                    this.scrollLoad = false;
-                    return false;
-                }
-                this.load = true;
-                let _this = this;
-                get(_this, this.resource_url, {params: this.filterData}, function (response) {
-
-                    let json = response.data;
-
-                    _this.next_url = json.next_page_url;
-
-                    _this.groups = _this.groups.concat(json.data);
-
-                    _this.total = json.total;
-
-                    _this.scrollLoad = false;
-                    _this.load = false;
-                    console.log(this.groups);
-                }, function () {
-                    _this.scrollLoad = false;
-                    _this.load = false;
-
-                });
-
-            },
             filtered() {
-                this.resource_url = this.default_url;
-                this.groups = [];
-                this.total = 0;
                 this.filterData = this.$refs.filter.filterData;
-
+                console.log(this.filterData);
+                if(this.filterData.district!=="" && this.filterData.region!==""){
+                    this.show="localities";
+                }
+                else if(this.filterData.district==="" && this.filterData.region!==""){
+                    this.show="districts";
+                }
+                else {
+                    this.show="regions";
+                }
                 this.$nextTick(function () {
-                    this.$router.push({ path: '/groups', query: this.filterData });
-                    this.getList();
+                    this.$router.push({ path: '/control/regions', query: this.filterData });
+                    this.$common.getData();
                 });
-
             },
             handleScroll(e){
-                let body = document.body,
-                    html = document.documentElement;
-
-                let height = Math.max( body.scrollHeight, html.scrollHeight);
-
-                if($(window).scrollTop() + $(window).height() > $(document).height() - 100 && !this.scrollLoad) {
-                    this.scrollLoad = true;
-                    this.$nextTick(function () {
-                        this.getList();
-                    })
-                }
+            },
+            UpdateCommonData(){
+                this.$common.getData();
+            },
+            remove(type,id){
+                let form={};
+                form.type=type;
+                let _this=this;
+                post(_this, '/api/region/delete/'+id, form, function () {
+                    _this.$common.getData();
+                }, function (error) {
+                });
             }
         },
         created() {

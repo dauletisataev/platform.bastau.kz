@@ -20,7 +20,7 @@ class ParticipantController extends Controller
     {
         return Participant::where('id', $id)
             ->with([
-                'user',"archive_reason"
+                'user.home.district.region',"archive_reason","user.localities"
             ])->first();
     }
     public function archive($id,Request $request)
@@ -108,6 +108,7 @@ class ParticipantController extends Controller
             'new_iin' =>'required|integer',
             'new_photo' => 'string',
             'new_email' => 'required|string',
+            'locality_id'=>'required|integer'
         ]);
         //Создание или обновления пользователя
         $newUser =$request->get("user_id") ? User::find($request->get("user_id")):new User;
@@ -118,6 +119,7 @@ class ParticipantController extends Controller
         $newUser->iin=$request->get("new_iin");
         $newUser->phone=$request->get("new_phone");
         $newUser->email=$request->get("new_email");
+        $newUser->locality_id=$request->get('locality_id');
         $newUser->role_id=Role::where("name","Participant")->first()->id;
         $newUser->save();
         $newParticipant = $request->get('id')?Participant::find($request->get("id")):new Participant;
