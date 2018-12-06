@@ -85,7 +85,7 @@ Route::prefix('/api/trainers')->group(function () {
     // Get one trainer
     Route::get('/{trainer}', 'BusinessTrainerController@item');
     Route::post('/archive/{trainer}', 'BusinessTrainerController@archive');
-    Route::delete('/delete/{trainer}', 'BusinessTrainerController@hardDelete');
+    Route::delete('/delete/{trainer}', 'BusinessTrainerController@delete');
 });
 
 Route::get('/api/users', function() {

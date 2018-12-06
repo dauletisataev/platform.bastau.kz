@@ -172,7 +172,7 @@
                         self.errors = [];
                         self.hideModal();
                         self.form = self.form.id ? self.form : self.newTrainer();
-                        console.log(`Status ${res.status}, Message: ${res.statusText}`);
+                        self.hideModal();
                     }, 
                     (err) => {
                         self.sending = false;

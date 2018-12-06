@@ -7,9 +7,14 @@
 				{{ $t("trainer.edit") }}
 			</button>
 
-			<button class="btn btn-secondary btn-block text-left btn-sm" @click="$refs.modalDelete.show()">
+			<button class="btn btn-danger btn-block text-left btn-sm" @click="$refs.modalDelete.show()">
 				<span class="fa fa-fw fa-trash"></span>
 				{{ $t("trainer.delete") }}
+			</button>
+
+			<button class="btn btn-default btn-block text-left btn-sm" @click="$refs.modalDelete.show()">
+				<span class="fa fa-fw fa-trash"></span>
+				{{ $t("trainer.archive") }}
 			</button>
 		</div>
 
@@ -29,15 +34,15 @@
 				<tbody>
 					<tr>
 						<td><span class="h6">{{ $t("trainer.phone") }}</span></td>
-						<td>{{ trainer.phone }}</td>
+						<td>{{ trainer.user.phone }}</td>
 					</tr>
 					<tr>
 						<td><span class="h6">Email</span></td>
-						<td>{{ trainer.email }}</td>
+						<td>{{ trainer.user.email }}</td>
 					</tr>
 					<tr>
 						<td><span class="h6">{{ $t("trainer.date_created") }}</span></td>
-						<td>{{ trainer.created_at }}</td>
+						<td>{{ trainer.user.created_at }}</td>
 					</tr>
 				</tbody>
 			</table> 
@@ -50,7 +55,7 @@
 			{{ $t("trainer.confirmDelete") }}
 			<div slot="modal-footer">
 				<button class="btn btn-secondary" @click="$refs.modalDelete.hide()">{{ $t("trainer.cancel") }}</button>
-				<button class="btn btn-danger" @click="archive()">{{ $t("trainer.delete") }}</button>
+				<button class="btn btn-danger" @click="deleteTrainer()">{{ $t("trainer.delete") }}</button>
 			</div>
 		</b-modal>
 
@@ -77,9 +82,7 @@
 		},
 		computed: {
 			fullName() {
-				if (this.trainer.patronymic) {
-					return `${this.trainer.first_name} ${this.trainer.last_name} ${this.trainer.patronymic}`;
-				}
+				return this.trainer.user.first_name + ' ' + this.trainer.user.last_name + ' ' + this.trainer.user.patronymic;
 			}
 		},
 		methods: {
@@ -87,7 +90,7 @@
 				let self = this;
 				post(
 					self, 
-					'/api/trainers/archive/' + this.id, 
+					`/api/trainers/archive/${this.id}`, 
 					{}, 
 					(res) => console.log(res.data),
 					(err) => console.log(err))
@@ -100,7 +103,21 @@
 			},
 			getItem() {
 				let self = this;
-				get(self, '/api/trainers/' + this.id, {}, (res) => this.trainer = res.data, (err) => console.log(err));
+				get(self, 
+					'/api/trainers/' + this.id, 
+					{}, 
+					(res) => this.trainer = res.data,
+					(err) => console.log(err));
+			},
+			deleteTrainer() {
+				let self = this;
+				del(
+					self, 
+					`/api/trainers/delete/${this.id}`,
+					(res) => console.log(res),
+					(err) => console.log(err)
+					);
+				this.$refs.modalDelete.hide();
 			}
 		},
 		created() {

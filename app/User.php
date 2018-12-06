@@ -197,4 +197,11 @@ class User extends Authenticatable
         return $this->hasOne('App\BusinessTrainer');
     }
 
+    public static function boot()
+    {
+        static::deleting(function($user) {
+             $user->trainer()->delete();
+        });
+    }
+
 }

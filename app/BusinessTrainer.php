@@ -34,22 +34,6 @@ class BusinessTrainer extends Model
     }
 
     /**
-     * Move to History
-     */
-    public function archive()
-    {
-
-    }
-
-    /**
-     * Completely delete from trainers and history
-     */
-    public function delete()
-    {
-
-    }
-
-    /**
      * Filter from frontend
      */
     public function scopeFilter($query, $filters)
@@ -65,5 +49,11 @@ class BusinessTrainer extends Model
                 });
             });
         }
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+        BusinessTrainer::observe(new \App\Observers\BTrainerObserver);
     }
 }

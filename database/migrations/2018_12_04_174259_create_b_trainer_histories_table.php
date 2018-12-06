@@ -15,18 +15,14 @@ class CreateBTrainerHistoriesTable extends Migration
     {
         Schema::create('bthistories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('trainers');                         // tracks this table
-            $table->string('old_value');
-            $table->string('new_value');
-            $table->string('field');                            // which field was altered
-            $table->string('actor');                            // who made changes
-            // relation with trainer
-            $table->integer('trainer_id')->unsigned();
+            $table->string('old_value')->nullable();
+            $table->string('new_value')->nullable();
+            $table->string('field')->nullable();
+            $table->string('action_name')->nullable();
+            $table->integer('trainer_id')->unsigned()->nullable();
             $table->foreign('trainer_id')->references('id')->on('trainers')->onDelete('cascade');
-            // relation with actor
             $table->integer('actor_id')->unsigned();
             $table->foreign('actor_id')->references('id')->on('users')->onDelete('cascade');
-            $table->text('body');                               // description of action
             $table->timestamps();
         });
     }

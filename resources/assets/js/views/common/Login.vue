@@ -1,4 +1,5 @@
 <template>
+
     <div class="container">
         <div class="row vertical-center">
             <div class="col text-center" v-show="!select">

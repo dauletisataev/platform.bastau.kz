@@ -68,6 +68,7 @@ class BusinessTrainerController extends Controller
         $nocrypt = $request->get('password');
         $user->save();
         $user->trainer()->save($trainer);
+        // BTrainerHistory::insert()
     }
 
     /**
@@ -78,12 +79,8 @@ class BusinessTrainerController extends Controller
      */
     public function item($id)
     {
-        $trainer = BusinessTrainer::find($id);
-        if ($trainer) {
-            return $trainer->user()->get()->first();
-        } else {
-            return response()->json(["status" => "404", "message" => "Not Found"]);
-        }
+        return BusinessTrainer::where('id',$id)->with('user')->first();
+        
     }
 
     /**
@@ -120,9 +117,9 @@ class BusinessTrainerController extends Controller
     * @param \App\BusinessTrainer $trainer
     * @return \Illuminate\Http\Response
     */
-    public function hardDelete(BusinessTrainer $trainer)
-    {
-        $trainer->full_delete();
+    public function delete($id)
+    {   
+        return BusinessTrainer::destroy($id);
     }
 
 }

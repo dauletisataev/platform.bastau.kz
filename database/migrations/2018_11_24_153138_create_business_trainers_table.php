@@ -14,14 +14,8 @@ class CreateBusinessTrainersTable extends Migration
     public function up()
     {
         Schema::create('trainers', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id');$table->timestamps();
             $table->integer('user_id')->unsigned();
-            // Region of teaching
-            // $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
-            $table->timestamps();
-        });
-
-        Schema::table('trainers', function($table) {
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
