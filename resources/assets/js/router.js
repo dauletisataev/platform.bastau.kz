@@ -24,6 +24,7 @@ const Participant = require('./views/projects/business_advisor/business_school/p
 
 const Region = require('./views/projects/business_advisor/business_school/regions/Item.vue');
 const Regions = require('./views/projects/business_advisor/business_school/regions/List.vue');
+const Logs = require('./views/logs/List.vue');
 
 const Group = require('./views/projects/business_advisor/business_school/groups/Item.vue');
 const Groups = require('./views/projects/business_advisor/business_school/groups/List.vue');
@@ -47,6 +48,7 @@ export default new VueRouter({
         { name: 'lesson_templates', path: '/control/lesson-templates', component: LessonTemplates, meta: {title: 'Программы', forAuth: true, forTeacher: true} },
         { name: 'lesson_template', path: '/control/lesson-templates/:id', component: LessonTemplate, props:true, meta: {title: 'Программа', forAuth: true, forTeacher: true} },
         { name: 'lesson_template_content', path: '/control/lesson-templates/:template_id/lesson/:id', component: LessonTemplateContent, props: true, meta: {title: 'Занятие', forAuth: true, forTeacher: true}},
+        { name: 'logs', path: '/control/logs', component: Logs, meta: {title: 'Лог действий', forAuth: true} },
         {
             name: 'participants',
             path: '/participants',

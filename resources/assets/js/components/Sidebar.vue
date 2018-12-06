@@ -112,7 +112,7 @@
             }
         },
         components: {
-            Profile : require('../../../../../../bastau/resources/assets/js/components/Profile.vue'),
+            Profile : require('./Profile.vue'),
         },
         methods: {
             getCsrf() {

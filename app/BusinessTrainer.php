@@ -2,13 +2,13 @@
 
 namespace App;
 
+use App\Observers\BTrainerObserver;
 use Illuminate\Database\Eloquent\Model;
 
 class BusinessTrainer extends Model
 {
     protected $table = 'trainers';
     protected $dates = ['deleted_at'];
-a
     /**
      * Foreign Key Relationship with User model
      */
@@ -53,7 +53,7 @@ a
     public static function boot()
     {
         parent::boot();
-        BusinessTrainer::observe(new \App\Observers\BTrainerObserver);
+        BusinessTrainer::observe(BTrainerObserver::class);
     }
     public function locality(){
         return $this->belongsTo("App\Locality");

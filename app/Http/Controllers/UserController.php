@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Role;
 use App\User;
 use App\php;
+use App\UserLog;
 use App\UserPasswordReset;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -48,7 +49,7 @@ class UserController extends Controller
     {
         $id = $request->get('id') ? $request->get('id') : 0;
         $this->validate($request, [
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
             'password' => 'nullable|string|min:6|confirmed',
             'email' => 'nullable|email',
             'phone' => 'required',
@@ -57,7 +58,7 @@ class UserController extends Controller
         ]);
 
         $user = $id ? User::find($id) : new User();
-        $user->name = $request->get('name');
+        $user->first_name = $request->get('first_name');
         $user->email = $request->get('email');
         $user->phone = $request->get('phone');
         $user->role_id = $request->get('role_id');
@@ -67,6 +68,8 @@ class UserController extends Controller
             $user->password = bcrypt($request->get('password'));
         $nocrypt=$request->get('password');
         $user->save();
+        if(!$id)
+            UserLog::insert('user_create', $user->id, '');
     }
 
     public function savePhoto(request $request)

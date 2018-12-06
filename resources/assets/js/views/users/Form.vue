@@ -7,7 +7,7 @@
                 <label class="col-3 col-form-label">Роль</label>
                 <div class="col-9">
                     <v-select :on-change="selectRole" label="description" value="id" :value.sync="form.role" :options="roles" placeholder="Выберите роль"></v-select>
-                    <form-error v-tif="errors && errors.role_id" :errors="errors">
+                    <form-error v-if="errors && errors.role_id" :errors="errors">
                         {{ errors.role_id[0] }}
                     </form-error>
                 </div>
@@ -23,12 +23,12 @@
                 </div>
             </div>
 
-            <div v-bind:class="{ 'has-error': errors && errors.name }" class="form-group row">
+            <div v-bind:class="{ 'has-error': errors && errors.first_name }" class="form-group row">
                 <label class="col-3 col-form-label">ФИО</label>
                 <div class="col-9">
-                    <input v-model="form.name" class="form-control" type="text" placeholder="ФИО">
-                    <form-error v-if="errors && errors.name" :errors="errors">
-                        {{ errors.name[0] }}
+                    <input v-model="form.first_name" class="form-control" type="text" placeholder="ФИО">
+                    <form-error v-if="errors && errors.first_name" :errors="errors">
+                        {{ errors.first_name[0] }}
                     </form-error>
                 </div>
             </div>
@@ -183,7 +183,7 @@
 
                     id: '',
                     photo: '',
-                    name: '',
+                    first_name: '',
                     phone: '',
                     email: '',
                     password: '',

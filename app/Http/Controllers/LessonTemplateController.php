@@ -11,6 +11,7 @@ use App\MaterialPage;
 use App\Task;
 use App\TaskGroup;
 use App\TaskQuestion;
+use App\UserLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -71,6 +72,7 @@ class LessonTemplateController extends Controller
         }
         $template->save();
         if(!$request->get('id')) {
+            UserLog::insert('lesson_template_create', $template->id, '');
             return $template->id;
         }
     }

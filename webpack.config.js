@@ -473,7 +473,7 @@ plugins.push(
     new webpack.ProvidePlugin({
         'Quill': 'quill/dist/quill.js',
         'window.Quill': 'quill/dist/quill.js',
-    }),
+    })
 );
 
 module.exports.plugins = plugins;
