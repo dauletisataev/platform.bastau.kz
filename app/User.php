@@ -196,6 +196,13 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\BusinessTrainer');
     }
+    public  function home()
+    {
+        return $this->hasOne("App\Locality","id","locality_id");
+    }
+    public function localities(){
+        return $this->belongsToMany('App\Locality');
+    }
 
     public static function boot()
     {

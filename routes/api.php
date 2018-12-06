@@ -56,7 +56,12 @@ Route::group(['middleware' => ['auth:api']], function () {
                 */
             Route::get('/projects/get-all','ProjectController@getAll');
 
-
+                /* Yersultan
+                 * Routes for regions/districts or localities
+                 */
+            Route::post('/region/save','RegionController@save');
+            Route::post('/region/delete/{id}','RegionController@delete');
+            Route::post('/region/update','RegionController@update');
             Route::get( '/users', 'UserController@items');
             Route::get( '/user/{id}', 'UserController@item');
             Route::post('/user-save', 'UserController@save');

@@ -1,9 +1,9 @@
 <template>
-    <b-modal ref="modal" :header="$tc('groups.modals.remove_participant_header')">
+    <b-modal ref="modal" :title="$tc('groups.modals.remove_participant_header')">
         {{$tc('groups.modals.remove_participant_body')}}
         <div slot="modal-footer">
-            <button @click="removeParticipant">{{$tc('groups.modals.remove_participant_ok')}}</button>
-            <button @click="hideModal">{{$tc('groups.modals.remove_participant_cancel')}}</button>
+            <button class="btn btn-secondary" @click="hideModal">{{$tc('groups.modals.remove_participant_cancel')}}</button>
+            <button class="btn btn-danger" @click="removeParticipant">{{$tc('groups.modals.remove_participant_ok')}}</button>
         </div>
     </b-modal>
 </template>
@@ -28,6 +28,7 @@
                     _this.formSending = false;
                     _this.hideModal();
                     _this.$emit('formSending');
+                    _this.$emit('updated');
                 }, function (error) {
                     _this.formSending = false;
                     _this.errors = error.response.data;

@@ -29,15 +29,15 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6"><span>{{$tc('groups.item.info.online')}}</span></div>
+                <div class="col-6"><span>{{$tc('groups.item.info.group_lesson_types')}}</span></div>
                 <div class="col-6">
-                    {{group.online}}
+                    {{group.online?$tc("groups.item.info.online"):$tc("groups.item.info.offline")}}
                 </div>
             </div>
             <div class="row">
                 <div class="col-6"><span>{{$tc('groups.item.info.in_archive')}}</span></div>
                 <div class="col-6">
-                    {{group.in_archive}}
+                    {{group.in_archive? $tc("groups.item.info.archived"):$tc("groups.item.info.active")}}
                 </div>
             </div>
             <div class="row">
@@ -51,7 +51,25 @@
                 <div class="col-6">
                     {{group.project_id}}
                 </div>
-            </div>            
+            </div>
+            <div class="row" v-if="group">
+                <div class="col-6"><span>{{$tc('regions.locality')}}</span></div>
+                <div class="col-6">
+                    {{group.locality.name}}
+                </div>
+            </div>
+            <div class="row" v-if="group.locality.district">
+                <div class="col-6"><span>{{$tc('regions.region')}}</span></div>
+                <div class="col-6">
+                    {{group.locality.district.region.name}}
+                </div>
+            </div>
+            <div class="row" v-if="group.locality">
+                <div class="col-6"><span>{{$tc('regions.district')}}</span></div>
+                <div class="col-6">
+                    {{group.locality.district.name}}
+                </div>
+            </div>
         </div>
     </div>
 </template>

@@ -3,7 +3,7 @@
     <div class="col-10 offset-2 pt-4">
         <div class="row">
             <div class='input-group col-10'>
-                <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" :placeholder='$tc("groups.filter.name_or_phone")'>
+                <input v-model="filterData.search_text" type="text" class="form-control form-control-sm" :placeholder='$tc("groups.filter.name_of_something")'>
                 <div class="input-group-append">
                     <button @click="clearListLoad()" :disabled="load" class="btn btn-primary " >{{$tc("participants.filter.apply")}}</button>
                 </div>

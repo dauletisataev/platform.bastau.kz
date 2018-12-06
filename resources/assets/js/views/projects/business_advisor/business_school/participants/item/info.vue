@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="mb-5 mt-1">
+        <div class="mb-2 mt-4">
             <img :src="participant.photo" class="rounded-circle float-left mr-2" style="margin-top: -5px; width: 40px;">
             <span class="h4">{{participant.user.first_name }} {{participant.user.last_name }} {{participant.user.patronymic }}</span>
         </div>
@@ -30,13 +30,13 @@
             </tr>
             <tr>
                 <td><span class="h6">{{$tc('participants.list.identity_card')}}NOT WORKING FOR NOW</span></td>
-                <td v-if="participant.identity_card" @click="$refs.modalIC.openModal('IC')">Загружено</td>
-                <td v-else><label @click='$refs.uploadIdentityCard.show()'>Не загружено</label></td>
+                <td v-if="participant.identity_card" @click="$refs.modalIC.openModal('IC')">{{$tc('participants.item.uploaded')}}</td>
+                <td v-else><label @click='$refs.uploadIdentityCard.show()'>{{$tc('participants.item.not_uploaded')}}</label></td>
             </tr>
             <tr>
                 <td><span class="h6">{{$tc('participants.list.address_sertificate')}} NOT WORKING FOR NOW</span></td>
-                <td v-if="participant.address_certificate">Загружено</td>
-                <td v-else><label @click='$refs.uploadAddressCertificate.show()'>Не загружено</label></td>
+                <td v-if="participant.address_certificate">{{$tc('participants.item.uploaded')}}</td>
+                <td v-else><label @click='$refs.uploadAddressCertificate.show()'>{{$tc('participants.item.not_uploaded')}}</label></td>
             </tr>
             <tr>
                 <td><span class="h6">{{$tc('participants.list.registration_date')}}</span></td>
@@ -56,13 +56,25 @@
                 <td><span class="h6">{{$tc('participants.item.general_info_tab.email')}}</span></td>
                 <td>{{participant.user.email }}</td>
             </tr>
+            <tr>
+                <td><span class="h6">{{$tc('regions.locality')}}</span></td>
+                <td>{{participant.user.home.name }}</td>
+            </tr>
+            <tr>
+                <td><span class="h6">{{$tc('regions.district')}}</span></td>
+                <td>{{participant.user.home.district.name }}</td>
+            </tr>
+            <tr>
+                <td><span class="h6">{{$tc('regions.region')}}</span></td>
+                <td>{{participant.user.home.district.region.name }}</td>
+            </tr>
             </tbody>
         </table>
         <div class="h5">{{$tc('participants.item.general_info_tab.information_for_administrator')}}</div>
         <table class="table table-sm table-responsive">
             <tbody>
             <tr>
-                <td><span class="h6">Статус</span></td>
+                <td><span class="h6">{{$tc('participants.item.status')}}</span></td>
                 <td v-if="participant.in_archive">
                     {{$tc('participants.item.general_info_tab.archived')}}
                 </td>

@@ -15,11 +15,12 @@ class GroupController extends Controller
         return Group::where('id', $id)
             ->with([
                 'participants.user',
-                'histories'
+                'histories',
+                'locality.district.region'
             ])->first();
     }
     public function items(){
-        return Group::filter(Input::all())->with(['participants.user'])->orderBy('id', 'desc')->paginate(20);
+        return Group::filter(Input::all())->with(['participants.user','locality.district.region'])->orderBy('id', 'desc')->paginate(20);
     }
     public function saveGroup(Request $request){
         $this->validate($request, [
@@ -29,6 +30,7 @@ class GroupController extends Controller
             'capacity' => 'required',
             'online'=>'required',
             'trainer' => 'required|integer',
+            'locality_id'=>"required|integer"
         ]);
         $group  = $request->get('id')? Group::find($request->get('id')):new Group;
         $group->project_id = $request->get('project_id') ;
@@ -37,6 +39,7 @@ class GroupController extends Controller
         $group->capacity = $request->get('capacity') ;
         $group->online = $request->get('online') ;
         $group->trainer()->associate($request->get('trainer'));
+        $group->locality_id = $request->get('locality_id');
         $group->save();
     }
     public function getNotMyParticipants($id){
@@ -59,7 +62,7 @@ class GroupController extends Controller
             if($contains===0){
                 $group->participants()->save($oldparticipant);
                 $group->save();
-								ParticipantHistory::create([
+                ParticipantHistory::create([
                     'action' => 'added_to_group',
                     'new_value' => $group->id ,
                     'filed_name' =>"group_id",

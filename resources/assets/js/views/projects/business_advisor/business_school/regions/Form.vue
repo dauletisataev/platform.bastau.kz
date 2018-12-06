@@ -1,127 +1,72 @@
 <template>
-    <b-modal ref="modal" :title="title">
-<!-- Yersultan Form for creating group-->
-        <div v-bind:class="{ 'has-error': errors && errors.project_id }" class="form-group row">
-            <label class="col-5 col-form-label">{{$tc('groups.form.select_project_id')}}</label>
+    <b-modal ref="modal" :title="$tc('regions.'+title)">
+        <div class="row">
+            <label class="col-3 offset-1 col-form-label">{{$tc('regions.name')}}</label>
             <div class="col-7">
-                <select v-model="form.project_id" >
-                    <option v-for="project in project_ids" :value="project.id">{{project.name}}</option>
-                </select>
-                <form-error v-if="errors && errors.project_id" :errors="errors">
-                    {{ errors.project_id[0] }}
-                </form-error>
+            <input  class="form-control"type="text" v-model="name"/>
             </div>
         </div>
-
-        <div v-bind:class="{ 'has-error': errors && errors.start_date }" class="form-group row">
-            <label class="col-5 col-form-label">{{$tc('groups.form.select_start_date')}}</label>
-            <div class="col-7">
-                <input type="date"  v-model="form.start_date" />
-                <form-error v-if="errors && errors.start_date" :errors="errors">
-                    {{ errors.start_date[0] }}
-                </form-error>
-            </div>
-        </div>
-
-        <div v-bind:class="{ 'has-error': errors && errors.language }" class="form-group row">
-            <label class="col-5 col-form-label">{{$tc('groups.form.select_language')}}</label>
-            <div class="col-7">
-                <select v-model="form.language" >
-                    <option value="ru">{{$tc('groups.form.available_languages.ru')}}</option>
-                    <option value="kz">{{$tc('groups.form.available_languages.kz')}}</option>
-                </select>
-                <form-error v-if="errors && errors.language" :errors="errors">
-                    {{ errors.language[0] }}
-                </form-error>
-            </div>
-        </div>
-
-        <div v-bind:class="{ 'has-error': errors && errors.capacity }" class="form-group row">
-            <label class="col-5 col-form-label">{{$tc('groups.form.select_capacity')}}</label>
-            <div class="col-7">
-                <input type="number" v-model="form.capacity" />
-                <form-error v-if="errors && errors.capacity" :errors="errors">
-                    {{ errors.capacity[0] }}
-                </form-error>
-            </div>
-        </div>
-        <div v-bind:class="{ 'has-error': errors && errors.online }" class="form-group row">
-            <label class="col-5 col-form-label">{{$tc('groups.form.select_if_online')}}</label>
-            <div class="col-7">
-                <input type="checkbox" v-model="form.online" />
-                <form-error v-if="errors && errors.online" :errors="errors">
-                    {{ errors.online[0] }}
-                </form-error>
-            </div>
-        </div>
-        <button @click="sendForm" slot="modal-footer"class="btn btn-primary">{{$tc('groups.form.submit_group_form')}}</button>
-        <!-- end form-->
-
+        <button class="btn btn-primary" slot="modal-footer" @click="sendForm" :disabled="formSending">{{$tc('regions.create')}}</button>
     </b-modal>
 </template>
 
 <script>
 
     import { get,post } from '../../../../../helpers/api'
+    import Input from "vue-strap/src/Input";
 
     export default {
+        components: {Input},
         props: ['data', '_form'],
 
         data() {
             return {
-                errors: [],
-                formSending: false,
-                form: '',
-                title: '',
-                project_ids:''
+                title:"",
+                type:"",
+                parent_id:"",
+                region_id:"",
+                name:"",
+                formSending:false,
+                parent_data:"",
+                errors:"",
+                is_editing:''
             }
-        },
-        created() {
-            this.form = this._form ? this._form : this.newGroup();
-        },
-        mounted() {
-            this.title = this.form.id ? this.$tc('groups.form.editHeader') : this.$tc('groups.form.createHeader');
-            let _this = this;
-            get(_this, 'api/projects/get-all',{}, function (response) {
-                _this.project_ids = response.data;
-            }, function () {
-
-            });
-        },
-        components: {
-            FormError : require('../../../../../components/FormError.vue')
         },
         methods:{
             sendForm() {
+                let form={};
+                form.name=this.name;
+                form.type=this.type;
+                form.parent_id=this.parent_data;
                 this.formSending = true;
                 let _this = this;
-                post(_this, '/api/group-save', this.form, function () {
+
+                post(_this, '/api/region/save', form, function () {
                     _this.formSending = false;
                     _this.errors = '';
                     _this.hideModal();
-                    _this.form = _this.form.id ? _this.form : _this.newGroup();
-                    _this.$emit('formSending');
                     _this.$emit('updated');
                 }, function (error) {
+                    console.log(error)
                     _this.formSending = false;
                     _this.errors = error.response.data;
                 });
             },
-            showModal(){
+            showModal(type,parent){
+                this.newForm();
+                this.type=type;
+                this.parent_data = parent;
+                if(type==="district") this.title=this.$tc('add_district');
+                if(type==="locality") this.title=this.$tc('add_locality');
+                if(type==="region") this.title=this.$tc('add_region');
                 this.$refs.modal.show();
+            },
+            newForm(){
+                    this.name=""
             },
             hideModal() {
                 this.$refs.modal.hide();
-            },
-            newGroup() {
-                return {
-                    project_id:"",
-                    start_date:"",
-                    language:"",
-                    capacity:"",
-                    online:""
-                }
-            },
+            }
         }
     }
 </script>

@@ -1,6 +1,6 @@
 {
   "filter":{
-    "name_or_phone":"пока что нифига не фильтруется потому что не знаю по чему фильтровать",
+    "name_of_something":"Название населенного пункта, региона и области",
     "current":"Текущие",
     "without_participants":"Без участников",
     "inactive":"Неактивные",
@@ -8,6 +8,7 @@
     "reset":"Сбросить"
   },
   "list":{
+    "edit":"Настроить",
     "found_number":"Количество найденных групп:",
     "table":{
       "project":"Проект",
@@ -32,10 +33,16 @@
       "change_advisor":"Заменить преподавателя",
       "edit":"Редактировать",
       "archive":"Архивировать",
+      "restore":"Разархивировать",
+      "in_archive":"Статус группы",
+      "active":"активна",
+      "archived":"архивирована",
       "delete_group":"Удалить",
       "id":"Айди группы",
       "created_date":"Дата создания",
-      "online":"Онлайн",
+      "online":"онлайн",
+      "group_lesson_types":"Тип курсов",
+      "offline":"офлайн",
       "advisor":"Преподаватель",
       "project":"Проект"
     },
@@ -43,6 +50,40 @@
       "current":"текущие",
       "archived":"архивированные",
       "add_existing_participant":"Добавить участника"
+    },
+    "history_tab":{
+      "group_history":"История группы",
+      "created":"Группа создана",
+      "archived":"Группа архивирована",
+      "unarchived":"Группа разархивирована",
+      "new_participant":"Добавлен новый участник",
+      "removed_participant":"Участник удален из группы"
+    },
+    "lessons_tab":{
+      "group_lessons":"Уроки группы"
+    },
+    "statistics_tab":{
+      "group_statistics":"Статистика группы"
     }
+  },
+  "form":{
+    "create_header":"Создание новой группы",
+    "select_project_id":"Проект",
+    "select_start_date":"Начало занятий",
+    "select_language":"Язык обучения",
+    "select_capacity":"Количество мест",
+    "select_if_online":"Онлайн курсы",
+    "select_region":"Населенный пункт",
+    "submit_group_form":"Создать группу",
+    "available_languages":{
+      "ru":"Русский язык",
+      "kz":"Казахский язык"
+    }
+  },
+  "modals":{
+    "remove_participant_header":"Удаление участника из группы",
+    "remove_participant_body":"Вы действительно хотите удалить участника?",
+    "remove_participant_ok":"Продолжить",
+    "remove_participant_cancel":"Отменить"
   }
 }

@@ -22,6 +22,7 @@ class UsersTableSeeder extends Seeder
             'gender'=>'M',
             'iin'=>'901030500500',
             'lang_id' => 1,
+            'locality_id'=>1
         ]);
 
         \App\User::create([

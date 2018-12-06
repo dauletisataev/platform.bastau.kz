@@ -8,7 +8,7 @@ class BusinessTrainer extends Model
 {
     protected $table = 'trainers';
     protected $dates = ['deleted_at'];
-
+a
     /**
      * Foreign Key Relationship with User model
      */
@@ -50,10 +50,19 @@ class BusinessTrainer extends Model
             });
         }
     }
-
     public static function boot()
     {
         parent::boot();
         BusinessTrainer::observe(new \App\Observers\BTrainerObserver);
     }
+    public function locality(){
+        return $this->belongsTo("App\Locality");
+    }
+
+    /*
+	* public function groups()
+    * {
+    *	return $this->hasMany('App\Group');
+    * }	
+    */
 }

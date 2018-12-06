@@ -17,7 +17,7 @@ class CreateLocalitiesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('district_id')->unsigned();
-            $table->foreign('district_id')->references('id')->on('districts');
+            $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
         });
     }
 

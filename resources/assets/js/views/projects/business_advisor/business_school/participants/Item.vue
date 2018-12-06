@@ -23,10 +23,10 @@
         <!--КОНЕЦ-->
         <!-- основной табовый контейнер, который содержит более подробное описание о участнике(история и основная информация)
                 НАЧАЛО-->
-        <div class="col-8 offset-4 fixed-top h-100 pt-4">
+        <div class="col-8 offset-4 fixed-top h-100 pt-4 ">
             <b-tabs>
                 <b-tab :title="$tc('participants.item.general_info')" active>
-                    <info :participant="participant"/>
+                    <info v-on:updated="updateData" :participant="participant"/>
                 </b-tab>
                 <b-tab :title="$tc('participants.item.history')" >
                     <history :histories="histories"/>

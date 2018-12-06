@@ -11,8 +11,8 @@
                 <b-tab :title="$tc('groups.item.group_statistics')" active>
                     <group-statistics statistics=""/>
                 </b-tab>
-                <b-tab :title="$tc('groups.item.group_participants')" active>
-                    <group-participants :participants="group.participants" :id="id"/>
+                <b-tab :title="$tc('groups.item.group_participants')"  active>
+                    <group-participants v-on:updated="updateData" :participants="group.participants" :id="id"/>
                 </b-tab>
                 <b-tab :title="$tc('groups.item.group_lessons')" active>
                     <group-lessons lessons=""/>
