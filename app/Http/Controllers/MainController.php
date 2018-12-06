@@ -9,6 +9,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Locality;
+use App\District;
 use App\Role;
 use App\Region;
 use App\ArchiveReasons;
@@ -22,7 +24,9 @@ class MainController extends Controller
         $data = [];
         $data['roles'] = Role::all();
         $data['archived_reasons'] = ArchiveReasons::all();
-        $data['regions'] = Region::with(['districts.localities'])->get();
+        $data['regions'] = Region::all();
+        $data['districts'] = District::all();
+        $data['localities']=Locality::all();
         return $data;
     }
 }

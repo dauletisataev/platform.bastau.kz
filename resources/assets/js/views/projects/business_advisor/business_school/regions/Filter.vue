@@ -5,17 +5,15 @@
             <div class="col-3 ">
                 <select class="form-control" v-model="filterData.region" @change="clearListLoad('reg')" >
                     <option default value="">{{$tc('regions.select_region')}}</option>
-                    <option v-for="region in $common.data.regions" :value="region.name"> {{region.name}}</option>
+                    <option v-for="region in $common.data.regions" :value="region.id" :selected="region.id===filterData.region"> {{region.name}}</option>
                 </select>
             </div>
-            <template v-for="region in $common.data.regions" >
-                <div v-if="region.name===filterData.region" class="col-3" >
+            <div v-if="filterData.region!==''" class="col-3" >
                 <select  class="form-control"  v-model="filterData.district"  @change="clearListLoad('distr')">
                     <option default value="">{{$tc('regions.select_district')}}</option>
-                    <option v-for="district in region.districts" :value="district.name">{{district.name}}</option>
+                    <option v-for="district in $common.data.districts" v-if="district.region_id===filterData.region" :value="district.id">{{district.name}}</option>
                 </select>
-                </div>
-            </template>
+            </div>
         </div>
     </div>
 </template>
@@ -51,12 +49,18 @@
                 for (let filterKey in this.filterData) {
                     for(let queryKey in query){
                         if(filterKey == queryKey) {
-                            if(this.filterData[filterKey].constructor === Array) {
-                                this.filterData[filterKey].push(query[queryKey]);
-                            } else {
-                                this.filterData[filterKey] = query[queryKey];
-                            }
-
+                            if(queryKey==="region")queryKey="regions";
+                            if(queryKey==="district")queryKey="districts";
+                            if(queryKey==="locality")queryKey="localities";
+                            this.$common.data[queryKey].forEach((item)=>{
+                                if(item.id ==query[filterKey]){
+                                    if(this.filterData[filterKey].constructor === Array) {
+                                        this.filterData[filterKey].push(item.id);
+                                    } else {
+                                        this.filterData[filterKey] = item.id;
+                                    }
+                                }
+                            });
                         }
                     }
                 }

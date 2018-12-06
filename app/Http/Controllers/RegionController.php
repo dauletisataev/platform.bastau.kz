@@ -16,38 +16,30 @@ class RegionController extends Controller
         $this->validate($request, [
             'name' => 'required|string',
         ]);
-        if($type==="district"){
-            $this->validate($request, [
-                'region' => 'string|required',
-            ]);
-            $region = Region::where("name",$request->get('region'))->first();
-            District::create([
-                "region_id"=>$region->id,
-                "name"=>$request->get('name')
-            ]);
+        if($type==="region"){
+            Region::create(
+                ["name"=>$request->get('name')]);
             return response()->json(['status' => 'success'], 200);
         }
-        else if($type==="locality"){
+        else {
             $this->validate($request, [
-                'district' => 'string|required',
-                'region'=>'string|required'
+                'parent_id' => 'required',
             ]);
-            $region = Region::where('name',$request->get('region'))->with('districts')->first();
-            foreach ($region->districts as $district) {
-                if($district->name === $request->get('district')){
-                    Locality::create([
-                        "district_id"=>$district->id,
-                        "name"=>$request->get('name')
-                    ]);
-                    return response()->json(['status' => 'success'], 200);
-                }
+            if($type==="district"){
+                District::create([
+                    "name"=>$request->get('name'),
+                    "region_id"=>$request->get('parent_id')
+                ]);
+                return response()->json(['status' => 'success'], 200);
             }
-        }
-        else if($type==="region"){
-            Region::create([
-                "name"=>$request->get('name')
-            ]);
-            return response()->json(['status' => 'success'], 200);
+            if($type==="locality"){
+                Locality::create([
+                    "name"=>$request->get('name'),
+                    "district_id"=>$request->get('parent_id')
+                ]);
+                return response()->json(['status' => 'success'], 200);
+            }
+
         }
     }
     public function delete($id,Request $request){

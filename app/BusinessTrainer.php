@@ -58,7 +58,9 @@ class BusinessTrainer extends Model
             });
         }
     }
-
+    public function locality(){
+        return $this->belongsTo("App\Locality");
+    }
 
     /*
 	* public function groups()

@@ -20,7 +20,7 @@ class GroupController extends Controller
             ])->first();
     }
     public function items(){
-        return Group::filter(Input::all())->with(['participants.user'])->orderBy('id', 'desc')->paginate(20);
+        return Group::filter(Input::all())->with(['participants.user','locality.district.region'])->orderBy('id', 'desc')->paginate(20);
     }
     public function saveGroup(Request $request){
         $this->validate($request, [

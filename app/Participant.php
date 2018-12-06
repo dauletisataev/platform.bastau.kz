@@ -110,10 +110,36 @@ class Participant extends Model
                     $query->orWhere('last_name', 'like', '%'.$search_text.'%');
                     $query->orWhere('patronymic', 'like', '%'.$search_text.'%');
                     $query->orWhere('iin', 'like', '%'.$search_text.'%');
+                    $query->orWhereHas('home', function($q) use($search_text) {
+                        $q->where (function($query) use($search_text) {
+                            $query->where('name', 'like', '%'.$search_text.'%');
+                            $query->orWhereHas('district',function($q) use($search_text){
+                                $q->where('name', 'like', '%'.$search_text.'%');
+                                $q->orWhereHas('region',function($q) use($search_text){
+                                    $q->where('name', 'like', '%'.$search_text.'%');
+                                });
+                            });
+                        });
+                    });
                 });
             });
-
         }
+        /*
+                if(isset($filters['locality'])){
+                    $query->where('locality_id',$filters['locality']);
+                }
+
+                else if(isset($filters['district'])){
+                    $query->whereHas('locality', function($q) use($filters) {
+                        $q->where (function($query) use($filters) {
+                            $query->where('id', $filters['locality']);
+                            $query->orWhereHas('district',function($q) use($filters){
+                                $q->where('name', $filters['district']);
+                            });
+                        });
+                    });
+                }*/
+
         if (isset($filters['is_archived'])){
             if($filters['is_archived']==="false"){
                 $query->where("in_archive",0);

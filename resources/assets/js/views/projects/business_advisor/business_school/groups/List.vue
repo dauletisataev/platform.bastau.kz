@@ -6,35 +6,35 @@
             {{ $tc('groups.list.found_number') }} {{ total }}
             <button class="btn btn-primary float-right" @click="$refs.createGroupModal.showModal()">{{$tc('groups.list.create_group')}}</button>
             <group-form ref="createGroupModal"  v-on:updated="getList"/>
-            <div class="col-8">
+            <div>
                 <table class="table mb-0">
                     <tr>
                         <td>{{$tc('groups.list.table.project')}}</td>
                         <td>{{$tc('groups.list.table.advisor')}}</td>
+                        <td>{{$tc('regions.region')}}</td>
+                        <td>{{$tc('regions.district')}}</td>
+                        <td>{{$tc('regions.locality')}}</td>
                         <td>{{$tc('groups.list.table.participants_number')}}</td>
                         <td>{{$tc('groups.list.table.next_lesson')}}</td>
                     </tr>
                 <tr v-for="item in groups">
                     <td>{{item.project_id}}</td>
                     <td>{{item.advisor}}</td>
+                    <td>{{item.locality.district.region.name}}</td>
+                    <td>{{item.locality.district.name}}</td>
+                    <td>{{item.locality.name}}</td>
                     <td>{{item.participants.length}}</td>
                     <td>{{item.next_lesson}}</td>
-                    <td>
-                            <div class="row">
-                                <div class="col-6">
-                                    <b-tooltip  :title="$tc('groups.list.get_info')" placement="left">
-                                        <router-link :to="{name:'group', params:{id: item.id}}"
-                                                     class="btn btn-outline-primary btn-sm">
-                                            <span class="fa fa-eye"></span></router-link>
-                                    </b-tooltip>
-                                </div>
-                                <div class="col-6">
-                                    <b-dropdown right text="Options">
-                                        <b-dropdown-item>{{$tc('groups.list.options.cancel_lesson')}}</b-dropdown-item>
-                                        <b-dropdown-item><router-link :to="{name:'add-existing-participant-to-group', params:{id:item.id}}">{{$tc('groups.list.options.add_participant')}}</router-link></b-dropdown-item>
-                                    </b-dropdown>
-                                </div>
-                            </div>
+                    <td class="row pull-right" >
+                            <b-tooltip  :title="$tc('groups.list.get_info')" placement="left">
+                                <router-link :to="{name:'group', params:{id: item.id}}"
+                                             class="btn btn-outline-primary btn-sm">
+                                    <span class="fa fa-eye"></span></router-link>
+                            </b-tooltip>
+                            <b-dropdown size="sm" :text="$tc('groups.list.edit')" right>
+                                <b-dropdown-item>{{$tc('groups.list.options.cancel_lesson')}}</b-dropdown-item>
+                                <b-dropdown-item><router-link :to="{name:'add-existing-participant-to-group', params:{id:item.id}}">{{$tc('groups.list.options.add_participant')}}</router-link></b-dropdown-item>
+                            </b-dropdown>
                     </td>
                 </tr>
                 </table>

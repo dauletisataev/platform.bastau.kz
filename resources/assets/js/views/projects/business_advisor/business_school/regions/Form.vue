@@ -37,8 +37,7 @@
                 let form={};
                 form.name=this.name;
                 form.type=this.type;
-                form.region=this.parent_data.region;
-                form.district=this.parent_data.district;
+                form.parent_id=this.parent_data;
                 this.formSending = true;
                 let _this = this;
 

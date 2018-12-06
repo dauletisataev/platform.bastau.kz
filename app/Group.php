@@ -18,6 +18,20 @@ class Group extends Model
     }
     public function scopeFilter($query, $filters)
     {
+        if(isset($filters['search_text'])){
+            $search_text=$filters['search_text'];
+            $query->whereHas('locality', function($q) use($search_text) {
+                $q->where(function($query) use($search_text) {
+                    $query->where('name', 'like', '%'.$search_text.'%');
+                    $query->orWhereHas('district',function($q) use($search_text){
+                        $q->where('name', 'like', '%'.$search_text.'%');
+                        $q->orWhereHas('region',function($q) use($search_text){
+                            $q->where('name', 'like', '%'.$search_text.'%');
+                        });
+                    });
+                });
+            });
+        }
         if($filters['group_type']==="current"){
             $query->where('in_archive',0);
         }else if($filters['group_type']==="without_participants"){

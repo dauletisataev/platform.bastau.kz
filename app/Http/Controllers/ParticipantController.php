@@ -13,7 +13,7 @@ class ParticipantController extends Controller
     public function items(Request $request)
     {
         return Participant::filter(Input::all())->with([
-            'user'
+            'user.home.district.region'
         ])->orderBy('id', 'desc')->paginate(20);
     }
     public function item($id)
