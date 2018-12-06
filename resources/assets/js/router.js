@@ -22,6 +22,8 @@ const LessonContent = require('./views/lessons/Item.vue');
 const Participants = require('./views/projects/business_advisor/business_school/participants/List.vue');
 const Participant = require('./views/projects/business_advisor/business_school/participants/Item.vue');
 
+const Logs = require('./views/logs/List.vue');
+
 const Group = require('./views/projects/business_advisor/business_school/groups/Item.vue');
 const Groups = require('./views/projects/business_advisor/business_school/groups/List.vue');
 const AddExistingParticipantToGroup = require("./views/projects/business_advisor/business_school/groups/add_participants/add_existing_participants.vue");
@@ -44,6 +46,7 @@ export default new VueRouter({
         { name: 'lesson_templates', path: '/control/lesson-templates', component: LessonTemplates, meta: {title: 'Программы', forAuth: true, forTeacher: true} },
         { name: 'lesson_template', path: '/control/lesson-templates/:id', component: LessonTemplate, props:true, meta: {title: 'Программа', forAuth: true, forTeacher: true} },
         { name: 'lesson_template_content', path: '/control/lesson-templates/:template_id/lesson/:id', component: LessonTemplateContent, props: true, meta: {title: 'Занятие', forAuth: true, forTeacher: true}},
+        { name: 'logs', path: '/control/logs', component: Logs, meta: {title: 'Лог действий', forAuth: true} },
         {
             name: 'participants',
             path: '/participants',

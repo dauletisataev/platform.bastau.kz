@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset("/css/quill.bubble.css") }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="client-secret" content="s8bN2pqwX16lpdXtErGk2b7TLZo93TNhPzBk1sxO">
+    <meta name="client-secret" content="Yi84hRlpaQoOFEMe0wFNos3GDeBzLy3ajhJsFQJs">
 </head>
 
 <body>
@@ -27,9 +27,9 @@
 <script>
     window.Laravel = <?php echo json_encode([
         'csrfToken' => csrf_token(),
-    ]); ?>
+    ]); ?>;
 </script>
-<script src="{{ asset("/js/app.js?v.1.7") }}" charset="utf-8"></script>
+<script src="{{ asset("/js/app.js?v.1.71") }}" charset="utf-8"></script>
 
 
 </body>

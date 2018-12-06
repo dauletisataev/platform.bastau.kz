@@ -89,3 +89,5 @@ Route::post('/upload-file','MaterialController@uploadFile');
 Route::post('/lesson-template-save-test', 'LessonTemplateController@saveTestQuestion');
 Route::post('lesson-template-add-test/{id}','LessonTemplateController@addTestQuestion');
 Route::get('lesson-template-delete-test/{id}','LessonTemplateController@deleteTestQuestion');
+
+Route::get('/user-logs', 'UserLogController@items');
