@@ -76,18 +76,6 @@ Route::get('/trainers/trainer/{id}', function() {
     return view('app');
 });
 
-Route::prefix('/api/trainers')->group(function () {
-    // Get all trainers
-    Route::get('/', 'BusinessTrainerController@items');
-    // Crate or update trainer
-    Route::post('/', 'BusinessTrainerController@save');
-    Route::put('/update/{trainer}','BusinessTrainerController@save');
-    // Get one trainer
-    Route::get('/{trainer}', 'BusinessTrainerController@item');
-    Route::post('/archive/{trainer}', 'BusinessTrainerController@archive');
-    Route::delete('/delete/{trainer}', 'BusinessTrainerController@delete');
-});
-
 Route::get('/api/users', function() {
     return App\User::all();
 });

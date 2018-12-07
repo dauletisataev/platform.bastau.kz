@@ -50,13 +50,16 @@ class BusinessTrainer extends Model
             });
         }
     }
-    public static function boot()
-    {
-        parent::boot();
-        BusinessTrainer::observe(BTrainerObserver::class);
-    }
+
     public function locality(){
         return $this->belongsTo("App\Locality");
+    }
+
+    public static function boot()
+    {
+        static::deleting(function($trainer) {
+             $trainer->user()->delete();
+        });
     }
 
     /*

@@ -28,7 +28,7 @@
             </table>
         </div>
 
-        <trainer-form ref="newTrainer" :_form="newTrainer" @formSending="filtered"></trainer-form>
+        <trainer-form ref="newTrainer" :_form="newTrainer" @send="filtered"></trainer-form>
 
     </div>
 </template>

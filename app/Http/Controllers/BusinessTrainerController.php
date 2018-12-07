@@ -31,7 +31,8 @@ class BusinessTrainerController extends Controller
         // set X-CSRF-TOKEN Cookie in Header
         // $token = $result['_token'];
         // return $token;
-
+        // dd($request->all());
+        // return NULL;
         $id = $request->get('id') ? $request->get('id') : 0;
         $user = $id ? User::find($id) : new User();
         $trainer = $id ? $user->trainer()->first() : new BusinessTrainer;
@@ -47,6 +48,9 @@ class BusinessTrainerController extends Controller
             'email' => 'nullable|email',
             'phone' => 'required',
             'photo' => 'image64:jpeg,jpg,png',
+            // 'region_id' => 'required|integer',
+            'locality_id' => 'required|integer',
+            // 'district_id' => 'required|integer',
         ]);
 
         // dd($request);
@@ -59,6 +63,7 @@ class BusinessTrainerController extends Controller
         $user->email = $request->get('email');
         $user->phone = $request->get('phone');
         $user->role_id = $request->get('role_id');
+        $user->locality_id = $request->get('locality_id');
         if ($request->get('photo')) {
             $user->photo = $request->get('photo');
         }

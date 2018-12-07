@@ -46,8 +46,7 @@
                 <label class="col-3 col-form-label">Пол</label>
                 <div class="col-9">
                     <select v-model="form.gender">
-                        <option class="form-control" value="M">Мужчина</option>
-                        <option class="form-control" value="F">Женщина</option>
+                        <option v-for="gender in $common.data.genders" class="form-control" :value="gender">{{ gender === 'M' ? 'Мужчина' : 'Женщина' }}</option>
                     </select>
                     <form-error v-if="errors && errors.gender" :errors="errors">
                         {{ errors.gender[0] }}
@@ -84,6 +83,42 @@
                     </form-error>
                 </div>
             </div>
+            
+<!--             <div v-bind:class="{ 'has-error': errors && errors.region_id }" class="form-group row">
+                <label class="col-3 col-form-label">Регион</label>
+                <div class="col-9">
+                    <select v-model="form.region_id">
+                        <option v-for="region in $common.data.regions" class="form-control" :value="region.id">{{ region.name }}</option>
+                    </select>
+                    <form-error v-if="errors && errors.region_id" :errors="errors">
+                        {{ errors.region_id[0] }}
+                    </form-error>
+                </div>
+            </div> -->
+
+            <div v-bind:class="{ 'has-error': errors && errors.locality_id }" class="form-group row">
+                <label class="col-3 col-form-label">Область</label>
+                <div class="col-9">
+                    <select v-model="form.locality_id">
+                        <option v-for="locality in $common.data.localities" class="form-control" :value="locality.id">{{ locality.name }}</option>
+                    </select>
+                    <form-error v-if="errors && errors.locality_id" :errors="errors">
+                        {{ errors.locality_id[0] }}
+                    </form-error>
+                </div>
+            </div>
+    
+<!--             <div v-bind:class="{ 'has-error': errors && errors.district_id }" class="form-group row">
+                <label class="col-3 col-form-label">Район</label>
+                <div class="col-9">
+                    <select v-model="form.district_id">
+                        <option v-for="district in $common.data.districts" class="form-control" :value="district.id">{{ district.name }}</option>
+                    </select>
+                    <form-error v-if="errors && errors.district_id" :errors="errors">
+                        {{ errors.district_id[0] }}
+                    </form-error>
+                </div>
+            </div> -->
 
             <div v-bind:class="{ 'has-error': errors && errors.password }" class="form-group row">
                 <label class="col-3 col-form-label">Пароль</label>
@@ -152,7 +187,8 @@
                 sending: false,
                 url: '/api/trainers/',
                 errors: [],
-                title: ''
+                title: '',
+                localities: [],
     		}
     	},
 
@@ -173,6 +209,7 @@
                         self.hideModal();
                         self.form = self.form.id ? self.form : self.newTrainer();
                         self.hideModal();
+                        self.$emit('send');
                     }, 
                     (err) => {
                         self.sending = false;
@@ -196,6 +233,9 @@
                     email: '',
                     password: '',
                     password_confirmation: '',
+                    // region_id: '',
+                    locality_id: '',
+                    // district_id: '',
                     role_id: 2,
                 }
             },

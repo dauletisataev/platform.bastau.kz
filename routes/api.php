@@ -68,6 +68,23 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::post('/user-photo-save', 'UserController@savePhoto');
             Route::get('/users-all', 'UserController@all');
 
+            /**
+             * Alibek
+             * Routes for trainers
+             */
+
+    // Get all trainers
+    Route::get('trainers/', 'BusinessTrainerController@items');
+    // Crate or update trainer
+    Route::post('trainers/', 'BusinessTrainerController@save');
+    Route::put('trainers/update/{trainer}','BusinessTrainerController@save');
+    // Get one trainer
+    Route::get('trainers/{trainer}', 'BusinessTrainerController@item');
+    Route::post('trainers/archive/{trainer}', 'BusinessTrainerController@archive');
+    Route::delete('trainers/delete/{trainer}', 'BusinessTrainerController@delete');
+
+
+
     });
 
     Route::group(['middleware' => ['isViewer']], function () {

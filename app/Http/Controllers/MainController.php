@@ -29,6 +29,7 @@ class MainController extends Controller
         $data['regions'] = Region::all();
         $data['districts'] = District::all();
         $data['localities']=Locality::all();
+        $data['genders'] = ['M', 'F'];
         return $data;
     }
 }
