@@ -9,6 +9,25 @@
 		"active":"Текущие",
 		"archived":"Архивированные"
 	},
+	"action_options":{
+		"action": "Действия",
+		"select": "Выбрать"
+	},
+	"action_on_selected":{
+		"send_mail": "отправить mail",
+		"send_sms":  "отправить смс",
+		"cancel": "отмена"
+	},
+	"send_mail_modal":{
+		"title": "Новое сообщение участникам по почте",
+		"mail_title":"Заголовок",
+		"mail_body": "Контент",
+		"choose_template": "Выберите шаблон"
+	},
+	"send_sms_modal":{
+		"title": "Новое сообщение участникам", 
+		"sms_body": "Текст"
+	},
 	"list":{
 		"found_number":"Найдено участников:",
 		"add":"Добавить нового участника",

@@ -47,7 +47,7 @@ class LessonTemplateController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'role_id' => 'required'
-        ]);
+        ]); 
 
         $template = LessonTemplate::findOrNew($request->get('id'));
 

@@ -9,6 +9,25 @@
 		"active":"Қазіргі",
 		"archived":"Архивталғандар"
 	},
+	"action_options":{ 
+		"action": "Әрекет",
+		"select": "Таңдау"
+	},
+	"action_on_selected":{
+		"send_mail": "mail хат жолдау",
+		"send_sms":  "смс жолдоу",
+		"cancel": "жою"
+	},
+	"send_mail_modal":{
+		"title": "Mail хат жолдау",
+		"mail_title":"Тақырыбы",
+		"mail_body": "Тексті",
+		"choose_template": "Хат шаблонын таңдаңыз"
+	},
+	"send_sms_modal":{
+		"title": "Хаттама жолдау", 
+		"sms_body": "Тексті"
+	},
 	"list":{
 		"found_number":"Табылған қатысушылардың саны:",
 		"add":"Жаңа қатысушыны еңгізу",

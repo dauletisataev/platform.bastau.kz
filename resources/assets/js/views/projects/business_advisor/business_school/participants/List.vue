@@ -1,6 +1,32 @@
 <template>
     <div class="container-fluid">
-        <participant-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered"></participant-filter>
+        <participant-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered" v-on:changeMode="selectMode = arguments[0]" :actionOption="selectMode ? 'select': 'action'"></participant-filter>
+         <!-- 
+             *Daulet
+             *блок с действиями с выделенными пользователями
+             -Отправить мэйл
+             -Отправить смс 
+          -->
+        <div v-if="selectMode" class="card mt-4 col-10 offset-2" style="background-color: #f7f7f9;" >
+                <div class="card-block ">
+                    <div class="clearfix">
+                        <div class="d-inline-block">
+                            <button :disabled="selectedIds.length==0" @click="$refs.sendMailModal.showModal()" class="btn btn-primary">
+                                {{$tc('participants.action_on_selected.send_mail')}}
+                            </button>
+                        </div>
+                        <div class="d-inline-block ml-2">
+                            <button  :disabled="selectedIds.length==0"  @click="$refs.sendSmsModal.showModal()" class="btn btn-primary">
+                                 {{$tc('participants.action_on_selected.send_sms')}}
+                            </button>
+                        </div> 
+                        <button class="btn btn-danger pull-right" @click="selectMode = false">
+                            {{$tc('participants.action_on_selected.cancel')}}
+                        </button>
+                    </div>
+                </div>
+        </div>
+
         <!-- Результаты -->
         <div class="col-10 offset-2  ">
             {{ $tc('participants.list.found_number') }} {{ total }}
@@ -8,6 +34,9 @@
             <table class="table">
                 <thead class="thead-default">
                 <tr>
+                    <th  v-if="selectMode" >
+                        <input type="checkbox" @change="onCheckAll(checkAll)" name="" id="" v-model="checkAll">
+                    </th>
                     <th>{{ $tc('participants.list.first_name') }}</th>
                     <th>{{ $tc('participants.list.last_name') }}</th>
                     <th>{{ $tc('participants.list.patronymic') }}</th>
@@ -21,6 +50,10 @@
                 </thead>
                 <tbody>
                 <tr v-for="participant in participants">
+                    <td v-if="selectMode">
+                        <!-- Даулет:  onChange-> если один элемент unchecked, then checkAll = false  -->
+                        <input class="form-control" @change="!selectedIds.includes(participant.user_id) ? checkAll = false : true" :value="participant.user_id" v-model="selectedIds" type="checkbox">
+                    </td>
                     <td>{{ participant.user.first_name }}</td>
                     <td>{{ participant.user.last_name}}</td>
                     <td>{{participant.user.patronymic}}</td>
@@ -45,6 +78,8 @@
         </div>
 
         <participant-form ref="newParticipant" :data="$common.data" :_form="newParticipant" v-on:formSending="filtered"></participant-form>
+        <send-mail-modal ref="sendMailModal" :data="Array.from(selectedIds)" ></send-mail-modal>
+        <send-sms-modal ref="sendSmsModal" :data="Array.from(selectedIds)" ></send-sms-modal>
 
     </div>
 </template>
@@ -64,11 +99,20 @@
                 total: 0,
                 resource_url: '/api/participants',
                 next_url: '',
-                default_url: '/api/participants'
+                default_url: '/api/participants',
+                /*
+                    selectMode variable
+                    creator: Daulet
+                */
+                selectMode: true, 
+                checkAll: false,
+                selectedIds: []
             }
         },
         components: {
             'participant-form': require('./Form.vue'),
+            'send-mail-modal': require('./modals/sendMailModal.vue'),
+            'send-sms-modal': require('./modals/sendSmsModal.vue'),
             'participant-filter': require('./Filter.vue')
         },
         methods: {
@@ -106,7 +150,8 @@
                 this.participants = [];
                 this.total = 0;
                 this.filterData = this.$refs.filter.filterData;
-
+                this.checkAll = false;
+                this.selectedIds = [];
                 this.$nextTick(function () {
                     this.$router.push({ path: '/participants', query: this.filterData });
                     this.getList();
@@ -126,10 +171,29 @@
                     })
                 }
 
+            }, 
+            onCheckedChange(participant){
+                console.log(participant.selected);
+                if(!participant.selected) {
+                    this.checkAll = false;
+                    this.selectedIds.delete(participant.user_id);
+                } else{
+                    this.selectedIds.add(participant.user_id);
+                } 
+                //console.log(Array.from(this.selectedIds));
+            },
+            onCheckAll(checked){
+                this.selectedIds = [];
+                if(checked)
+                for(let x =0; x<this.participants.length; x++){ 
+                    this.selectedIds.push(this.participants[x].user_id); 
+                } 
+            },
+            selectedChanged(checked){
+                if(!checked) checkAll = false;;
             }
 
-        },
-
+        }, 
         created() {
             window.document.body.onscroll = this.handleScroll;
         }

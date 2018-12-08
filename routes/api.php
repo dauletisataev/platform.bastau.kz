@@ -68,6 +68,11 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::post('/user-photo-save', 'UserController@savePhoto');
             Route::get('/users-all', 'UserController@all');
 
+            /*Daulet
+            * Routes for sendpulse communications 
+            */
+            Route::get('/sendpulse/getTemplates', 'SendPulseController@getTemplates');
+            Route::post('/sendpulse/sendEmail', 'SendPulseController@sendEmail'); 
     });
 
     Route::group(['middleware' => ['isViewer']], function () {
