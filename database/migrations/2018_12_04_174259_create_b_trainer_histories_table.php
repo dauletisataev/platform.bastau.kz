@@ -20,9 +20,9 @@ class CreateBTrainerHistoriesTable extends Migration
             $table->string('field')->nullable();
             $table->string('action_name')->nullable();
             $table->integer('trainer_id')->unsigned()->nullable();
-            $table->foreign('trainer_id')->references('id')->on('trainers')->onDelete('cascade');
-            $table->integer('actor_id')->unsigned();
-            $table->foreign('actor_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('trainer_id')->references('id')->on('trainers')->onDelete('set null');
+            $table->integer('actor_id')->unsigned()->nullable();
+            $table->foreign('actor_id')->references('id')->on('users')->onDelete('set null');
             $table->timestamps();
         });
     }
@@ -34,6 +34,6 @@ class CreateBTrainerHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('b_trainer_histories');
+        Schema::dropIfExists('bthistories');
     }
 }

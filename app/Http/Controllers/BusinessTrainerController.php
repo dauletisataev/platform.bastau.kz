@@ -16,7 +16,7 @@ class BusinessTrainerController extends Controller
      */
     public function items()
     {
-        return BusinessTrainer::with('user')->filter(Input::all())->paginate(20);
+        return BusinessTrainer::with('user')->where('in_archive', '=', 0)->filter(Input::all())->paginate(20);
     }
 
     /**
@@ -84,7 +84,7 @@ class BusinessTrainerController extends Controller
      */
     public function item($id)
     {
-        return BusinessTrainer::where('id',$id)->with('user')->first();
+        return BusinessTrainer::where('id',$id)->with(['user', 'histories'])->first();
         
     }
 
@@ -106,14 +106,22 @@ class BusinessTrainerController extends Controller
      * @param  \App\BusinessTrainer  $trainer
      * @return \Illuminate\Http\Response
      */
-    public function archive(Request $request, BusinessTrainer $trainer)
-    {   
-        // $result = $request->session()->all(); // Get data from ssesion
-        // set X-CSRF-TOKEN Cookie in Header
-        // $token = $result['_token'];
-        // return $token;
+    public function archive(Request $request, $id)
+    {
+        $archive_reason = $request->get('archive_reason');
+        $trainer = BusinessTrainer::find($id)->first();
+        $trainer->in_archive = true;
+        $trainer->archive_reason_id = $archive_reason;
+        $trainer->save();
+    }
 
-        return $trainer->archive();
+
+    public function restore($id)
+    {
+        $trainer = BusinessTrainer::find($id)->first();
+        $trainer->in_archive = false;
+        $trainer->archive_reason_id = NULL;
+        $trainer->save();
     }
 
     /**

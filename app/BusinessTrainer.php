@@ -5,10 +5,12 @@ namespace App;
 use App\Observers\BTrainerObserver;
 use Illuminate\Database\Eloquent\Model;
 
+
 class BusinessTrainer extends Model
 {
     protected $table = 'trainers';
     protected $dates = ['deleted_at'];
+
     /**
      * Foreign Key Relationship with User model
      */
@@ -30,7 +32,7 @@ class BusinessTrainer extends Model
      */
     public function histories()
     {
-        return $this->hasMany(BTrainerHistory::class);
+        return $this->hasMany(BTrainerHistory::class, 'trainer_id', 'id');
     }
 
     /**

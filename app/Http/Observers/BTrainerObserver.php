@@ -20,6 +20,6 @@ class BTrainerObserver
 
 	public function deleted(BusinessTrainer $trainer)
 	{
-		BTrainerHistory::insert("deleted", auth()->user()->id, $trainer->id, NULL, $trainer->id, 'id');
+		BTrainerHistory::insert("deleted", auth()->user()->id, NULL, NULL, $trainer->id, 'id');
 	}
 }

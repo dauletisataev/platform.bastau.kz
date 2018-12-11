@@ -81,7 +81,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     // Get one trainer
     Route::get('trainers/{trainer}', 'BusinessTrainerController@item');
     Route::post('trainers/archive/{trainer}', 'BusinessTrainerController@archive');
-    Route::delete('trainers/delete/{trainer}', 'BusinessTrainerController@delete');
+    Route::post('trainers/restore/{trainer}', 'BusinessTrainerController@restore');
+    // Route::delete('trainers/delete/{trainer}', 'BusinessTrainerController@delete');
 
 
 
