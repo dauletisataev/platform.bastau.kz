@@ -94,7 +94,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/main/data', 'MainController@data');
 });
 
-Route::get('/lesson-templates/getConnectedCourses/{id}','LessonTemplateController@getItemConnections');
+Route::get('/lesson-templates/courses/{id}','LessonTemplateController@getItemConnections');
 Route::get('/lesson-templates', 'LessonTemplateController@items');
 Route::get('/lesson-template-delete/{id}', 'LessonTemplateController@delete');
 Route::post('/lesson-template-save', 'LessonTemplateController@save');

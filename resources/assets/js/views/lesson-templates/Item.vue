@@ -1,5 +1,6 @@
 <template>
     <div>
+
         <div class="row" v-show="loading==true">
             <div class="col-10 offset-2 yspinner" style="z-index:3005; left: 15px">
                 <clip-loader :size="'70px'" :color="'#0275d8'"></clip-loader>
@@ -46,7 +47,7 @@
             </div>
             <lessons v-if="activeTab == 'lessons'" :template="template" @formSending="getItem()"></lessons>
             <tests v-if="activeTab == 'tests'" :template="template" @formSending="getItem()" @save="sendForm()"></tests>
-            <test-edit v-if="activeTab == 'test-edit'" :template="template" @save="saveTest()">Bauyrzhan</test-edit>
+            <test-edit v-if="activeTab == 'test-edit'" :template="template" @save="saveTest()"></test-edit>
             <div v-if="activeTab == 'edit'" class="card w-75 mx-auto mb-5">
                 <div class="card-block">
                     <div class="form-group">
@@ -198,16 +199,20 @@
                 });
             },
             getItemTranslations(value) {
-                console.log(value);
                 this.value = value;
                 this.loading = true;
                 let _this = this;
-                get(_this, '/api/lesson-templates/getConnectedCourses/' + _this.value, {}, function (response) {
-                    _this.loading = false;
-                    console.log(response);
-                    _this.connectedCourses[_this.connectedCourses.length]=response.data;
-                    _this.setItem();
-                });
+                
+                get(_this, 
+                    `/api/lesson-templates/courses/${_this.value}`,
+                    {},
+                    (res) => {
+                        _this.loading = false;
+                        _this.connectedCourses[_this.connectedCourses.length]=res.data;
+                        _this.setItem();
+                    },
+                    (err) => console.error(err)
+                    );
             },
             setItem() {
                 if (this.template.translation[0] != null){
@@ -217,15 +222,17 @@
             getItem(){
                 this.loading = true;
                 let _this = this;
-                get(_this, '/api/lesson-template-item/' + _this.id, {}, function (response) {
-                    _this.loading = false;
-                    _this.template = response.data;
-                    console.log(response.data);
-                    if (response.data.language != null) {
-                        console.log(response.data.language);
-                        _this.getItemTranslations(response.data.language);
-                    }
-                });
+                get(_this, 
+                    '/api/lesson-template-item/' + _this.id, 
+                    {},
+                    (res) => {
+                        _this.loading = false;
+                        _this.template = res.data;
+                        if (res.data.id != null) {
+                            _this.getItemTranslations(res.data.id);
+                        }
+                    },
+                    (err) => console.error(err));
             },
             addLesson() {
                 this.$refs.addItem.showModal();
@@ -247,9 +254,10 @@
                 }
             },
             onChange() {
-                console.log(this.template);
+                console.log("onChange this.template", this.template);
             },
             sendForm() {
+                console.log(this.template);
                 this.loading = true;
                 let _this = this;
                 post(_this, '/api/lesson-template-save', this.template, function (response) {
@@ -264,6 +272,7 @@
             saveTest() {
                 this.loading = true;
                 let _this = this;
+                console.log("ITEM TEST EDIT", _this.template);
                 post(_this, '/api/lesson-template-save-test', this.template.test_questions, function () {
                     _this.loading = false;
                     _this.errors = '';
@@ -298,5 +307,5 @@
         created() {
             this.getItem();
         }
-    }
+    };
 </script>

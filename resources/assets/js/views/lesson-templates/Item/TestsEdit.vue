@@ -29,7 +29,7 @@
                  </div>
             </div>
         </div>
-        <a href="javascript:void(0)" @click="$emit('save')"  class="rounded h2 p-3 bg-primary text-white rounded-circle" style="position:fixed;right:20px;bottom:20px;"><div class="fa fa-fw fa-save"></div></a>
+        <a href="javascript:void(0)" @click="$emit('save')"  class="rounded h3 p-2 bg-primary text-white rounded-circle" style="position:fixed;right:20px;bottom:20px;"><div class="fa fa-fw fa-save"></div></a>
     </div>
 </template>
 <script>

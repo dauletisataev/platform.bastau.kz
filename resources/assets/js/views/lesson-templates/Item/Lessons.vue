@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="card mb-4">
-            <div class="card-header">1
+            <div class="card-header">
                 <span class="lead">Занятия</span>
                 <span class="badge badge-pill badge-default ml-1">{{ template.items.length }}</span>
             </div>
@@ -67,14 +67,12 @@
                             </td>
                             <td>
                                 <div class="pull-right">
-                                    <button type="button" class="btn btn-link ml-1 btn-sm btn-drag" style="color:#D7D7D7;cursor: move;cursor: grab;cursor: -moz-grab;cursor: -webkit-grab;">
-                                        <span class="fa fa-arrows"></span>
+                                    <button type="button" 
+                                            class="btn btn-link ml-1 btn-sm btn-drag" 
+                                            style="color:#D7D7D7;cursor: move;cursor: grab;cursor: -moz-grab;cursor: -webkit-grab;">
+                                            <span class="fa fa-arrows"></span>
                                     </button>
-                                    <a
-                                            href="javascript:void(0)"
-                                            @click="showContent(item.id)"
-                                            class="btn btn-sm btn-secondary"
-                                    >
+                                    <a href="javascript:void(0)" @click="showContent(item.id)" class="btn btn-sm btn-secondary">
                                         <span class="fa fa-fw fa-eye"></span>
                                     </a>
                                     <button @click="deleteItem(item.id)" class="btn btn-sm btn-danger" type="button">

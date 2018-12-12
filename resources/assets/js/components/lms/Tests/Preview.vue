@@ -154,7 +154,7 @@
         created() {
             this.$lms.makeArrayFromTasks(this.tasks);
         }
-    }
+    };
 </script>
 
 <style>
