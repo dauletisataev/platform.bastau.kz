@@ -15,11 +15,11 @@ class BTrainerObserver
 {
 	public function created(BusinessTrainer $trainer)
 	{	
-		//BTrainerHistory::insert("created", auth()->user()->id, NULL, NULL, $trainer->id, 'id');
+		BTrainerHistory::insert("created", Auth::user()->id, NULL, NULL, $trainer->id, 'id');
 	}
 
 	public function deleted(BusinessTrainer $trainer)
 	{
-		//BTrainerHistory::insert("deleted", auth()->user()->id, NULL, NULL, $trainer->id, 'id');
+		BTrainerHistory::insert("deleted", Auth::user()->id, NULL, NULL, $trainer->id, 'id');
 	}
 }

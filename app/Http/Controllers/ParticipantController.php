@@ -145,7 +145,7 @@ class ParticipantController extends Controller
         $newUser->iin=$request->get("new_iin");
         $newUser->phone=$request->get("new_phone");
         $newUser->email=$request->get("new_email");
-        // $newUser->locality_id=$request->get('locality_id');
+        $newUser->locality_id=$request->get('locality_id');
         $newUser->role_id=Role::where("name","Participant")->first()->id;
         $newUser->save();
         $newParticipant = $request->get('id')?Participant::find($request->get("id")):new Participant;
