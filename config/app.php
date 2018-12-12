@@ -181,6 +181,10 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        /*
+         * Yersultan:For localization of backend
+         */
+        Dimsav\Translatable\TranslatableServiceProvider::class
 
     ],
 

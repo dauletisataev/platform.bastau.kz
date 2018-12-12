@@ -1,112 +1,192 @@
 <template>
-    <div>
-        <div class="row" v-show="loading==true">
-            <div class="col-10 offset-2 yspinner">
-                <clip-loader :size="'70px'" :color="'#0275d8'"></clip-loader>
+    <div class="col-10 offset-2">
+        <div class="bg-primary text-white rounded p-4 mb-4">
+            <div class="small text-info mb-2">
+                <span class="fa fa-list-ol mr-1"></span>{{$tc('lessons.item.lesson_order')+lesson.order}}
+                <span class="fa fa-calendar-o mr-1"></span>{{$tc('lessons.item.start_time')+parseToDate(lesson.datetime)+" "+parseToTime(lesson.datetime)}}
+                <span class="fa fa-calendar-o mr-1"></span>{{$tc('lessons.item.duration') +lesson.duration +$tc('lessons.item.duration')}}
+            </div>
+            <div class="h4 mt-4 mb-4">{{lesson.title}}</div>
+            <div class=" mb-2"> {{$tc('lessons.item.status')}}
+                <template v-if="lesson.passed"> {{$tc('lessons.item.status.passed')}}</template>
+                <template v-else-if="!lesson.is_started"> {{$tc('lessons.item.status.planned')}} </template>
+                <template v-else-if="lesson.is_started"> {{$tc('lessons.item.status.started')}} </template>
             </div>
         </div>
-        <div class="col-10 offset-2" v-if="lesson">
-            <div class="bg-primary text-white rounded p-4 mb-4">
-                <div class="small text-info mb-2">
-                    <router-link :to="{ name: 'group', params: { id: lesson.group.id }}" class="text-info"><span class="fa fa-angle-left mr-2"></span>Вернуться в группу</router-link>
+        <div class="row btn-group">
+
+            <div class="btn btn-secondary" @click="changeTab('materials')">{{$tc('lessons.item.materials')}}</div>
+            <div class="btn btn-secondary" @click="changeTab('methodics')">{{$tc('lessons.item.methodics')}}</div>
+            <div class="btn btn-secondary" @click="changeTab('participants')">{{$tc('lessons.item.participants')}}</div>
+            <div v-if="lesson.passed">Урок закончен</div>
+            <div v-else-if="!lesson.is_started" @click="change_to_next_state_lesson('start') "class="btn btn-danger">начать урок</div>
+            <div v-else-if="lesson.is_started" @click="change_to_next_state_lesson('end')    "class="btn btn-danger">закончить урок</div>
+        </div>
+        <div>
+            <materials v-if="active_tab==='materials'" :lesson="lesson"  :students="lesson.group.participants" />
+            <manual v-if="active_tab=='methodics'" :manual="lesson.manual"></manual>
+            <div v-if="active_tab==='participants'">
+                <div class="row">
+                    <div class="col-2 offset-1">First name</div>
+                    <div class="col-2">Last Name</div>
+                    <div class="col-2 offset-2">attendance</div>
+                    <div class="col-2 ">grade</div>
                 </div>
-                <div class="display-4 mb-2" style="font-size:2.5rem;">
-                    {{ lesson.title }}
-                </div>
-                <div class="small text-info">
-                    <span class="mr-4"><span class="fa fa-signal mr-1"></span>{{ lesson.level ? lesson.level.name : lesson.group.level.name }}</span>
-                    <span v-if="lesson.passed==1">
-                    <span class="mr-4"><span class="fa fa-list-ol mr-1"></span>№{{ lesson.number }}</span>
-                    <span class="mr-4" v-if="lesson.mark"><span class="fa fa-meh-o mr-1"></span>{{ lesson.mark }}%</span>
-                    <span class="mr-4" v-else="!lesson.mark"><span class="fa fa-meh-o mr-1"></span>Нет оценок</span>
-                    </span>
-                    <span class="mr-4"><span class="fa fa-calendar-o mr-1"></span> {{ lesson.date ? lesson.date : "Не установлено" }} </span>
-                    <span class="mr-4"><span class="fa fa-clock-o mr-1"></span> {{ lesson.duration ? lesson.duration : "Не установлена" }} </span>
-                    <router-link  v-if="!lesson.is_started" :to="{name:'lesson', params: {id: lesson.id, group_id: lesson.group.id, toContent: true, fromContent: true}}" tag="a" class="mr-4"><span class="text-info" style="text-decoration: underline;"><span class="fa fa-pencil mr-2"></span>Изменить параметры</span></router-link>
-                    <span class="mr-4" v-if="!lesson.is_started"><a href="#" @click="deleteLesson()" class="text-info" style="text-decoration: underline;"><span class="fa fa-trash mr-2"></span>Удалить занятие</a></span>
-                </div>
-            </div>
-            <div v-if="lesson.unmarked_tasks && lesson.unmarked_tasks.length>0 && !$user.isManager()" class="alert alert-danger clearfix">
-                <div class="pull-left" style="font-weight:500">В занятии есть непроверенные задания студентов, которые вам необходимо проверить вручную</div>
-                <button class="btn btn-sm btn-danger pull-right" data-toggle="modal" @click="unmarked()" data-target="#checktasks">проверить</button>
-            </div>
-            <div class="clearfix mb-5">
-                <div class="pull-left">
-                    <div class="btn-group">
-                        <button :disabled="edit" @click="activeTab='materials'" class="btn btn-secondary border-right-0" :class="{'active': activeTab=='materials' || activeTab=='task_group' }" >
-                            Материал
-                        </button>
-                        <b-tooltip style="display: inline;" content="Изменить материал" v-if="!lesson.is_started">
-                            <button :disabled="(edit && activeTab!='materials-edit')" @click="activeTab='materials-edit'" class="btn px-2 btn-secondary border-left-0 border-right-0" :class="{'active': activeTab=='materials-edit'}" style="border-radius: 0;">
-                                <span class="fa fa-pencil"></span>
-                            </button>
-                        </b-tooltip>
-                        <button :disabled="edit" @click="activeTab='manual'" class="btn btn-secondary border-right-0" :class="{'active': activeTab=='manual'}">
-                            Методичка
-                        </button>
-                        <b-tooltip style="display: inline;" content="Изменить методичку" v-if="!lesson.is_started">
-                            <button :disabled="(edit && activeTab!='manual-edit')" @click="activeTab='manual-edit'" class="btn px-2 btn-secondary border-left-0 border-right-0" :class="{'active': activeTab=='manual-edit'}" style="border-radius: 0;">
-                                <span class="fa fa-pencil"></span>
-                            </button>
-                        </b-tooltip>
-                        <button :disabled="edit" @click="activeTab='tests'" class="btn btn-secondary border-right-0" :class="{'active': activeTab=='tests' || activeTab=='tests-new' || activeTab=='tests-item' || activeTab=='tests-edit'}">
-                            Тесты <span class="badge badge-pill badge-default ml-1">{{ lesson.tests.length }}</span>
-                        </button>
-                        <button :disabled="edit || (lesson.is_started==1 && lesson.homework.length==0)" @click="activeTab='homework'" class="btn btn-secondary" :class="{'active': activeTab=='homework'}">
-                            Задание
-                        </button>
-                        <button @click="activeTab='about'" class="btn btn-secondary" :class="{'active': activeTab=='about'}">
-                            О занятии
-                        </button>
+                <div v-for="participant in lesson.group.participants" class="row">
+                    <div class="col-2 offset-1">{{participant.user.first_name}}</div>
+                    <div class="col-2">{{participant.user.last_name}}</div>
+                    <div class="col-2 offset-2">
+                        <div v-for="participant_attendance in attendance"
+                             v-if="participant_attendance.participant_id===participant.id">
+                            <div class="btn-group"   >
+                                <label class="btn btn-success">
+                                    <input type="radio" :value="1" @change="change_user_attendance(participant_attendance)" v-model="participant_attendance.presented"/>
+                                </label>
+                                <label class="btn btn-danger">
+                                    <input type="radio" :value="0" @change="change_user_attendance(participant_attendance)" v-model="participant_attendance.presented"/>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div v-if="edit==true" class="pull-right">
-                    <span @click="cancel" class="btn btn-outline-secondary">
-                        Отменить изменения
-                    </span>
-                    <span @click="save" class="btn btn-primary">
-                        Сохранить
-                    </span>
-                </div>
-                <div v-if="lesson.is_started && lesson.passed != 1" class="pull-right">
-                    <a href="javascript:void(0)" class="btn btn-success" style="font-weight:500" @click="activeTab='mark'">
-                        <span class="fa fa-check mr-1"></span>
-                        Завершить занятие
-                    </a>
-                </div>
-                <div v-if="!lesson.is_started && !edit" class="pull-right">
-                    <b-button :disabled="lesson.without_date==1 || markPossible(lesson)" :variant="'primary'" @click="startLesson" style="font-weight:500">
-                        <span class="fa fa-play mr-1"></span>
-                        Начать занятие
-                    </b-button>
+                    <div class="col-2">grade</div>
                 </div>
             </div>
-            <materials v-if="activeTab=='materials'" :lesson="lesson" @task="task" @student="taskStudent" :students="lesson.group.students" v-on:update="getItem()"></materials>
-            <materials-edit :errors="errors" v-if="activeTab=='materials-edit'" :lesson="lesson" v-on:cancel="cancel" v-on:save="save"></materials-edit>
-            <manual v-if="activeTab=='manual'" :manual="lesson.manual"></manual>
-            <manual-edit v-if="activeTab=='manual-edit'" :lesson="lesson" v-on:cancel="cancel" v-on:save="save"></manual-edit>
-            <mark-lesson v-if="activeTab=='mark'" :lesson="lesson" @toGroup="toGroup"></mark-lesson>
-            <tests v-if="activeTab=='tests'" :lesson="lesson" @testEdit="testEdit" @newTest="newTest()" @testItem="testItem" @update="getItem()"></tests>
-            <tests-new :errors="errors" :index="lesson.tests.length-1" v-if="activeTab=='tests-new'" :test="lesson.tests[lesson.tests.length-1]" @cancel="cancel" @save="save"></tests-new>
-            <tests-item v-if="activeTab=='tests-item'" :students="lesson.group.students" :test="lesson.tests[selectedTestIndex]" @testEdit="testEdit" @update="getItem()"></tests-item>
-            <tests-edit :errors="errors" v-if="activeTab=='tests-edit'" :index="selectedTestIndex" :test="lesson.tests[selectedTestIndex]" @cancel="cancel" @save="save"></tests-edit>
-            <homework :is_started="lesson.is_started" v-if="activeTab=='homework'" :test="lesson.homework" @cancel="cancel" @save="save" @homeworkEdit="activeTab='homework-edit'" :students="lesson.group.students"></homework>
-            <homework-edit :errors="errors" v-if="activeTab=='homework-edit'" :test="lesson.homework" v-on:cancel="cancel" v-on:save="save"></homework-edit>
-            <b-modal ref="modalDeleteLesson" title="Подтвердите удаление">
-                Вы действительно хотите удалить занятие? Данное действие нельзя отменить.
-                <div slot="modal-footer">
-                    <button type="button" class="btn btn-secondary" @click="$refs.modalDeleteLesson.hide()">Отменить</button>
-                    <button type="button" class="btn btn-danger" @click="removeLesson()">Удалить</button>
-                </div>
-            </b-modal>
-            <unmarked-tasks v-if="lesson.unmarked_tasks && lesson.unmarked_tasks.length>0" ref="unmarked" :tasks="lesson.unmarked_tasks" :group_id="lesson.group_id" @reload="getItem()"></unmarked-tasks>
-            <about v-if="activeTab=='about'" :lesson="lesson"></about>
-            <task_group ref="taskGroup" v-if="activeTab=='task_group'" :task_group="selectedTaskGroup" :students="lesson.group.students"></task_group>
         </div>
     </div>
 </template>
 <script>
+    import { get, post, del } from '../../helpers/api';
+    export default{
+        props:['id'],
+        data(){
+            return{
+                loading:true,
+                lesson:"",
+                attendance:"",
+                active_tab:"",
+                edit:false,
+                errors:[]
+            }
 
+        },
+        components:{
+            'materials': require('./Materials.vue'),
+            'manual': require('../../components/lms/Manual.vue'),
+            'manual-edit': require('../../components/lms/Edit/Manual.vue'),
+            'materials-edit': require('../../components/lms/Edit/Materials.vue'),
+        },
+        methods:{
+            getItem(){
+                this.loading = true;
+                let _this = this;
+                get(_this, '/api/lesson/' + _this.id, {}, function (response) {
+                    console.log(response);
+                    _this.lesson = response.data;
+                    if(response.data) _this.loading = false;
+                    _this.createArray();
+                    get(_this,"/api/lesson/attendance/"+_this.lesson.id,{},function (resp) {
+                        console.log(">>",resp);
+                        _this.attendance=resp.data;
+                    })
+                });
+            },
+            saveItem(){
+                this.loading = true;
+                let _this = this;
+                post(_this, '/api/lesson-save' , _this.lesson, function (response) {
+                    _this.lesson = response.data;
+                    if(response.data) _this.loading = false;
+                    _this.createArray();
+                },function (err) {
+                    console.log("ERRR",err);
+                });
+            },
+            cancel(){},
+            changeTab(element){
+                this.active_tab = element;
+                this.$router.push({ path: '/lesson/'+this.id, query: {page:element} });
+            },
+            change_to_next_state_lesson(value){
+                this.loading=true;
+                let _this=this;
+                if(value==="start"){
+                    _this.lesson.is_started=true;
+                }
+                if(value ==="end") _this.lesson.passed=true;
+                post(_this, '/api/lesson-save', _this.lesson, function (response) {
+                    console.log(response);
+                    _this.lesson = response.data;
+                    if(response.data) _this.loading = false;
+                    _this.createArray();
+                });
+            },
+            createArray() {
+                let _this = this;
+                if(_this.lesson.pages.length>0) {
+                    _this.lesson.pages.forEach(function(page) {
+                        if(page.materials.length>0) {
+                            page.materials.forEach(function (material) {
+                                _this.$set(material,'showAdditional',false);
+                                _this.$set(material,'upload',0);
+                                if(material.task_group && material.task_group.tasks && material.task_group.tasks.length > 0) {
+                                    material.task_group.tasks.forEach(function (task) {
+                                        _this.$set(task,'uploadAudio',0);
+                                        _this.$set(task,'uploadImage',0);
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
+                if(_this.lesson.tests){
+                    if(_this.lesson.tests.length>0) {
+                        _this.lesson.tests.forEach(function (test) {
+                            test.task_groups.forEach(function (task_group) {
+                                task_group.tasks.forEach(function (task) {
+                                    _this.$set(task,'uploadAudio',0);
+                                    _this.$set(task,'uploadImage',0);
+                                });
+                            });
+                        });
+                    }
+                }
+
+            },
+            change_user_attendance(attendance){
+                this.loading = true;
+                let _this = this;
+                console.log("me here");
+                post(_this, '/api/lesson/attendance/save' , attendance, function (response) {
+                    console.log(response.data);
+                    _this.attendance.map(element=>{
+                        if(element.id===attendance.id){
+                            element=response.data;
+                        }
+                    });
+                },function (err) {
+                    console.log("ERRR",err);
+                });
+            },
+            parseToDate(datetime){
+                let date=datetime[8]+datetime[9]+'.'+datetime[5]+datetime[6]+'.'+datetime[2]+datetime[3];
+                return date;
+            },
+            parseToTime(datetime){
+                let time = datetime[11]+datetime[12]+datetime[13]+datetime[14]+datetime[15];
+                return time;
+            }
+        },
+        created(){
+            if(this.$route.query.page){
+                this.active_tab = this.$route.query.page;
+            }else{
+                this.changeTab("materials");
+            }
+
+            this.getItem();
+        }
+    }
+/*
     import { get, post, del } from '../../helpers/api';
     import wysiwyg from "vue-wysiwyg";
     import moment from 'moment';
@@ -304,4 +384,5 @@
             this.getItem();
         }
     }
+    */
 </script>

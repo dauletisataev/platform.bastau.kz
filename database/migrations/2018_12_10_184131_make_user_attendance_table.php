@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterLessonTemplatesTable extends Migration
+class MakeUserAttendanceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AlterLessonTemplatesTable extends Migration
      */
     public function up()
     {
-        Schema::table('lesson_templates', function (Blueprint $table) {
-            $table->string('language');
+        Schema::create('participant_attendances', function (Blueprint $table) {
+            $table->increments("id");
+            $table->integer("participant_id")->unsigned();
+            $table->integer('lesson_id')->unsigned();
+            $table->boolean('presented');
         });
     }
 
@@ -25,8 +28,6 @@ class AlterLessonTemplatesTable extends Migration
      */
     public function down()
     {
-        Schema::table('lesson_templates', function (Blueprint $table) {
-            $table->dropColumn('language');
-        });
+        //
     }
 }

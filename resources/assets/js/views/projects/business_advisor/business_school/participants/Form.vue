@@ -96,7 +96,7 @@
                         <div class="col-9">
                             <select class="form-control" v-model="region" >
                                 <option default value="">{{$tc('regions.select_region')}}</option>
-                                <option v-for="region in $common.data.regions" :value="region"> {{region.name}}</option>
+                                <option v-for="region in $common.data.regions" :value="region.id"> {{region.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -105,7 +105,7 @@
                         <div class="col-9" >
                             <select class="form-control" v-model="district" >
                                 <option default value="">{{$tc('regions.select_district')}}</option>
-                                <option v-for="district in region.districts" :value="district"> {{district.name}}</option>
+                                <option v-for="district in $common.data.districts" v-if="district.region_id===region" :value="district.id"> {{district.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                         <div class="col-9">
                             <select class="form-control" v-model="form.locality_id" >
                                 <option default value="">{{$tc('regions.select_locality')}}</option>
-                                <option v-for="locality in district.localities" :value="locality.id"> {{locality.name}}</option>
+                                <option v-for="locality in $common.data.localities" :value="locality.id"> {{locality.name}}</option>
                             </select>
 
                         </div>

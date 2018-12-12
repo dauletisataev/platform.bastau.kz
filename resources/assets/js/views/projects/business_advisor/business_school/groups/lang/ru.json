@@ -60,7 +60,21 @@
       "removed_participant":"Участник удален из группы"
     },
     "lessons_tab":{
-      "group_lessons":"Уроки группы"
+      "group_lessons":"Уроки группы",
+      "import_lesson_template":"Импортировать урок из шаблона",
+      "import_lesson_modal_header":"Загрузка урока из шаблона",
+      "select_lesson_template":"Выберите пожалуйста шаблон",
+      "select_lesson_items_to_import":"Выберите уроки которые хотите добавить",
+      "title":"Тема",
+      "date":"Дата",
+      "time":"Время",
+      "templates_that_shown_part1":"предоставленный список содержит только шаблоны, которые имеют ",
+      "templates_that_shown_part2":" язык(язык группы),",
+      "templates_that_shown_part3":"а так же шаблоны которые относятся к проекту",
+      "ru":"русский",
+      "kz":"казахский",
+      "for_offline_groups":"Для групп без онлайн доступа",
+      "for_online_groups":"Для групп с онлайн доступом"
     },
     "statistics_tab":{
       "group_statistics":"Статистика группы"

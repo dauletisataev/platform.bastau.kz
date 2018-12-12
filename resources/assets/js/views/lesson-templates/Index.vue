@@ -128,13 +128,14 @@
                 let _this = this;
                 this.loading = true;
                 let url = '';
+                console.log(this.$route.name);
                 if(this.$route.name === 'student_lesson_templates') {
                     url = '/api/online-programs';
                 } else {
                     url = '/api/lesson-templates';
                 }
                 get(_this, url, {params: this.filterData}, function (response) {
-                    _this.templates = response.data;
+                    _this.templates = response.data.templates;
                     _this.loading = false;
                 });
             },

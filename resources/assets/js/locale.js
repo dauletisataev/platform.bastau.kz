@@ -55,6 +55,14 @@ import regionsJSONRu from './views/projects/business_advisor/business_school/reg
 export  const regionsKz =JSON.parse(JSON.stringify(regionsJSONKz));
 export  const regionsRu =JSON.parse(JSON.stringify(regionsJSONRu));
 
+
+//Holidays
+import holidaysJSONKz from './views/projects/business_advisor/business_school/holidays/lang/kz.json';
+import holidaysJSONRu from './views/projects/business_advisor/business_school/holidays/lang/ru.json';
+export  const holidaysKz =JSON.parse(JSON.stringify(holidaysJSONKz));
+export  const holidaysRu =JSON.parse(JSON.stringify(holidaysJSONRu));
+
+
 export const btKz = JSON.parse(JSON.stringify(btrainerKz));
 export const btRu = JSON.parse(JSON.stringify(btrainerRu));
 

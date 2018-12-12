@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterLessonTemplates2Table extends Migration
+class CreateHolidaysTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AlterLessonTemplates2Table extends Migration
      */
     public function up()
     {
-        Schema::table('lesson_templates', function (Blueprint $table) {
-            $table->boolean('has_test')->nullable();
+        Schema::create('holidays', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('start_day');
+            $table->integer('start_month');
+            $table->integer('days_number');
+            $table->string('name');
         });
     }
 
@@ -25,8 +29,6 @@ class AlterLessonTemplates2Table extends Migration
      */
     public function down()
     {
-        Schema::table('lesson_templates', function (Blueprint $table) {
-            $table->dropColumn('has_test');
-        });
+        //
     }
 }

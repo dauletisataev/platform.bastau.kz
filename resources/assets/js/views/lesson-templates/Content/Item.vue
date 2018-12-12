@@ -145,6 +145,7 @@
                 let _this = this;
                 this.loading = true;
                 post(_this, '/api/lesson-template-item-content-save/' + this.lesson.id, this.lesson, function (response) {
+                    console.log(response);
                     _this.errors = '';
                     _this.getItem();
                     _this.toViewTab();

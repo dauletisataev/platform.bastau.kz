@@ -63,13 +63,6 @@
                         </error-alert>
                     </div>
                     <div class="form-group">
-                        <label style="font-weight:500" class="d-block">Язык</label>
-                        <select class="form-control" @change="onChangeLang()" v-model="template.language">
-                            <option value="">выберите</option>
-                            <option v-for="language in languages" :value="language.id">{{ language.language }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label style="font-weight:500" class="d-block">Связанный курс</label>
                         <select class="form-control" @change="onChange()" v-model="template.connected_template_id">
                             <option value="">выберите</option>
@@ -83,29 +76,19 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label style="font-weight:500" class="d-block">Роль</label>
-                        <select class="form-control" v-model="template.role_id">
-                            <option value="">выберите</option>
-                            <option v-for="role in $common.data.roles" :value="role.id">{{ role.instrumental }}</option>
-                        </select>
-                        <error-alert v-if="errors && errors.role_id">
-                            {{ errors.role_id[0] }}
-                        </error-alert>
-                    </div>
-                    <div class="form-group">
                         <label style="font-weight:500" class="d-block">Тип программы</label>
                         <b-dropdown class="bDropdownFullWidth">
                             <div slot="text">
                                 <span class="pull-left">
-                                    {{ templateType(template.type) }}
+                                    {{ template.type }}
                                 </span>
                                 <span class="fa fa-angle-down pull-right"></span>
                             </div>
-                            <b-dropdown-item class="py-2" @click="template.type = 0">
+                            <b-dropdown-item class="py-2" @click="template.type = 'with_trainer'">
                                 <div class="h6 mb-0">с преподавателем</div>
                                 <div class="small">занятия в офисе или по скайпу с участием преподавателя</div>
                             </b-dropdown-item>
-                            <b-dropdown-item class="py-2" @click="template.type = 1">
+                            <b-dropdown-item class="py-2" @click="template.type = 'online'">
                                 <div class="h6 mb-0">онлайн</div>
                                 <div class="small">самостоятельное изучение без участие преподавателя</div>
                             </b-dropdown-item>
@@ -260,6 +243,7 @@
                 console.log(this.template);
                 this.loading = true;
                 let _this = this;
+                this.template.language = this.$i18n.locale;
                 post(_this, '/api/lesson-template-save', this.template, function (response) {
                     _this.loading = false;
                     _this.errors = '';
@@ -281,15 +265,6 @@
                    _this.loading = false;
                    _this.errors = error.response.data;
                 });
-            },
-            templateType(val) {
-                switch(val) {
-                    case 0: return "с преподавателем";
-                        break;
-                    case 1: return "онлайн";
-                        break;
-                    default: return "выберите тип программы";
-                }
             },
             toggleDropdownOffices() {
                 this.dropdown.offices = !this.dropdown.offices;

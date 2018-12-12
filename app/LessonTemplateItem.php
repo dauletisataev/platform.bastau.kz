@@ -10,9 +10,9 @@ class LessonTemplateItem extends Model
     protected $fillable = [
         'title',
         'manual',
+        'lesson_template_translation_id',
         'lesson_template_id',
         'order',
-        'access_free',
         'access_tasks',
         'access_homework',
         'access_tests',

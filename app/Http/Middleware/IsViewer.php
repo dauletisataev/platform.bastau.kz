@@ -15,7 +15,7 @@ class IsViewer
      */
     public function handle($request, Closure $next)
     {
-        $request->user()->authorizeRole(['administrator']);
+        $request->user()->authorizeRole(['administrator']);//ask
 
         return $next($request);
     }

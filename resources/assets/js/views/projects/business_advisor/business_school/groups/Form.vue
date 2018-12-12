@@ -51,7 +51,7 @@
                 <div class="col-7">
                     <select class="form-control" v-model="region" >
                         <option default value="">{{$tc('regions.select_region')}}</option>
-                        <option v-for="region in $common.data.regions" :value="region"> {{region.name}}</option>
+                        <option v-for="region in $common.data.regions" :value="region.id"> {{region.name}}</option>
                     </select>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                 <div class="col-7">
                     <select class="form-control" v-model="district" >
                         <option default value="">{{$tc('regions.select_district')}}</option>
-                        <option v-for="district in region.districts" :value="district"> {{district.name}}</option>
+                        <option v-for="district in $common.data.districts" v-if="district.region_id===region":value="district.id"> {{district.name}}</option>
                     </select>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                 <div class="col-7">
                     <select class="form-control" v-model="form.locality_id" >
                         <option default value="">{{$tc('regions.select_locality')}}</option>
-                        <option v-for="locality in district.localities" :value="locality.id"> {{locality.name}}</option>
+                        <option v-for="locality in $common.data.localities" v-if="locality.district_id===district" :value="locality.id"> {{locality.name}}</option>
                     </select>
                 </div>
             </div>
@@ -142,6 +142,7 @@
             sendForm() {
                 this.formSending = true;
                 let _this = this;
+                if(!this.form.online)this.form.online=0;
                 post(_this, '/api/group-save', this.form, function () {
                     _this.formSending = false;
                     _this.errors = '';
@@ -166,7 +167,7 @@
                     start_date:"",
                     language:"",
                     capacity:"",
-                    online:"",
+                    online:false,
                     trainer: "",
                     locality_id:""
                 }

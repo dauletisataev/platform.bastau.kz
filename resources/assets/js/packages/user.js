@@ -45,6 +45,11 @@ export default function (Vue) {
             return this.data && this.data.role.name === 'administrator'
 
         },
+        isParticipant() {
+
+            return this.data && this.data.role.name === 'Participant'
+
+        },
 
         getId() {
             return this.data.id;

@@ -125,7 +125,9 @@ import {
     GroupsKz,
     GroupsRu,
     regionsKz,
-    regionsRu
+    regionsRu,
+    holidaysKz,
+    holidaysRu
 } from './locale.js';
 /*
 *
@@ -146,7 +148,8 @@ const messages = {
         participants: ParticipantsKz,
         groups:GroupsKz,
         trainer: btKz,
-        regions:regionsKz
+        regions:regionsKz,
+        holidays:holidaysKz
     },
     ru: {
         dashboard: dashboardRu,
@@ -155,7 +158,8 @@ const messages = {
         participants:ParticipantsRu,
         groups:GroupsRu,
         trainer: btRu,
-        regions:regionsRu
+        regions:regionsRu,
+        holidays:holidaysRu
     }
 };
 

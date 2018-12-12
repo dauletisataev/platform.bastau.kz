@@ -43,6 +43,17 @@
                 </div>
             </div>
         </div>
+        <div class="h6 mt-4 mb-3" style="color:#C6C6C6">Организация</div>
+        <div class="row ml-0 mr-0">
+            <div class="col-2 pr-1 pl-1 mb-2 text-center">
+                <div class="card p-2 pt-4 pb-4">
+                    <router-link to="/control/holidays" class="card-full-link"></router-link>
+                    <div class="h3 mb-0"><span class="fa fa-calendar h6 mb-0"></span></div>
+                    <div style="font-weight:500;margin-bottom: -6px;">Даты</div>
+                    <div class="small" style="color:#C6C6C6">Праздники</div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </template>

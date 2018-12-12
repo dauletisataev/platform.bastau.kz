@@ -15,13 +15,22 @@ class CreateLessonTemplatesTable extends Migration
     {
         Schema::create('lesson_templates', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name',255);
-            $table->integer('program_id');
-            $table->integer('level_id');
+            $table->integer('project_id');
+            $table->boolean("has_test")->default(false);
+            $table->time('test_duration')->nullable();
+            $table->string("type",191)->default("online");
             $table->string('image', 191);
-            $table->integer('type');
-            $table->integer('cost');
-            $table->integer('role_id');
+        });
+
+        //localization of lesson templates
+        Schema::create("lesson_template_translations",function (Blueprint $table){
+            $table->increments("id");
+            $table->string("locale")->index();
+            $table->integer("lesson_template_id")->unsigned();
+            $table->unique(['lesson_template_id','locale']);
+            $table->foreign('lesson_template_id')->references('id')->on('lesson_templates')->onDelete('cascade');
+
+            $table->string("name",255);
         });
     }
 

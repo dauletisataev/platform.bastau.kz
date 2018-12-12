@@ -67,11 +67,22 @@ Route::get('/control/{path}', function () {
 Route::get('/control/{path}/{path2}', function () {
     return view('app');
 });
+Route::get('/control/{path}/{path2}/{path3}/{path4}', function () {
+    return view('app');
+});
+Route::get('/role-participant/{path}', function () {
+    return view('app');
+});
+Route::get('/role-participant/{path}/{path2}', function () {
+    return view('app');
+});
 
 Route::get('/trainers', function() {
     return view('app');
 });
-
+Route::get('/lesson/{id}',function(){
+    return view('app');
+});
 Route::get('/trainers/trainer/{id}', function() {
     return view('app');
 });

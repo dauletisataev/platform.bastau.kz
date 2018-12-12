@@ -20,11 +20,10 @@
                 <tr v-for="item in groups">
                     <td>{{item.project_id}}</td>
                     <td>{{item.trainer_id}}</td>
-                    <td>{{item.advisor}}</td>
                     <td>{{item.locality.district.region.name}}</td>
                     <td>{{item.locality.district.name}}</td>
                     <td>{{item.locality.name}}</td>
-                    <td>{{item.participants.length}}</td>
+                    <td>{{item.participants.length}}/{{item.capacity}}</td>
                     <td>{{item.next_lesson}}</td>
                     <td class="row pull-right" >
                             <b-tooltip  :title="$tc('groups.list.get_info')" placement="left">
