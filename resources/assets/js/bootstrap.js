@@ -8,7 +8,7 @@ window._ = require('lodash');
  */
 
 try {
-    window.$ = window.jQuery = $ = require('jquery');
+    window.$ = window.jQuery = $ = require('jquery');   
     require('./plugins/jquery.timepicker.min');
     require('./plugins/jquery.datepair.min');
     require('./plugins/daterangepicker');
