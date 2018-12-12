@@ -84,6 +84,7 @@
 			"disability_level_4":"четвертая степень инвалидности"
 		},
 		"history_tab":{
+			"added_to_group":"Добавлен в группу",
 			"participant_history":"История участника",
 			"created":"Участник создан",
 			"change_personal_data":"Изменена персональная информация",

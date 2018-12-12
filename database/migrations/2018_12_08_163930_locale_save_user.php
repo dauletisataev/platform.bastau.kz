@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterLessonTemplateTranslationTable extends Migration
+class LocaleSaveUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,7 @@ class AlterLessonTemplateTranslationTable extends Migration
      */
     public function up()
     {
-        Schema::table('lesson_template_translation', function (Blueprint $table) {
-            $table->unique(['lesson_template_kz_id','lesson_template_ru_id'],'lesson_template_unique');
-        });
+        //
     }
 
     /**
@@ -25,5 +23,6 @@ class AlterLessonTemplateTranslationTable extends Migration
      */
     public function down()
     {
+        //
     }
 }

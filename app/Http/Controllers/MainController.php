@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Locality;
 use App\District;
+use App\Project;
 use App\Role;
 use App\Region;
 use App\ArchiveReasons;
@@ -29,6 +30,12 @@ class MainController extends Controller
         $data['regions'] = Region::all();
         $data['districts'] = District::all();
         $data['localities']=Locality::all();
+        $data['projects']=Project::all();
+        $data['lesson_template_types']=[
+            ["name"=>"online","value"=>1],
+            ["name"=>"teacher","value"=>2],
+            ["name"=>"solo","value"=>3]
+        ];
         return $data;
     }
 }

@@ -15,15 +15,22 @@ class CreateLessonsTable extends Migration
     {
         Schema::create('lessons', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title', 255);
             $table->integer('passed');
             $table->timestamp('datetime');
             $table->integer('without_date');
             $table->double('duration');
             $table->integer('is_full');
-            $table->string('manual');
             $table->integer('is_started');
-            $table->integer('lesson_template_item_id');
+            $table->integer('order');
+            $table->integer('access_tasks')->default(0);
+            $table->integer('access_homework')->default(0);
+            $table->integer('access_tests')->default(0);
+            $table->integer('access_offset')->default(0);
+            $table->integer('access_offset_value');
+            $table->string('title',255)->nullable();
+            $table->string('access_offset_type', 191)->nullable();
+            $table->string('manual')->nullable();
+            $table->integer('lesson_template_id')->unsigned();
         });
     }
 

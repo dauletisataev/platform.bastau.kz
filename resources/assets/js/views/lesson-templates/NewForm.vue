@@ -16,27 +16,20 @@
                         </error-alert>
                     </div>
                     <div class="form-group">
-                        <label style="font-weight:500" class="d-block">Язык</label>
-                        <select class="form-control" v-model="form.language">
+                        <label style="font-weight:500" class="d-block">Категория</label>
+                        <select class="form-control" v-model="form.project_id">
                             <option value="">выберите</option>
-                            <option v-for="language in languages" :value="language.id">{{ language.language }}</option>
+                            <option v-for="project in $common.data.projects" :value="project.id">{{ project.name }}</option>
                         </select>
+                        <error-alert v-if="errors && errors.program_id">
+                            {{ errors.program_id[0] }}
+                        </error-alert>
                     </div>
                     <div class="form-group">
                         <label style="font-weight:500" class="d-block">Обложка</label>
                         <div class="fullWidthButton">
                             <lesson-template-image @uploaded="form.image = $refs.image.form.image" ref="image" :form="form" :accept="'image/jpeg,image/png,image/gif'"></lesson-template-image>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:500" class="d-block">Роль</label>
-                        <select class="form-control" v-model="form.role_id">
-                            <option value="">выберите</option>
-                            <option v-for="role in $common.data.roles" :value="role.id">{{ role.instrumental }}</option>
-                        </select>
-                        <error-alert v-if="errors && errors.role_id">
-                            {{ errors.role_id[0] }}
-                        </error-alert>
                     </div>
                     <div class="form-group">
                         <label style="font-weight:500" class="d-block">Тип программы</label>
@@ -47,44 +40,20 @@
                                 </span>
                                 <span class="fa fa-angle-down pull-right"></span>
                             </div>
-                            <b-dropdown-item class="py-2" @click="form.type = 0">
-                                <div class="h6 mb-0">с преподавателем</div>
-                                <div class="small">занятия в офисе или по скайпу с участием преподавателя</div>
-                            </b-dropdown-item>
-                            <b-dropdown-item class="py-2" @click="form.type = 1">
-                                <div class="h6 mb-0">онлайн</div>
-                                <div class="small">самостоятельное изучение без участие преподавателя</div>
+                            <b-dropdown-item class="py-2" v-for="type in $common.data.lesson_template_types" :key="'ltt'+type.value" @click="form.type=type.value">
+                                <div class="h6 mb-0">{{type.name}}</div>
+                                <div class="small">description</div>
                             </b-dropdown-item>
                         </b-dropdown>
                         <error-alert v-if="errors && errors.type">
                             {{ errors.type[0] }}
                         </error-alert>
                     </div>
-                    <div class="form-group" v-if="form.type == 1">
-                        <label style="font-weight:500" class="d-block">Стоимость программы</label>
-                        <input v-model="form.cost" type="text" class="form-control">
-                        <error-alert v-if="errors && errors.cost">
-                            {{ errors.cost[0] }}
-                        </error-alert>
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:500" class="d-block">Категория</label>
-                        <select class="form-control" v-model="form.program_id">
-                            <option value="">выберите</option>
-                            <option v-for="program in $common.data.programs" :value="program.id">{{ program.name }}</option>
-                        </select>
+                    <div class="form-group row">
+                        <label class="col" >tests_present</label>
+                        <input type="checkbox" v-model="form.has_test"/>
                         <error-alert v-if="errors && errors.program_id">
                             {{ errors.program_id[0] }}
-                        </error-alert>
-                    </div>
-                    <div class="form-group">
-                        <label style="font-weight:500" class="d-block">Уровень языка</label>
-                        <select class="form-control" v-model="form.level_id">
-                            <option value="">выберите</option>
-                            <option v-for="level in $common.data.levels" :value="level.id">{{ level.name }}</option>
-                        </select>
-                        <error-alert v-if="errors && errors.level_id">
-                            {{ errors.level_id[0] }}
                         </error-alert>
                     </div>
                     <button class="btn btn-primary btn-lg btn-block mt-4" @click="sendForm()" :disabled="!!formSending">
@@ -106,24 +75,12 @@
                     name: '',
                     image: '',
                     type: '',
-                    cost: '',
-                    program_id: '',
-                    language: '',
-                    level_id: '',
-                    role_id: ''
+                    project_id: '',
+                    has_test:false,
                 },
-                languages: [
-                    {id:1, language: 'Казахский'},
-                    {id:2, language: 'Русский'}
-                ],
                 errors: '',
                 formSending: false
             }
-        },
-        watch: {
-            'form.cost'(value){
-                if (!/(^[1-9]{1}[0-9]*$)|(^[0]{1}$)/.test(value)) this.form.cost = '';
-            },
         },
         components: {
             LessonTemplateImage: require('../../components/LessonTemplateImage.vue'),
@@ -131,9 +88,9 @@
         },
         methods: {
             sendForm() {
+                this.form.language=this.$i18n.locale;
                 this.formSending = true;
                 let _this = this;
-
                 post(_this, '/api/lesson-template-save', this.form, function (response) {
 
                     _this.formSending = false;
@@ -146,13 +103,11 @@
                 });
             },
             templateType(val) {
-                switch(val) {
-                    case 0: return "с преподавателем";
-                    break;
-                    case 1: return "онлайн";
-                    break;
-                    default: return "выберите тип программы";
-                }
+                let x = "select type";
+                this.$common.data.lesson_template_types.map((type)=>{
+                    if(type.value === val)  x = type.name;
+                })
+                return x;
             }
 
         }

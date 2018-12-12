@@ -17,7 +17,15 @@ class Lesson extends Model
         'is_full',
         'manual',
         'is_started',
-        'lesson_template_item_id',
+        'lesson_template_id',
+        "group_id",
+        'order',
+        'access_tasks',
+        'access_homework',
+        'access_tests',
+        'access_offset',
+        'access_offset_value',
+        'access_offset_type'
     ];
 
     public function toArray()
@@ -36,5 +44,9 @@ class Lesson extends Model
 
     public function materials() {
         return $this->belongsToMany('App\Material');
+    }
+
+    public function group(){
+        return $this->belongsTo('App\Group');
     }
 }

@@ -51,21 +51,6 @@
                                 </b-tooltip>-->
                             </td>
                             <td>
-                                <b-popover
-                                        title="Условия доступа к занятию"
-                                        triggers="hover"
-                                        :content="accessInfo(item)"
-                                        class="badge"
-                                        :class="{
-                                            'badge-default': !item.access_free,
-                                            'badge-success': item.access_free}
-                                        "
-                                        style="{'cursor:pointer'}"
-                                >
-                                    <span class="fa fa-lock" @click="editAccess(item)"></span>
-                                </b-popover>
-                            </td>
-                            <td>
                                 <div class="pull-right">
                                     <button type="button" class="btn btn-link ml-1 btn-sm btn-drag" style="color:#D7D7D7;cursor: move;cursor: grab;cursor: -moz-grab;cursor: -webkit-grab;">
                                         <span class="fa fa-arrows"></span>

@@ -20,7 +20,7 @@ class ParticipantController extends Controller
     {
         return Participant::where('id', $id)
             ->with([
-                'user.home.district.region',"archive_reason","user.localities"
+                'user.home.district.region',"archive_reason","user.localities","groups.lessons.pages.materials"
             ])->first();
     }
     public function archive($id,Request $request)

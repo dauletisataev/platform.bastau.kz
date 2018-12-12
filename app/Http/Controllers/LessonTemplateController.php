@@ -6,6 +6,7 @@ use App\LessonQuestion;
 use App\LessonQuestionAnswer;
 use App\LessonTemplate;
 use App\LessonTemplateItem;
+use App\LessonTemplateTranslation;
 use App\Material;
 use App\MaterialPage;
 use App\Task;
@@ -14,67 +15,68 @@ use App\TaskQuestion;
 use App\UserLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 
 class LessonTemplateController extends Controller
 {
 
     public function items(request $request)
     {
-        $templates = LessonTemplate::with([
-            'items',
-            'role'
-        ]);
-        return $templates->filter(Input::all())->get();
+        if($request->get("language")){
+            app()->setLocale($request->get('language'));
+        }else{
+            app()->setLocale("ru");
+        }
+
+        $templates = LessonTemplate::filter(Input::all())->get();
+        foreach ($templates as $template){
+            $template->items(app()->getLocale());
+        }
+        return response()->json(["templates"=>$templates], 200);
     }
 
     public function item($id) {
-        $item = LessonTemplate::where('id','=',$id)
-            ->with('items','translation','testQuestions.answers')->first();
-        return $item;
+        $template  = LessonTemplate::find($id);
+        if($template!== NULL)$template=$template->items("ru");
+        return $item = $template;
     }
-
-    public function getItemConnections($id) {
-        if ($id == 1) {
-            return LessonTemplate::where('language','2')->first();
-        } else if ($id == 2) {
-            return LessonTemplate::where('language', '1')->first();
-        }
-        return null;
-    }
+    /*
+     * Yersultan we dont need connections, because not it is one Template, that have several translations*/
+//    public function getItemConnections($id) {
+//        if ($id == 1) {
+//            return LessonTemplate::where('language','2')->first();
+//        } else if ($id == 2) {
+//            return LessonTemplate::where('language', '1')->first();
+//        }
+//        return null;
+//    }
 
     public function save(request $request)
     {
         $this->validate($request, [
             'name' => 'required',
-            'role_id' => 'required'
+            'project_id' => 'required',
+            "language"=>"required",
+            "type"=>"required"
         ]);
-
         $template = LessonTemplate::findOrNew($request->get('id'));
-
-        $template->name = $request->get('name');
-        $template->role_id = $request->get('role_id');
+        $template->project_id = $request->get('project_id');
         $template->image = $request->get('image');
         $template->has_test = $request->get('has_test');
+        $template->type = $request->get('type');
         $template->test_duration = $request->get('test_duration');
-        $template->language = $request->get('language');
-        if ($request->get('language')==1) {
-            $temp = LessonTemplate::find($request->get('connected_template_id'));
-            if ( $temp != null) {
-                $template->translation()->sync($temp);
-                $temp->translation()->sync($template);
-            }
-        } else if ($request->get('language')==2) {
-            $temp = LessonTemplate::find($request->get('connected_template_id'));
-            if ( $temp != null) {
-                $template->translation()->sync($temp);
-                $temp->translation()->sync($template);
-            }
+        $template->translateOrNew($request->get('language'))->name = $request->get('name');
+        if(!$request->get('id')){
+            if($request->get('language')==="ru")$template->translateOrNew('kz')->name="";
+            else $template->translateOrNew('kz')->name="";
         }
         $template->save();
         if(!$request->get('id')) {
             UserLog::insert('lesson_template_create', $template->id, '');
-            return $template->id;
+        }else{
+            UserLog::insert('lesson_template_update', $template->id, '');
         }
+        return $template->id;
     }
 
     public function  deleteTestQuestion($id) {
@@ -117,10 +119,17 @@ class LessonTemplateController extends Controller
 
     public function saveItem($id, request $request) {
         $title = $request->getContent();
-        $last = LessonTemplateItem::where('lesson_template_id',$id)
+        $locale = $request->get("language")? $request->get('language'): "ru";
+        $lesson_template_translation = LessonTemplateTranslation::where("lesson_template_id",$id)
+            ->where("locale",$locale)->first();
+        $last = LessonTemplateItem::where('lesson_template_translation_id',$lesson_template_translation->id)
             ->orderBy('order','desc')->first();
         $order = $last ? $last->order + 1 : 0;
-        $item = new LessonTemplateItem(['title' => $title, 'lesson_template_id' => $id, 'order' => $order]);
+        $item = new LessonTemplateItem([
+            'title' => $title,
+            'lesson_template_translation_id' => $lesson_template_translation->id,
+            'lesson_template_id'=>$id,
+            'order' => $order]);
         $item->save();
         return $item->id;
     }

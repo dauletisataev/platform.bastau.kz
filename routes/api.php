@@ -25,6 +25,12 @@ Route::group(['prefix' => 'public'], function() {
 
 Route::group(['middleware' => ['auth:api']], function () {
             Route::get('/user', 'UserController@authenticated');
+
+            //Yersultan::routes for participants
+            Route::group(['middleware' => ['isParticipant']],function(){
+                Route::get('/participant-groups','GroupController@items');
+                Route::get('/participant-lesson/{id}','LessonController@item');
+            });
             Route::group(['middleware' => ['isEditor']], function () {
             Route::get( '/participants', 'ParticipantController@items');
 
@@ -50,6 +56,13 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::post('/group/{id}/add-participants',"GroupController@addParticipants");
             Route::post('/group/{id}/remove-participant',"GroupController@removeParticipant");
             Route::post('/group-archive/{id}','GroupController@archive');
+            /* Yersultan
+                Routes that used for lessons(including attendance)
+            */
+            Route::get('/lesson/attendance/{id}','LessonController@getLessonAttendance');
+            Route::post('/lesson/attendance/save','LessonController@setAttendance');
+            Route::get('/lessons/get-pseudotime/{id}','LessonController@getPseudoTime');
+            Route::post('/lessons/import-from-templates/{id}',"GroupController@importLessonsFromTemplate");
 
                 /* Yersultan
                     Routes that used for projects
@@ -62,6 +75,15 @@ Route::group(['middleware' => ['auth:api']], function () {
             Route::post('/region/save','RegionController@save');
             Route::post('/region/delete/{id}','RegionController@delete');
             Route::post('/region/update','RegionController@update');
+
+                /* Yersultan
+                 * Routes for holidays
+                 */
+            Route::get('/holidays','HolidayController@items');
+            Route::get('/holiday/{id}','HolidayController@item');
+            Route::post('/holiday-save','HolidayController@save');
+            Route::post('/holiday/delete/{id}','HolidayController@delete');
+
             Route::get( '/users', 'UserController@items');
             Route::get( '/user/{id}', 'UserController@item');
             Route::post('/user-save', 'UserController@save');
@@ -89,6 +111,7 @@ Route::delete('lesson-template-item-delete/{id}','LessonTemplateController@delet
 Route::post('/lesson-template-item-move','LessonTemplateController@move');
 Route::get('/lesson-template-item-content/{id}', 'LessonTemplateController@content');
 Route::get('/lesson/{id}','LessonController@item');
+Route::post('/lesson-save/','LessonController@save');
 
 Route::post('/upload-file','MaterialController@uploadFile');
 Route::post('/lesson-template-save-test', 'LessonTemplateController@saveTestQuestion');

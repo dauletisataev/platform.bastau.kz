@@ -15,16 +15,16 @@ class CreateLessonTemplateItemsTable extends Migration
     {
         Schema::create('lesson_template_items', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('lesson_template_id');
-            $table->string('title',255);
+            $table->integer('lesson_template_translation_id')->unsigned();
+            $table->integer('lesson_template_id')->unsigned();
             $table->integer('order');
-            $table->integer('access_free')->default(0);
             $table->integer('access_tasks')->default(0);
             $table->integer('access_homework')->default(0);
             $table->integer('access_tests')->default(0);
             $table->integer('access_offset')->default(0);
             $table->integer('access_offset_value');
-            $table->string('access_offset_type', 191)->default('minutes');
+            $table->string('title',255);
+            $table->string('access_offset_type', 191)->nullable();
             $table->string('manual');
         });
     }

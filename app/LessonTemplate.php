@@ -4,39 +4,36 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 
 class LessonTemplate extends Model
 {
+    use \Dimsav\Translatable\Translatable;
     public $timestamps = false;
 
-    public $fillable = [
-        'name',
-        'program_id',
-        'level_id',
-        'image',
-        'cost',
-        'type',
-        'role_id',
-        'has_test',
-        'test_duration'
-    ];
+    public $translatedAttributes = ['name'];
+    public $fillable = ['project_id','image','type','has_test','test_duration','datetime'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function items()
+    public function items($locale)
     {
-        return $this->hasMany(LessonTemplateItem::class);
+        $lesson_template_translation_id=LessonTemplateTranslation::where("lesson_template_id",$this->attributes["id"])->
+            where("locale",$locale)->first();
+        if($lesson_template_translation_id!==NULL)$lesson_template_translation_id=$lesson_template_translation_id->id;
+        $this->items = \App\LessonTemplateItem::where('lesson_template_translation_id',$lesson_template_translation_id)->get();
+        return $this;
     }
 
-    // LMS
-    public function users() {
-        return $this->belongsToMany(User::class)->withTimestamps();
-    }
+    public function scopeFilter($query, $filters)
+    {
+        if($filters["project_id"]!==NULL){
+            $query->where("project_id",$filters["project_id"]);
+        }
+        if($filters["type"]!==NULL){
+            $query->where("type",$filters["type"]);
+        }
 
-    public function role() {
-        return $this->belongsTo(Role::class);
+        return $query;
     }
 
     public function setImageAttribute($value)
@@ -53,16 +50,4 @@ class LessonTemplate extends Model
         }
     }
 
-    public function scopeFilter($query, $filters)
-    {
-
-    }
-
-    public function testQuestions() {
-        return $this->hasMany('App\LessonQuestion');
-    }
-
-    public function translation(){
-        return $this->belongsToMany('App\LessonTemplate', 'lesson_template_translation', 'lesson_template_ru_id', 'lesson_template_kz_id');
-    }
 }

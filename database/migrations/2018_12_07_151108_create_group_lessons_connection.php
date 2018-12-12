@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AlterLessonTemplatesTable3 extends Migration
+class CreateGroupLessonsConnection extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AlterLessonTemplatesTable3 extends Migration
      */
     public function up()
     {
-        Schema::table('lesson_templates', function (Blueprint $table) {
-            $table->integer('test_duration')->nullable();
+        Schema::table('lessons', function (Blueprint $table) {
+            $table->integer('group_id')->unsigned();
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
         });
     }
 
@@ -25,8 +26,6 @@ class AlterLessonTemplatesTable3 extends Migration
      */
     public function down()
     {
-        Schema::table('lesson_templates', function (Blueprint $table) {
-            $table->dropColumn('test_duration');
-        });
+        //
     }
 }

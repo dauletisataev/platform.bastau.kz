@@ -52,7 +52,7 @@
         },
         props:['participants','id'],
         data(){
-            return {archived:1,toremove:null};
+            return {archived:0,toremove:null};
         },
         methods:{
             changeFilterArchived(value){
