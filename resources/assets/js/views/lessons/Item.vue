@@ -25,7 +25,7 @@
         <div>
             <materials v-if="active_tab==='materials'" :lesson="lesson"  :students="lesson.group.participants" />
             <manual v-if="active_tab=='methodics'" :manual="lesson.manual"></manual>
-            <div v-if="active_tab==='participants'">
+            <div v-if="active_tab==='participants'" class="table mt-3">
                 <div class="row">
                     <div class="col-2 offset-1">First name</div>
                     <div class="col-2">Last Name</div>
@@ -35,7 +35,7 @@
                 <div v-for="participant in lesson.group.participants" class="row">
                     <div class="col-2 offset-1">{{participant.user.first_name}}</div>
                     <div class="col-2">{{participant.user.last_name}}</div>
-                    <div class="col-2 offset-2">
+                    <div class="col-2 offset-2" v-if="lesson.is_started || lesson.passed">
                         <div v-for="participant_attendance in attendance"
                              v-if="participant_attendance.participant_id===participant.id">
                             <div class="btn-group"   >

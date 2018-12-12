@@ -101,6 +101,15 @@
                 })
             },
             showModal(){
+                if(this.lessons.length===0){
+                    this.times = this.pseudotimes.map(el=>{
+                        return{
+                            date:el.date,
+                            time:"9:00",
+                            available:true
+                        }
+                    })
+                }
                 this.lessons.map(date=>{
                    let parsedDate=date.datetime[8]+date.datetime[9]+'-'+date.datetime[5]+date.datetime[6]+'-'+date.datetime[2]+date.datetime[3]
                    this.pseudotimes.map(date2=>{
@@ -115,7 +124,6 @@
                             available:element.available
                         };
                     });
-                    console.log(">>",this.times);
                 });
                 this.getListOfTemplates();
                 this.$refs.modal.show();
@@ -140,7 +148,6 @@
             projectName(){
                 var x = "";
                 this.$common.data.projects.map(elem=>{
-                    console.log("elem",elem,this.project_id);
                     if (elem.id===this.project_id)x=elem.name}
                 )
                 return x;

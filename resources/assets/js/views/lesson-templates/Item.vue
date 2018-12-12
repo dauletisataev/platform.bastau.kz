@@ -211,9 +211,6 @@
                     (res) => {
                         _this.loading = false;
                         _this.template = res.data;
-                        if (res.data.id != null) {
-                            _this.getItemTranslations(res.data.id);
-                        }
                     },
                     (err) => console.error(err));
             },
