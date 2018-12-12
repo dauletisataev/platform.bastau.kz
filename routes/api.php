@@ -24,57 +24,65 @@ Route::group(['prefix' => 'public'], function() {
 });
 
 Route::group(['middleware' => ['auth:api']], function () {
-            Route::get('/user', 'UserController@authenticated');
-            Route::group(['middleware' => ['isEditor']], function () {
-            Route::get( '/participants', 'ParticipantController@items');
+    Route::get('/user', 'UserController@authenticated');
 
-            /*Yersultan
-                    Routes that used for participants
-              */
-            Route::get('/participants/full-delete/{id}',"ParticipantController@fullDelete");
-            Route::get( '/participant-archive/reasons','ParticipantController@getArchiveReasonsList');
-            Route::post('/participant-save', 'ParticipantController@save');
-            Route::post('/participant-field-save/{id}', 'ParticipantController@saveField');
-            Route::post('/participant-document-save/{id}','ParticipantController@saveDocument');
-            Route::post('.participant-document-remove/{id}','ParticipantController@removeDocument');
-            Route::get( '/participant/{id}','ParticipantController@item');
-            Route::get( '/participant/histories/{id}','ParticipantController@getHistories');
-            Route::post('/participant-archive/{id}','ParticipantController@archive');
-            /* Yersultan
-                Routes that used for groups
+    /**
+     * Daulet
+     * Comman routes when user is Administrator or Coordinator or BusinessTrainer
+     * TODO:  обсудить общие роуты
+     */
+    Route::group(['middleware' => ['isEditor']], function () {
+        Route::get( '/participants', 'ParticipantController@items'); 
+        Route::get( '/participant-archive/reasons','ParticipantController@getArchiveReasonsList');//TODO: ?
+        Route::post('/participant-save', 'ParticipantController@save');
+        Route::post('/participant-field-save/{id}', 'ParticipantController@saveField'); 
+        Route::get( '/participant/{id}','ParticipantController@item');
+        Route::get( '/participant/histories/{id}','ParticipantController@getHistories');
+        Route::post('/participant-archive/{id}','ParticipantController@archive');
+        /* 
+            Routes that used for groups
+        */
+        Route::get( '/group/{id}','GroupController@item');
+        Route::get('/groups','GroupController@items');
+        Route::get('/groups/{id}/add-participants','GroupController@getNotMyParticipants');
+        Route::post('/group-save','GroupController@saveGroup');
+        Route::post('/group/{id}/add-participants',"GroupController@addParticipants");
+        Route::post('/group/{id}/remove-participant',"GroupController@removeParticipant");
+        Route::post('/group-archive/{id}','GroupController@archive');
+
+            /* 
+                Routes that used for projects
             */
-            Route::get( '/group/{id}','GroupController@item');
-            Route::get('/groups','GroupController@items');
-            Route::get('/groups/{id}/add-participants','GroupController@getNotMyParticipants');
-            Route::post('/group-save','GroupController@saveGroup');
-            Route::post('/group/{id}/add-participants',"GroupController@addParticipants");
-            Route::post('/group/{id}/remove-participant',"GroupController@removeParticipant");
-            Route::post('/group-archive/{id}','GroupController@archive');
-
-                /* Yersultan
-                    Routes that used for projects
-                */
-            Route::get('/projects/get-all','ProjectController@getAll');
-
-                /* Yersultan
-                 * Routes for regions/districts or localities
-                 */
-            Route::post('/region/save','RegionController@save');
-            Route::post('/region/delete/{id}','RegionController@delete');
-            Route::post('/region/update','RegionController@update');
-            Route::get( '/users', 'UserController@items');
-            Route::get( '/user/{id}', 'UserController@item');
-            Route::post('/user-save', 'UserController@save');
-            Route::post('/user-photo-save', 'UserController@savePhoto');
-            Route::get('/users-all', 'UserController@all');
-
-            /*Daulet
-            * Routes for sendpulse communications 
-            */
-            Route::get('/sendpulse/getTemplates', 'SendPulseController@getTemplates');
-            Route::post('/sendpulse/sendEmail', 'SendPulseController@sendEmail'); 
+        Route::get('/projects/get-all','ProjectController@getAll');
+ 
+        /*Daulet
+        * Routes for sendpulse communications 
+        */
+        Route::get('/sendpulse/getTemplates', 'SendPulseController@getTemplates');
+        Route::post('/sendpulse/sendEmail', 'SendPulseController@sendEmail'); 
+        Route::get('/export/participants', 'ParticipantController@exportAll');
     });
-
+    Route::group(['middleware' => ['isAdminOrCoordinator']], function () { 
+        Route::get( '/trainer/{id}','BusinessTrainerController@item');
+        Route::get('/trainers','BusinessTrainerController@items'); 
+    });
+    Route::group(['middleware' => ['isAdmin']], function () {  
+        
+        Route::get('/participants/full-delete/{id}',"ParticipantController@fullDelete");  
+        Route::get('/projects/get-all','ProjectController@getAll'); 
+        /* Yersultan
+        * Routes for regions/districts or localities
+        */
+        Route::post('/region/save','RegionController@save');
+        Route::post('/region/delete/{id}','RegionController@delete');
+        Route::post('/region/update','RegionController@update');
+        Route::get( '/users', 'UserController@items');
+        Route::get( '/user/{id}', 'UserController@item');
+        Route::post('/user-save', 'UserController@save');
+        Route::post('/user-photo-save', 'UserController@savePhoto');
+        Route::get('/users-all', 'UserController@all'); 
+    });
+    
     Route::group(['middleware' => ['isViewer']], function () {
         Route::get('/dashboard', 'MainController@dashboard');
     });

@@ -7,15 +7,16 @@
 				{{ $t("trainer.edit") }}
 			</button>
 
-			<button class="btn btn-danger btn-block text-left btn-sm" @click="$refs.modalDelete.show()">
+			<button  v-if="$root.user.isAdmin()" class="btn btn-danger btn-block text-left btn-sm" @click="$refs.modalDelete.show()">
 				<span class="fa fa-fw fa-trash"></span>
 				{{ $t("trainer.delete") }}
 			</button>
 
-			<button class="btn btn-default btn-block text-left btn-sm" @click="$refs.modalDelete.show()">
+			<button v-if="$root.user.isAdmin()"  class="btn btn-default btn-block text-left btn-sm" @click="$refs.modalArchive.showModal()">
 				<span class="fa fa-fw fa-trash"></span>
 				{{ $t("trainer.archive") }}
-			</button>
+				
+			</button> 
 		</div>
 
 		<div class="col-8 offset-4 pr-5">
@@ -45,8 +46,7 @@
 						<td>{{ trainer.user.created_at }}</td>
 					</tr>
 				</tbody>
-			</table> 
-
+			</table>  
 		</div>
 
 		<trainer-form v-if="form" ref="editTrainer" :_form="form" @formSending="getItem()"></trainer-form>
@@ -58,7 +58,8 @@
 				<button class="btn btn-danger" @click="deleteTrainer()">{{ $t("trainer.delete") }}</button>
 			</div>
 		</b-modal>
-
+		
+		<archiveModal ref="modalArchive" :user_id="this.trainer.user.id" v-on:archive="archive(arguments[0])"></archiveModal> 
 	</div>
 </template>
 
@@ -73,12 +74,16 @@
 			return {
 				errors: [],
 				trainer: {},
-				form: ''
+				form: '', 
+				selected_reason: 0,
+				description:'',
 			}
 		},
-
+		mounted() { 
+        },
 		components: {
 			TrainerForm, FormError,
+			'archiveModal': require('./modals/ArchiveTrainer.vue'),
 		},
 		computed: {
 			fullName() {
@@ -118,7 +123,30 @@
 					(err) => console.log(err)
 					);
 				this.$refs.modalDelete.hide();
-			}
+			},
+			archive(reason_id){ 
+				let _this = this;
+				console.log(reason_id);
+				if(this.trainer.in_archive) {  
+					get(_this, '/api/trainers/archive/' + this.id, { archive_reason: reason_id }, function (response) {
+						_this.getItem();
+						_this.$refs.modalArchive.hideModal();
+					},function (error) {
+						_this.formSending = false;
+						_this.errors = error.response.data;
+					});
+				}
+				else { 
+					get(_this, '/api/trainers/restore/' + this.id, {}, function (response) {
+						_this.getItem();
+						_this.$refs.modalArchive.hideModal();
+					},function (error) {
+						_this.formSending = false;
+						_this.errors = error.response.data;
+					});
+				}
+				
+			}, 
 		},
 		created() {
 			this.getItem();

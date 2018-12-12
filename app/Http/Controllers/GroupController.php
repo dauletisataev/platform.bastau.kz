@@ -19,8 +19,27 @@ class GroupController extends Controller
                 'locality.district.region'
             ])->first();
     }
-    public function items(){
-        return Group::filter(Input::all())->with(['participants.user','locality.district.region'])->orderBy('id', 'desc')->paginate(20);
+    public function items(request $request){
+        $groups = Group::filter(Input::all())->with(['participants.user','locality.district.region'])->orderBy('id', 'desc');
+        /**Daulet
+         * координатор получает только сущности с его локалити.
+         * 
+         */
+        // if($request->user()->hasRole('coordinator')){
+        //     $user_region_id = $request->user()->home->district->region->id;
+        //     $groups->whereHas('locality', function($query) use ($user_region_id) {
+        //         $query->whereHas('district', function($q) use ($user_region_id) {
+        //             $q->where('region_id',$user_region_id);
+        //         });
+        //     });
+        // }
+        // if($request->user()->hasRole('business-trainer')){
+        //     $trainer_user_id = $request->user()->id;
+        //     $groups->whereHas('trainer', function($query) use ($trainer_user_id) { 
+        //             $query->where('user_id',$trainer_user_id); 
+        //     });
+        // }
+        return $groups->paginate(20);
     }
     public function saveGroup(Request $request){
         $this->validate($request, [

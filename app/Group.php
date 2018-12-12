@@ -51,7 +51,7 @@ class Group extends Model
      */
     public function trainer()
     {
-        return $this->belongsTo(BusinessTrainer::class);
+        return $this->belongsTo(BusinessTrainer::class, 'trainer_id');
     }
 
     public function locality(){

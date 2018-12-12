@@ -14,9 +14,10 @@ class BusinessTrainerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function items()
+    public function items(request $request)
     {
-        return BusinessTrainer::with('user')->filter(Input::all())->paginate(20);
+        $trainers =  BusinessTrainer::with('user')->filter(Input::all()); 
+        return $trainers->paginate(20);
     }
 
     /**

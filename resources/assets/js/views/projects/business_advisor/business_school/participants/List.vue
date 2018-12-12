@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <participant-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered" v-on:changeMode="selectMode = arguments[0]" :actionOption="selectMode ? 'select': 'action'"></participant-filter>
+        <participant-filter v-if="$common.data.roles" ref="filter" :load="load" v-on:filtered="filtered" v-on:export="exportExcel" v-on:selectMode="selectMode = true"></participant-filter>
          <!-- 
              *Daulet
              *блок с действиями с выделенными пользователями
@@ -34,8 +34,8 @@
             <table class="table">
                 <thead class="thead-default">
                 <tr>
-                    <th  v-if="selectMode" >
-                        <input type="checkbox" @change="onCheckAll(checkAll)" name="" id="" v-model="checkAll">
+                    <th  v-if="selectMode" > 
+                        <input class="form-input" type="checkbox" @change="onCheckAll(checkAll)" name="" id="" v-model="checkAll">
                     </th>
                     <th>{{ $tc('participants.list.first_name') }}</th>
                     <th>{{ $tc('participants.list.last_name') }}</th>
@@ -52,7 +52,7 @@
                 <tr v-for="participant in participants">
                     <td v-if="selectMode">
                         <!-- Даулет:  onChange-> если один элемент unchecked, then checkAll = false  -->
-                        <input class="form-control" @change="!selectedIds.includes(participant.user_id) ? checkAll = false : true" :value="participant.user_id" v-model="selectedIds" type="checkbox">
+                        <input class="form-input" @change="!selectedIds.includes(participant.user_id) ? checkAll = false : true" :value="participant.user_id" v-model="selectedIds" type="checkbox">
                     </td>
                     <td>{{ participant.user.first_name }}</td>
                     <td>{{ participant.user.last_name}}</td>
@@ -78,15 +78,15 @@
         </div>
 
         <participant-form ref="newParticipant" :data="$common.data" :_form="newParticipant" v-on:formSending="filtered"></participant-form>
-        <send-mail-modal ref="sendMailModal" :data="Array.from(selectedIds)" ></send-mail-modal>
-        <send-sms-modal ref="sendSmsModal" :data="Array.from(selectedIds)" ></send-sms-modal>
+        <send-mail-modal ref="sendMailModal" :data="Array.from(selectedIds)" v-on:send="massSend(arguments[0], arguments[1])"></send-mail-modal>
+        <send-sms-modal ref="sendSmsModal" :data="Array.from(selectedIds)" v-on:send="massSend(arguments[0], arguments[1])"></send-sms-modal>
 
     </div>
 </template>
 
 <script>
 
-    import { get } from '../../../../../helpers/api'
+    import { get, post } from '../../../../../helpers/api'
 
     export default {
 
@@ -100,13 +100,15 @@
                 resource_url: '/api/participants',
                 next_url: '',
                 default_url: '/api/participants',
+                formSending: false,
+                errors: '',
                 /*
-                    selectMode variable
+                    selectMode variables
                     creator: Daulet
                 */
-                selectMode: true, 
+                selectMode: true ,
                 checkAll: false,
-                selectedIds: []
+                selectedIds: [], 
             }
         },
         components: {
@@ -114,6 +116,16 @@
             'send-mail-modal': require('./modals/sendMailModal.vue'),
             'send-sms-modal': require('./modals/sendSmsModal.vue'),
             'participant-filter': require('./Filter.vue')
+        },
+        computed:{
+            unselected() {
+                let arr = [];
+                let _this = this;
+                this.participants.forEach(function(participant) {
+                    if(!_this.selectedIds.includes(participant.user_id)) arr.push(participant.user_id);
+                });
+                return arr;
+            }
         },
         methods: {
             getList() {
@@ -171,17 +183,7 @@
                     })
                 }
 
-            }, 
-            onCheckedChange(participant){
-                console.log(participant.selected);
-                if(!participant.selected) {
-                    this.checkAll = false;
-                    this.selectedIds.delete(participant.user_id);
-                } else{
-                    this.selectedIds.add(participant.user_id);
-                } 
-                //console.log(Array.from(this.selectedIds));
-            },
+            },  
             onCheckAll(checked){
                 this.selectedIds = [];
                 if(checked)
@@ -189,8 +191,44 @@
                     this.selectedIds.push(this.participants[x].user_id); 
                 } 
             },
-            selectedChanged(checked){
-                if(!checked) checkAll = false;;
+            exitSelect(){
+                this.selectMode = false;
+                this.selectedIds = [];
+            },
+            massSend(field,type) {
+                let _this = this;
+                console.log(field, type);
+                console.log('inverse', this.unselected);
+                if(field === 'email') {
+                    let params = {
+                        ids: this.leadIds,
+                        inverse: this.unselected,
+                        type: type, 
+                        filterData: this.filterData,
+                    };
+                    this.$nextTick(function() {
+                        post(_this, '/api/sendpulse/sendEmail', params, function (response) {
+                             console.log(response);
+                            _this.formSending = false;
+                            _this.errors = '';
+                            _this.$refs.sendMailModal.hideModal();
+                            _this.filtered();
+                            _this.exitSelect();
+                        }, function (error) {
+                            console.log(error);
+                        });
+                    });
+                }
+            },
+            exportExcel(){
+                let _this = this;
+                console.log("exporting");
+                get(_this, '/api/export/participants', { params: this.filterData }, function (response) {
+                    console.log(response);
+                    window.open(response.data);
+                }, function(error){
+                    console.log(error);
+                })
             }
 
         }, 

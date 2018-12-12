@@ -22,7 +22,7 @@ class BusinessTrainer extends Model
      */
     public function groups()
     {
-        return $this->hasMany(Group::class);
+        return $this->hasMany(Group::class, 'trainer_id');
     }
 
     /**

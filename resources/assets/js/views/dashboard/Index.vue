@@ -6,11 +6,11 @@
           {{ $tc("dashboard.surname") }}
         </p>
     </div>
-</template>
-
+</template> 
 
 <script>
 export default {
+  props:['user'],
   data() {
     return {};
   },

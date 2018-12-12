@@ -11,7 +11,8 @@
 	},
 	"action_options":{ 
 		"action": "Әрекет",
-		"select": "Таңдау"
+		"select": "Таңдау",
+		"export": "Экспорттау"
 	},
 	"action_on_selected":{
 		"send_mail": "mail хат жолдау",
