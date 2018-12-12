@@ -7,14 +7,40 @@ use Illuminate\Support\Facades\Input;
 use App\Participant;
 use App\User;
 use App\Role;
-use App\ParticipantHistory;
+use App\BusinessTrainer;
+use App\ParticipantHistory; 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class ParticipantController extends Controller
 {
     public function items(Request $request)
     {
-        return Participant::filter(Input::all())->with([
+        $participants =  Participant::filter(Input::all())->with([
             'user.home.district.region'
-        ])->orderBy('id', 'desc')->paginate(20);
+        ])->orderBy('id', 'desc');
+        /**Daulet
+         * координатор получает только сущности с его локалити.
+         * 
+         */
+        if($request->user()->hasRole('coordinator')){
+            $user_region_id = $request->user()->home->district->region->id;
+            $participants->whereHas('user', function($query1) use ($user_region_id) {
+                $query1->whereHas('home', function($query) use ($user_region_id) {
+                    $query->whereHas('district', function($q) use ($user_region_id) {
+                        $q->where('region_id',$user_region_id);
+                    });
+                });
+            });
+        }
+        if($request->user()->hasRole('business-trainer')){
+            $trainer = BusinessTrainer::where('user_id', $request->user()->id)->with([
+                'groups'
+            ])->first();
+            $user_ids = $trainer->groups->pluck('id');
+            $participants->whereIn('user_id', $user_ids);
+        }
+        return $participants->paginate(20);
     }
     public function item($id)
     {
@@ -133,6 +159,199 @@ class ParticipantController extends Controller
         $role_id = Role::where("name","Participant")->first();
         $responce = \App\ArchiveReasons::where("role_id",$role_id)->get();
         return response()->json(['status'=>'success','data'=>$responce],200);
+    }
+    public function exportAll(request $request) {
+
+        // styles
+        $style_default = [
+            'font' => [
+                'size' => 10
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+            ],
+        ];
+        $style_heading = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'wrapText' => true,
+            ],
+            'font' => [
+                'bold' => true,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                ]
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'color' => ['rgb' => 'd5a6db']
+            ]
+        ];
+        $style_left = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT
+            ],
+        ];
+        $style_center = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                ]
+            ],
+        ];
+        $style_right = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                ]
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT
+            ],
+        ];
+
+        // data
+
+        $participants_query = Participant::with([
+             'user',  
+             'archive_reason',
+             'user.home.district.region' 
+        ]);
+        if($request->user()->hasRole('coordinator')){
+            $user_region_id = $request->user()->home->district->region->id;
+            $participants_query->whereHas('user', function($query1) use ($user_region_id) {
+                $query1->whereHas('home', function($query) use ($user_region_id) {
+                    $query->whereHas('district', function($q) use ($user_region_id) {
+                        $q->where('region_id',$user_region_id);
+                    });
+                });
+            });
+        } 
+        if($request->user()->hasRole('business-trainer')){
+            $trainer = BusinessTrainer::where('user_id', $request->user()->id)->with([
+                'groups'
+            ])->first();
+            $user_ids = $trainer->groups->pluck('id');
+            $participants_query->whereIn('user_id', $user_ids);
+        }
+        $participants = $participants_query->get();
+        // creating spreadsheet
+
+        $spreadsheet = new Spreadsheet();
+        $spreadsheet->getDefaultStyle()->applyFromArray($style_default);
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // writing data
+
+        $sheet->setShowGridlines(false);
+
+        $sheet->setCellValue('A1','№');
+        $sheet->getStyle('A1')->applyFromArray($style_heading);
+        $sheet->setCellValue('B1','ФИО участника');
+        $sheet->getStyle('B1')->applyFromArray($style_heading);
+        $sheet->setCellValue('C1','ИИН');
+        $sheet->getStyle('C1')->applyFromArray($style_heading);
+        $sheet->setCellValue('D1','Пол');
+        $sheet->getStyle('D1')->applyFromArray($style_heading);
+        $sheet->setCellValue('E1','Дата Рождения');
+        $sheet->getStyle('E1')->applyFromArray($style_heading);
+        $sheet->setCellValue('F1','Мобильный Телефон');
+        $sheet->getStyle('F1')->applyFromArray($style_heading);
+        $sheet->setCellValue('G1','Электронная почта');
+        $sheet->getStyle('G1')->applyFromArray($style_heading);
+        $sheet->setCellValue('H1','Инвалидность');
+        $sheet->getStyle('H1')->applyFromArray($style_heading);
+        $sheet->setCellValue('I1','Место проживания');
+        $sheet->getStyle('I1')->applyFromArray($style_heading);
+        $sheet->setCellValue('J1','Архивирован');
+        $sheet->getStyle('J1')->applyFromArray($style_heading);
+        $sheet->setCellValue('K1','Причина Архивации'); 
+        $sheet->getStyle('K1')->applyFromArray($style_heading);
+
+        $sheet->getColumnDimension('A')->setWidth(6);
+        $sheet->getColumnDimension('B')->setWidth(43);
+        $sheet->getColumnDimension('C')->setWidth(43);
+        $sheet->getColumnDimension('D')->setWidth(15);
+        $sheet->getColumnDimension('E')->setWidth(20);
+        $sheet->getColumnDimension('F')->setWidth(20);
+        $sheet->getColumnDimension('G')->setWidth(30);
+        $sheet->getColumnDimension('H')->setWidth(25);
+        $sheet->getColumnDimension('I')->setWidth(30);
+        $sheet->getColumnDimension('J')->setWidth(20);
+        $sheet->getColumnDimension('K')->setWidth(35);  
+        $sheet->getRowDimension('1')->setRowHeight(77);
+
+        // data
+        $row = 2;
+        $i = 2;
+        foreach ($participants as $participant) {
+            $col = 'A';
+            $sheet->setCellValue($col.$i,$i-1);
+            $sheet->getStyle($col.$i)->applyFromArray($style_right);
+
+            $col = 'B';
+            $sheet->setCellValue($col.$i,$participant->user->first_name.' '.$participant->user->last_name.' '.$participant->user->patronymic);
+            $sheet->getStyle($col.$i)->applyFromArray($style_left);
+
+            $col = 'C';
+            $sheet->setCellValue($col.$i,$participant->user->iin);
+            $sheet->getStyle($col.$i)->applyFromArray($style_left);
+            $sheet->getStyle($col.$i)->getNumberFormat()->setFormatCode('000000000000');
+
+            $col = 'D';
+            $sheet->setCellValue($col.$i,$participant->user->gender == 'M' ? 'мужчина' : 'женщина');
+            $sheet->getStyle($col.$i)->applyFromArray($style_left);
+
+            /*Daulet
+            * TODO: create accessor for date of birth of user
+            * пока здесь иин выводиться
+            */
+            $col = 'E';
+            //$sheet->setCellValue($col.$i,$participant->user->iin);
+            $user = $participant->user;
+            $sheet->setCellValue($col.$i,$user->dateOfBirth());
+            $sheet->getStyle($col.$i)->applyFromArray($style_left);
+
+            $col = 'F';
+            $sheet->setCellValue($col.$i,$participant->user->phone);
+            $sheet->getStyle($col.$i)->applyFromArray($style_right);
+            
+
+            $col = 'G';
+            $sheet->setCellValue($col.$i,$participant->user->email);
+            $sheet->getStyle($col.$i)->applyFromArray($style_right);
+
+            $col = 'H';
+            $sheet->setCellValue($col.$i,$participant->disability == 0 ? 'нет инвалидности' : $participant->disability.' степень инвалидности');
+            $sheet->getStyle($col.$i)->applyFromArray($style_center);
+
+            $col = 'I';
+            $sheet->setCellValue($col.$i,$participant->user->home->name.' '.$participant->user->home->district->name.' '.$participant->user->home->district->region->name);
+            $sheet->getStyle($col.$i)->applyFromArray($style_right);
+
+            $col = 'J';
+            $sheet->setCellValue($col.$i,$participant->in_archive == 0 ? 'нет' : 'да');
+            $sheet->getStyle($col.$i)->applyFromArray($style_right);
+
+            $col = 'K';
+            $sheet->setCellValue($col.$i,$participant->in_archive == 0 ? 'нет': $participant->archive_reason->reason);
+            $sheet->getStyle($col.$i)->applyFromArray($style_left);  
+            $i++;
+        }
+        // saving
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $hash = md5(time() . rand(1111,9999));
+        $writer->save('sheets/'.$hash.'.xlsx');
+        $url = public_path('sheets/'.$hash.'.xlsx');
+        return url('/').'/sheets/'.$hash.'.xlsx'; 
     }
 
 }

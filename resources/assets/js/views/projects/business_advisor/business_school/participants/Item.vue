@@ -15,9 +15,9 @@
                     @click="$refs.modalRestore.showModal()">
                 {{$tc('participants.item.restore')}}
             </button>
-            <button  type="button" class="btn btn-danger btn-block text-left btn-sm"
+            <button  v-if="$root.user.isAdmin()" type="button" class="btn btn-danger btn-block text-left btn-sm"
                     @click="remove">
-                {{$tc('participants.item.delete')}}
+                {{$tc('participants.item.delete')}} 
             </button>
         </div>
         <!--КОНЕЦ-->

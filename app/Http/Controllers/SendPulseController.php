@@ -67,8 +67,8 @@ class SendPulseController extends Controller
                ]
             ],
             "from" => [
-               "name"=> "Mike",
-               "email"=> "mike.johnson@domain.com"
+               "name"=> "Даулет",
+               "email"=> "dake.99.10@gmail.com"
             ],
             "to"=> [
                [

@@ -8,7 +8,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Intervention\Image\Facades\Image;
-
+use DateTime;
 class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
@@ -203,6 +203,10 @@ class User extends Authenticatable
     public function localities(){
         return $this->belongsToMany('App\Locality');
     }
+    public function dateOfBirth(){
+        $date = DateTime::createFromFormat('ymd', substr($this->iin, 0, 6));
+        return date_format($date, 'd/m/Y');
+    }
 
     public static function boot()
     {
@@ -210,5 +214,6 @@ class User extends Authenticatable
              $user->trainer()->delete();
         });
     }
+
 
 }

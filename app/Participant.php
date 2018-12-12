@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\ParticipantHistory;
 use Illuminate\Support\Facades\Log;

@@ -15,8 +15,7 @@ class IsEditor
      */
     public function handle($request, Closure $next)
     {
-        $request->user()->authorizeRole(['administrator']);//ask
-
+        $request->user()->authorizeRole(['administrator', 'coordinator', 'business-trainer']);
         return $next($request);
     }
 }

@@ -12,15 +12,21 @@
                 <button @click="resetFilter()" :disabled="load" class="btn btn-secondary  btn-block">{{$tc("participants.filter.reset")}}</button>
             </div>
             <div class="col-2">
-                <select @change="actionOptionChanged()" class="form-control" v-model="actionOption">
+                <div>
+                <b-dropdown id="ddown1" :text="$tc('participants.action_options.action')" variant="primary"> 
+                    <b-dropdown-item @click="$emit('selectMode')">{{$tc('participants.action_options.select')}}</b-dropdown-item>
+                    <b-dropdown-item @click="$emit('export')">{{$tc('participants.action_options.export')}}</b-dropdown-item> 
+                </b-dropdown>
+                </div>
+                <!-- <select @change="actionOptionChanged()" class="form-control" v-model="actionOption">
                     <option value="action">{{$tc('participants.action_options.action')}}</option>
                     <option value="select">{{$tc('participants.action_options.select')}}</option>
-                </select>
+                </select> -->
             </div> 
  
         <div class="col-12 mb-2 ">
             <b-tabs>
-                <b-tab :title='$tc("participants.filter.active")' active @click="changeArchiveType(false)" >
+                <b-tab :title='$tc("participants.filter.active")' @click="changeArchiveType(false)" >
                 </b-tab>
                 <b-tab :title='$tc("participants.filter.archived")' @click="changeArchiveType(true)" >
                 </b-tab>
@@ -31,9 +37,10 @@
 </template>
 
 <script>
+    import 'bootstrap-vue/dist/bootstrap-vue.css'
     export default {
 
-        props: ['load', 'actionOption'],
+        props: ['load'],
 
         data() {
 

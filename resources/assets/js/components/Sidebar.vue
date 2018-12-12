@@ -47,7 +47,7 @@
                         </router-link>
                     </li>
 
-                    <li class="mb-2">
+                    <li class="mb-2" v-if="$root.user.isAdmin() || $root.user.data.role_name=='coordinator'">
                         <router-link to="/trainers" exact
                                      :class="{'text-muted': trainers.indexOf($route.name) < 0, 'text-white': trainers.indexOf($route.name) > -1 }">
                             <span class="fa fa-fw fa-user mr-2"></span>
