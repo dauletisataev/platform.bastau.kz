@@ -23,7 +23,7 @@ Route::group(['prefix' => 'public'], function() {
     Route::post('/send-reset-code/{id}','UserController@sendResetCode');
 });
 
-Route::group(['middleware' => ['auth:api']], function () {\
+Route::group(['middleware' => ['auth:api']], function () {
             Route::get('/user', 'UserController@authenticated');
 
             //Yersultan::routes for participants
@@ -110,7 +110,7 @@ Route::group(['middleware' => ['auth:api']], function () {\
             * Routes for sendpulse communications 
             */
             Route::get('/sendpulse/getTemplates', 'SendPulseController@getTemplates');
-            Route::post('/sendpulse/sendEmail', 'SendPulseController@sendEmail');\
+            Route::post('/sendpulse/sendEmail', 'SendPulseController@sendEmail');
     Route::get('/user', 'UserController@authenticated');
 
     /**
@@ -147,7 +147,7 @@ Route::group(['middleware' => ['auth:api']], function () {\
         */
         Route::get('/sendpulse/getTemplates', 'SendPulseController@getTemplates');
         Route::post('/sendpulse/sendEmail', 'SendPulseController@sendEmail'); 
-        Route::get('/export/participants', 'ParticipantController@exportAll');\
+        Route::get('/export/participants', 'ParticipantController@exportAll');
     });
     Route::group(['middleware' => ['isAdminOrCoordinator']], function () { 
         Route::get( '/trainer/{id}','BusinessTrainerController@item');
@@ -196,4 +196,4 @@ Route::post('/lesson-template-save-test', 'LessonTemplateController@saveTestQues
 Route::post('lesson-template-add-test/{id}','LessonTemplateController@addTestQuestion');
 Route::get('lesson-template-delete-test/{id}','LessonTemplateController@deleteTestQuestion');
 
-Route::get('/user-logs', 'UserLogController@items');
+Route::get('/user-logs', 'UserLogController@items');});

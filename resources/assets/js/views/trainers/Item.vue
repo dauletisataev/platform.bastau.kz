@@ -70,6 +70,7 @@
 		
 		<archiveModal ref="modalArchive" :user_id="this.trainer.user.id" v-on:archive="archive(arguments[0])"></archiveModal>
 	</div>
+	</div>
 </template>
 
 <script>
@@ -92,11 +93,11 @@
 		components: {
 			'btinfo': TrainerInfo,
 			'bthitory': History,
-            TrainerForm, FormError,
+			 TrainerForm:require("./Form.vue"),
+			 FormError:require("../../components/FormError.vue"),
             'archiveModal': require('./modals/ArchiveTrainer.vue'),
-			}
-		},
-		mounted() { 
+			},
+		mounted(){
         },
 		computed: {
 			fullName() {
@@ -111,11 +112,8 @@
 					{},
 					(res) => self.trainer = res.data, 
 					(err) => console.log("FOCKEN", err));
-			}
-					(res) => this.trainer = res.data,
-					(err) => console.log(err));
 			},
-			deleteTrainer() {
+			deleteTrainer(){
 				let self = this;
 				del(
 					self, 
