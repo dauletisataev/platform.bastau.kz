@@ -106,8 +106,11 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::post('trainers/restore/{trainer}', 'BusinessTrainerController@restore');
     // Route::delete('trainers/delete/{trainer}', 'BusinessTrainerController@delete');
 
-
-
+            /*Daulet
+            * Routes for sendpulse communications 
+            */
+            Route::get('/sendpulse/getTemplates', 'SendPulseController@getTemplates');
+            Route::post('/sendpulse/sendEmail', 'SendPulseController@sendEmail');
     });
 
     Route::group(['middleware' => ['isViewer']], function () {

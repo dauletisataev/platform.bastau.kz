@@ -58,7 +58,8 @@ class LessonTemplateController extends Controller
             'project_id' => 'required',
             "language"=>"required",
             "type"=>"required"
-        ]);
+        ]); 
+
         $template = LessonTemplate::findOrNew($request->get('id'));
         $template->project_id = $request->get('project_id');
         $template->image = $request->get('image');
